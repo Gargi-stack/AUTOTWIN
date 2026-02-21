@@ -7,7 +7,6 @@ from datetime import datetime
 import time
 import glob
 import os
-
 # Page Configuration
 st.set_page_config(
     page_title="AUTOTWIN - Battery Digital Twin",
