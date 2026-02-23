@@ -1,0 +1,2 @@
+C_th_J_K,hA_W_K,T_amb_C,R_ohm,best_file,best_RMSE_C,best_R2,n_calib_files,calib_folders
+56.562,0.011692,5.311,0.08,charge/00160.csv,0.4066,0.8758,115,"Battery47/discharge, Battery47/charge"

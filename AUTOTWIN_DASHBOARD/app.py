@@ -9,6 +9,7 @@ import os
 
 # ── Import Thevenin ECM backend ──────────────────────────────────────────────
 from thevenin_ecm import TheveninECM, NASA_Q_NOMINAL
+from lumped_thermal import LumpedThermalModel
 
 # ═══════════════════════════════════════════════════════════════
 # PAGE CONFIG
@@ -271,6 +272,9 @@ defaults = {
     "ecm_qnom": NASA_Q_NOMINAL,
     "ecm_batch_results": [],    # List of dicts, one per uploaded file — for batch/compare view
     "ecm_results_folder": "",   # Last used results folder path for auto-load
+    "thermal_results": None,
+    "thermal_valid_results": None,
+    "thermal_R_ohm": None,
 }
 for k, v in defaults.items():
     if k not in st.session_state:
@@ -403,7 +407,7 @@ with tab1:
         st.markdown("""
         <div class="glass-panel">
           <h3 style="font-size:1.3rem;margin-bottom:4px;">📈 BATTERY VOLTAGE MONITOR</h3>
-          <p style="font-family:'Share Tech Mono',monospace;font-size:0.78rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
+          <p style="font-family:'Share Tech Mono',monospace;font-size:1.1rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
             measured vs simulated 
           </p>
         </div>""", unsafe_allow_html=True)
@@ -545,9 +549,9 @@ with tab3:
         if load_mode == "⬆ Upload new CSV files":
             st.markdown("""
             <div class="glass-panel">
-              <h4 style="font-size:1.15rem;margin:0 0 6px;">📂 LOAD NASA DISCHARGE FILES</h4>
-              <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
-                Upload one <b>or multiple</b> B0043/B0045/B0047/B0048 discharge CSVs — each file is one cycle
+              <h4 style="font-size:1.15rem;margin:0 0 6px;">📂 LOAD DISCHARGE FILES</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:1.15rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+                Upload one or multiple discharge CSVs — each file is one cycle
               </p>
             </div>""", unsafe_allow_html=True)
 
@@ -590,8 +594,7 @@ with tab3:
             st.markdown("""
             <div class="glass-panel">
               <h4 style="font-size:1.15rem;margin:0 0 6px;">📁 AUTO-LOAD FROM RESULTS FOLDER</h4>
-              <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
-                Point to the folder created by batch_run.py — select files to display instantly, no re-processing needed
+              <p style="font-family:'Share Tech Mono',monospace;font-size:1.15rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
               </p>
             </div>""", unsafe_allow_html=True)
 
@@ -929,21 +932,23 @@ with tab3:
             # ── Parameters Row ──────────────────────────────────────────────────
             p1, p2, p3, p4 = st.columns(4)
             param_cards = [
-                (p1, "R₀ (OHMIC)",   f"{params['R0_ohm']*1000:.2f}", "mΩ", "#00c8ff",
-                 "Internal / ohmic resistance"),
-                (p2, "R₁ (CT RES)", f"{params['R1_ohm']*1000:.2f}", "mΩ", "#ff00c8",
-                 "Charge-transfer resistance"),
-                (p3, "C₁ (DL CAP)", f"{params['C1_F']:.1f}", "F",  "#00ff88",
-                 "Double-layer capacitance"),
-                (p4, "τ = R₁·C₁",   f"{params['tau_s']:.2f}", "s",  "#ffd700",
-                 "RC time constant"),
+                (p1, "Internal Resistance", "R₀",  f"{params['R0_ohm']*1000:.2f}", "mΩ", "#00c8ff",
+                 "Ohmic / DC resistance of the cell"),
+                (p2, "Charge Transfer Resistance", "R₁", f"{params['R1_ohm']*1000:.2f}", "mΩ", "#ff00c8",
+                 "Resistance at electrode-electrolyte interface"),
+                (p3, "Double Layer Capacitance", "C₁", f"{params['C1_F']:.1f}", "Farads", "#00ff88",
+                 "Capacitance at electrode surface"),
+                (p4, "RC Time Constant", "τ = R₁·C₁", f"{params['tau_s']:.2f}", "seconds", "#ffd700",
+                 "How fast the RC circuit responds"),
             ]
-            for col, label, val, unit, color, desc in param_cards:
+            for col, label, sublabel, val, unit, color, desc in param_cards:
                 with col:
                     st.markdown(f"""
                     <div class="ecm-result-card">
-                      <div style="font-family:'Orbitron',monospace;color:{color};font-size:0.65rem;
-                        font-weight:700;letter-spacing:0.15em;margin-bottom:10px;">{label}</div>
+                      <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.9);
+                        font-size:0.80rem;margin-bottom:2px;">{label}</div>
+                      <div style="font-family:'Orbitron',monospace;color:{color};font-size:0.68rem;
+                        font-weight:700;letter-spacing:0.15em;margin-bottom:10px;">({sublabel})</div>
                       <div style="font-family:'Orbitron',monospace;color:white;font-size:2.6rem;
                         font-weight:900;text-shadow:0 0 20px {color}88;line-height:1;">{val}</div>
                       <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);
@@ -958,23 +963,25 @@ with tab3:
             m1, m2, m3, m4, m5 = st.columns(5)
             accuracy_pct = round(metrics['R2'] * 100, 2)
             metric_cards = [
-                (m1, "RMSE",  f"{metrics['RMSE_V']*1000:.2f}", "mV",  "#00c8ff"),
-                (m2, "MAE",   f"{metrics['MAE_V']*1000:.2f}",  "mV",  "#ff8800"),
-                (m3, "R²",    f"{metrics['R2']:.4f}",           "",    "#00ff88"),
-                (m4, "MAX|ε|",f"{metrics['MaxErr_V']*1000:.1f}","mV",  "#ff3366"),
-                (m5, "MAPE",  f"{metrics['MAPE_pct']:.3f}",     "%",   "#cc44ff"),
+                (m1, "Root Mean Square Error", "RMSE",  f"{metrics['RMSE_V']*1000:.2f}", "mV — lower is better",  "#00c8ff"),
+                (m2, "Mean Absolute Error",    "MAE",   f"{metrics['MAE_V']*1000:.2f}",  "mV — lower is better",  "#ff8800"),
+                (m3, "R-Squared",              "R²",    f"{metrics['R2']:.4f}",           "1.0 = perfect fit",     "#00ff88"),
+                (m4, "Maximum Error",          "MAX|ε|",f"{metrics['MaxErr_V']*1000:.1f}","mV — worst prediction", "#ff3366"),
+                (m5, "Mean Abs % Error",       "MAPE",  f"{metrics['MAPE_pct']:.3f}",     "% — lower is better",   "#cc44ff"),
             ]
-            for col, label, val, unit, color in metric_cards:
+            for col, label, sublabel, val, unit, color in metric_cards:
                 with col:
                     st.markdown(f"""
                     <div style="background:rgba(255,255,255,0.97);border:2px solid {color}44;
                       border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;
                       box-shadow:0 6px 20px {color}22;">
-                      <div style="font-family:'Orbitron',monospace;color:#5a7090;font-size:0.65rem;
-                        letter-spacing:0.18em;margin-bottom:8px;">{label}</div>
-                      <div style="font-family:'Orbitron',monospace;color:{color};font-size:1.8rem;
+                      <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.72rem;
+                        margin-bottom:2px;">{label}</div>
+                      <div style="font-family:'Orbitron',monospace;color:#aabbcc;font-size:0.62rem;
+                        letter-spacing:0.15em;margin-bottom:8px;">({sublabel})</div>
+                      <div style="font-family:'Orbitron',monospace;color:{color};font-size:1.9rem;
                         font-weight:900;text-shadow:0 0 16px {color}88;">{val}</div>
-                      <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;font-size:0.8rem;">{unit}</div>
+                      <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;font-size:0.78rem;margin-top:4px;">{unit}</div>
                     </div>""", unsafe_allow_html=True)
 
             # ── SOC Summary ─────────────────────────────────────────────────────
@@ -1119,8 +1126,496 @@ with tab3:
               </div>
             </div>""", unsafe_allow_html=True)
 
-    # ═══════════════════════════════════════════════════════════════
-    elif _sel in ("Thermal", "Co-Simulation"):
+    elif _sel == "Thermal":
+
+        # ── THERMAL MODEL ─────────────────────────────────────────────────────
+        st.markdown("""
+        <div class="glass-panel">
+          <h4 style="font-size:1.15rem;margin:0 0 6px;">&#x1F321;&#xFE0F; LUMPED THERMAL MODEL</h4>
+          <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+            Upload <b>Charge</b> files for calibration and <b>Validation</b> files with Temperature_measured.
+            C_th and hA are estimated automatically. R is reused from the last ECM run.
+          </p>
+        </div>""", unsafe_allow_html=True)
+
+        ecm_res = st.session_state.ecm_results
+        R_ecm = (ecm_res["params"]["R0_ohm"] if ecm_res else None)
+
+        r_col, info_col = st.columns([1, 2])
+        with r_col:
+            if R_ecm:
+                R_display = round(R_ecm * 1000, 3)
+                st.markdown(f"""
+                <div style="background:rgba(0,200,255,0.08);border:2px solid rgba(0,200,255,0.4);
+                            border-radius:14px;padding:18px;text-align:center;">
+                  <div style="font-family:'Orbitron',monospace;color:#5a7090;font-size:0.65rem;
+                              letter-spacing:0.15em;margin-bottom:6px;">R (FROM ECM)</div>
+                  <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:2.2rem;
+                              font-weight:900;">{R_display}</div>
+                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;">m&#937; (R0)</div>
+                </div>""", unsafe_allow_html=True)
+                st.session_state.thermal_R_ohm = R_ecm
+            else:
+                st.markdown("""
+                """, unsafe_allow_html=True)
+        with info_col:
+            st.markdown("""
+            """, unsafe_allow_html=True)
+
+        st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+
+        th_mode = st.radio(
+            "Load Mode", ["⚡ Auto Load (from batch results)", "📂 Manual Upload"],
+            horizontal=True, key="th_load_mode", label_visibility="collapsed")
+
+        st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+
+        calib_files = []
+        valid_files = []
+
+        if th_mode == "⚡ Auto Load (from batch results)":
+            st.markdown("""
+            <div class="glass-panel" style="border-color:rgba(255,136,0,0.3);">
+              <h4 style="font-size:1.05rem;margin:0 0 6px;">⚡ AUTO LOAD — Batch Results Folder</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;">
+                Point to the thermal_results folder generated by batch_thermal_run.py
+              </p>
+            </div>""", unsafe_allow_html=True)
+
+            al1, al2 = st.columns([3, 1], gap="medium")
+            with al1:
+                results_folder = st.text_input(
+                    "Results Folder Path",
+                    value=st.session_state.get("th_results_folder", ""),
+                    placeholder="e.g.  Battery47/discharge/thermal_results",
+                    key="th_results_folder_input",
+                    label_visibility="collapsed")
+            with al2:
+                load_btn = st.button("📂 LOAD RESULTS", use_container_width=True, key="th_load_btn")
+
+            if load_btn and results_folder:
+                import pandas as _pd
+                import numpy as _np
+                params_path   = os.path.join(results_folder, "thermal_params.csv")
+                valid_summary = os.path.join(results_folder, "batch_valid_summary.csv")
+                if not os.path.isfile(params_path):
+                    st.error(f"thermal_params.csv not found in: {results_folder}")
+                else:
+                    p = _pd.read_csv(params_path).iloc[0]
+                    C_th_l  = float(p["C_th_J_K"])
+                    hA_l    = float(p["hA_W_K"])
+                    T_amb_l = float(p["T_amb_C"])
+                    R_l     = float(p["R_ohm"])
+                    n_files = int(p.get("n_calib_files", 0))
+                    best_file_raw = str(p.get("best_file", ""))
+                    # Build prediction file path
+                    if "/" in best_file_raw:
+                        parts = best_file_raw.split("/")
+                        pred_fname = f"{parts[0]}_{parts[1].replace('.csv','_thermal.csv')}"
+                    else:
+                        pred_fname = best_file_raw.replace(".csv", "_thermal.csv")
+                    best_pred = os.path.join(results_folder, pred_fname)
+                    if os.path.isfile(best_pred):
+                        df_pred = _pd.read_csv(best_pred)
+                        T_meas = df_pred["T_meas_C"].tolist()
+                        T_pred = df_pred["T_pred_C"].tolist()
+                        time_v = df_pred["Time_s"].tolist()
+                        err    = _np.array(T_meas) - _np.array(T_pred)
+                        rmse   = float(_np.sqrt(_np.mean(err**2)))
+                        mae    = float(_np.mean(_np.abs(err)))
+                        ss_res = _np.sum(err**2)
+                        ss_tot = _np.sum((_np.array(T_meas) - _np.mean(T_meas))**2)
+                        r2     = float(1 - ss_res / (ss_tot + 1e-12))
+                        metrics = dict(RMSE_C=rmse, MAE_C=mae, R2=r2,
+                                       MaxErr_C=float(_np.max(_np.abs(err))),
+                                       MAPE_pct=float(_np.mean(_np.abs(err)/(_np.abs(_np.array(T_meas))+1e-6))*100))
+                    else:
+                        time_v, T_meas, T_pred = [], [], []
+                        metrics = dict(RMSE_C=0, MAE_C=0, R2=0, MaxErr_C=0, MAPE_pct=0)
+                    st.session_state["thermal_results"] = {
+                        "C_th": C_th_l, "C_th_final": C_th_l,
+                        "hA":   hA_l,   "hA_final":   hA_l,
+                        "T_amb": T_amb_l, "R_ohm": R_l,
+                        "time": time_v, "T_measured": T_meas,
+                        "T_predicted": T_pred, "metrics": metrics,
+                        "params": {"R0_ohm": R_l},
+                    }
+                    st.session_state["th_results_folder"] = results_folder
+                    # Load validation results if available
+                    if os.path.isfile(valid_summary):
+                        vs = _pd.read_csv(valid_summary)
+                        best_v = vs.loc[vs["RMSE_C"].idxmin()]
+                        vfolder = str(best_v.get("Folder", "discharge"))
+                        vfile   = str(best_v["File"]).replace(".csv", "_valid.csv")
+                        vpath   = os.path.join(results_folder, f"{vfolder}_{vfile}")
+                        if os.path.isfile(vpath):
+                            dv   = _pd.read_csv(vpath)
+                            tv_m = dv["T_meas_C"].tolist()
+                            tv_p = dv["T_pred_C"].tolist()
+                            tv_t = dv["Time_s"].tolist()
+                            verr = _np.array(tv_m) - _np.array(tv_p)
+                            st.session_state["thermal_valid_results"] = {
+                                "C_th": C_th_l, "hA": hA_l,
+                                "T_amb": T_amb_l, "R_ohm": R_l,
+                                "time": tv_t, "T_measured": tv_m, "T_predicted": tv_p,
+                                "metrics": dict(
+                                    RMSE_C=float(_np.sqrt(_np.mean(verr**2))),
+                                    MAE_C=float(_np.mean(_np.abs(verr))),
+                                    R2=float(1-_np.sum(verr**2)/(_np.sum((_np.array(tv_m)-_np.mean(tv_m))**2)+1e-12)),
+                                    MaxErr_C=float(_np.max(_np.abs(verr))),
+                                    MAPE_pct=float(_np.mean(_np.abs(verr)/(_np.abs(_np.array(tv_m))+1e-6))*100))}
+                            
+                    st.success(f"✅ Loaded: C_th={C_th_l:.1f} J/K  hA={hA_l:.5f} W/K  R={R_l*1000:.1f} mΩ  ({n_files} files)")
+                    st.rerun()
+
+            _th_loaded = st.session_state.get("thermal_results")
+            if _th_loaded:
+                st.markdown(f"""
+                <div style="background:rgba(0,255,136,0.06);border:2px solid rgba(0,255,136,0.3);
+                            border-radius:14px;padding:16px 20px;margin-top:12px;">
+                  <div style="font-family:'Orbitron',monospace;color:#00cc66;font-size:0.72rem;
+                              font-weight:700;letter-spacing:0.12em;margin-bottom:8px;">✅ RESULTS LOADED</div>
+                  <div style="display:flex;gap:32px;flex-wrap:wrap;">
+                    <span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">
+                      C_th = <b style="color:#ff8800;">{_th_loaded['C_th']:.1f} J/K</b></span>
+                    <span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">
+                      hA = <b style="color:#cc44ff;">{_th_loaded['hA']:.5f} W/K</b></span>
+                    <span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">
+                      RMSE = <b style="color:#00ff88;">{_th_loaded['metrics']['RMSE_C']:.4f} °C</b></span>
+                  </div>
+                </div>""", unsafe_allow_html=True)
+
+        else:
+            cal_col, val_col = st.columns(2)
+            with cal_col:
+                st.markdown("""
+                <div class="glass-panel" style="border-color:rgba(255,136,0,0.4);">
+                  <h4 style="color:#cc6600;font-size:1.05rem;margin:0 0 4px;">CALIBRATION FILES</h4>
+                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;">
+                    Upload NASA Charge CSV files. C_th and hA estimated here.
+                  </p>
+                </div>""", unsafe_allow_html=True)
+                calib_files = st.file_uploader(
+                    "Calibration Charge CSVs",
+                    type=["csv"],
+                    accept_multiple_files=True,
+                    key="thermal_calib_uploader",
+                    label_visibility="collapsed",
+                )
+
+            with val_col:
+                st.markdown("""
+                <div class="glass-panel" style="border-color:rgba(204,68,255,0.4);">
+                  <h4 style="color:#9933cc;font-size:1.05rem;margin:0 0 4px;">VALIDATION FILES</h4>
+                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;">
+                    Upload CSV files with Temperature_measured. Same C_th/hA, no re-tuning.
+                  </p>
+                </div>""", unsafe_allow_html=True)
+                valid_files = st.file_uploader(
+                    "Validation CSVs",
+                    type=["csv"],
+                    accept_multiple_files=True,
+                    key="thermal_valid_uploader",
+                    label_visibility="collapsed",
+                )
+
+        st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+
+        n_calib = len(calib_files) if calib_files else 0
+        n_valid = len(valid_files) if valid_files else 0
+
+        run_th_col, th_status_col = st.columns([1, 2])
+        with run_th_col:
+            run_th = st.button(
+                f"RUN THERMAL MODEL ({n_calib} calib / {n_valid} valid)",
+                use_container_width=True,
+                disabled=(n_calib == 0),
+            )
+            if n_calib == 0:
+                st.markdown("""
+                <div style="text-align:center;font-family:'Share Tech Mono',monospace;
+                            color:#ffaa00;font-size:0.75rem;margin-top:8px;">
+                  Upload at least one Charge CSV to calibrate
+                </div>""", unsafe_allow_html=True)
+
+        th_status = th_status_col.empty()
+
+        if run_th and calib_files:
+            R_use = st.session_state.thermal_R_ohm or 0.080
+            thermal_model = LumpedThermalModel()
+            prog = st.progress(0)
+
+            th_status.markdown("""
+            <div style="background:rgba(255,136,0,0.08);border:2px solid rgba(255,136,0,0.4);
+                        border-radius:14px;padding:20px;text-align:center;">
+              <div style="font-family:'Orbitron',monospace;color:#ff8800;font-size:1.3rem;font-weight:900;">
+                CALIBRATING - estimating C_th and hA
+              </div>
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.78rem;margin-top:6px;">
+                Differential Evolution then L-BFGS-B refinement
+              </div>
+            </div>""", unsafe_allow_html=True)
+
+            calib_batch, cth_vals, ha_vals = [], [], []
+            for ci, uf in enumerate(calib_files):
+                prog.progress(int((ci / n_calib) * 50))
+                try:
+                    df_c = LumpedThermalModel.load_uploaded(uf)
+                    if not LumpedThermalModel.check_columns(df_c):
+                        continue
+                    res_c = thermal_model.calibrate(df_c, R_ohm=R_use)
+                    res_c["_filename"] = uf.name
+                    calib_batch.append(res_c)
+                    cth_vals.append(res_c["C_th"])
+                    ha_vals.append(res_c["hA"])
+                except Exception:
+                    pass
+
+            if calib_batch:
+                C_th_final = float(np.median(cth_vals))
+                hA_final   = float(np.median(ha_vals))
+                best_calib = min(calib_batch, key=lambda r: r["metrics"]["RMSE_C"])
+                best_calib["C_th_final"] = round(C_th_final, 4)
+                best_calib["hA_final"]   = round(hA_final, 6)
+                st.session_state.thermal_results = best_calib
+                prog.progress(50)
+
+                valid_batch = []
+                if valid_files:
+                    th_status.markdown("""
+                    <div style="background:rgba(204,68,255,0.08);border:2px solid rgba(204,68,255,0.4);
+                                border-radius:14px;padding:20px;text-align:center;">
+                      <div style="font-family:'Orbitron',monospace;color:#cc44ff;font-size:1.3rem;font-weight:900;">
+                        VALIDATING - fixed C_th / hA, no re-tuning
+                      </div>
+                    </div>""", unsafe_allow_html=True)
+                    for vi, uf in enumerate(valid_files):
+                        prog.progress(50 + int((vi / n_valid) * 45))
+                        try:
+                            df_v = LumpedThermalModel.load_uploaded(uf)
+                            if not LumpedThermalModel.check_columns(df_v):
+                                continue
+                            res_v = thermal_model.validate(
+                                df_v, C_th=C_th_final, hA=hA_final, R_ohm=R_use)
+                            res_v["_filename"] = uf.name
+                            valid_batch.append(res_v)
+                        except Exception:
+                            pass
+                    if valid_batch:
+                        st.session_state.thermal_valid_results = min(
+                            valid_batch, key=lambda r: r["metrics"]["RMSE_C"])
+
+                prog.progress(100)
+                th_status.markdown(f"""
+                <div style="background:rgba(0,255,136,0.08);border:2px solid rgba(0,255,136,0.5);
+                            border-radius:14px;padding:20px;text-align:center;">
+                  <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:1.4rem;font-weight:900;">
+                    THERMAL MODEL COMPLETE
+                  </div>
+                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.8rem;margin-top:8px;">
+                    Calibrated {len(calib_batch)} file(s) | C_th={C_th_final:.1f} J/K | hA={hA_final:.4f} W/K | Validated {len(valid_batch)} file(s)
+                  </div>
+                </div>""", unsafe_allow_html=True)
+
+        calib_res = st.session_state.get("thermal_results")
+        valid_res  = st.session_state.get("thermal_valid_results")
+
+        if calib_res:
+            st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+            st.markdown("""
+            <div class="glass-panel" style="border-color:rgba(255,136,0,0.4);">
+              <h4 style="color:#cc6600;font-size:1.15rem;margin:0 0 4px;">🌡️ IDENTIFIED THERMAL PARAMETERS</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:4px 0 0;">
+                Parameters identified by fitting the thermal model equation to your battery data
+              </p>
+            </div>""", unsafe_allow_html=True)
+
+            C_th_show = calib_res.get("C_th_final", calib_res["C_th"])
+            hA_show   = calib_res.get("hA_final",   calib_res["hA"])
+
+            tp1, tp2, tp3, tp4 = st.columns(4)
+            for col, label, sublabel, val, unit, color, desc in [
+                (tp1, "Thermal Capacitance", "C_th",  f"{C_th_show:.1f}", "J / K",      "#ff8800", "Energy absorbed per °C rise"),
+                (tp2, "Heat Transfer Coeff", "hA",    f"{hA_show:.4f}",   "W / K",      "#cc44ff", "Rate of heat loss to surroundings"),
+                (tp3, "Internal Resistance", "R",     f"{calib_res['R_ohm']*1000:.2f}", "milli-Ohm", "#00c8ff", "Electrical resistance of the cell"),
+                (tp4, "Ambient Temperature", "T_amb", f"{calib_res['T_amb']:.1f}", "°C","#00ff88", "Surrounding air temperature"),
+            ]:
+                with col:
+                    st.markdown(f"""
+                    <div class="ecm-result-card">
+                      <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.9);
+                                  font-size:0.82rem;margin-bottom:4px;">{label}</div>
+                      <div style="font-family:'Orbitron',monospace;color:{color};font-size:0.72rem;
+                                  font-weight:700;letter-spacing:0.12em;margin-bottom:10px;">({sublabel})</div>
+                      <div style="font-family:'Orbitron',monospace;color:white;font-size:2.6rem;
+                                  font-weight:900;text-shadow:0 0 20px {color}88;line-height:1;">{val}</div>
+                      <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);
+                                  font-size:0.92rem;margin-top:4px;">{unit}</div>
+                      <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.6);
+                                  font-size:0.72rem;margin-top:8px;">{desc}</div>
+                    </div>""", unsafe_allow_html=True)
+
+            st.markdown("<br>", unsafe_allow_html=True)
+            plot_left, plot_right = st.columns(2)
+
+            with plot_left:
+                m_c = calib_res["metrics"]
+                st.markdown(f"""
+                <div class="glass-panel" style="border-color:rgba(255,136,0,0.3);">
+                  <h4 style="color:#cc6600;font-size:1.05rem;margin:0 0 4px;">
+                    CALIBRATION - Predicted vs Measured Temperature</h4>
+                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;">
+                    {calib_res.get("_filename","unknown")} | RMSE={m_c["RMSE_C"]:.4f}C | R2={m_c["R2"]:.4f}
+                  </p>
+                </div>""", unsafe_allow_html=True)
+                fig_c = go.Figure()
+                fig_c.add_trace(go.Scatter(x=calib_res["time"], y=calib_res["T_measured"],
+                    name="T Measured", line=dict(color="#ff8800", width=2.5)))
+                fig_c.add_trace(go.Scatter(x=calib_res["time"], y=calib_res["T_predicted"],
+                    name="T Predicted", line=dict(color="#ffdd44", width=2.5, dash="dash")))
+                lay_c = cyber_plotly_layout(360)
+                lay_c["xaxis"]["title"] = dict(text="TIME (s)",
+                    font=dict(family="Orbitron,monospace", size=10, color="#0066aa"))
+                lay_c["yaxis"]["title"] = dict(text="TEMPERATURE (C)",
+                    font=dict(family="Orbitron,monospace", size=10, color="#0066aa"))
+                fig_c.update_layout(**lay_c)
+                st.plotly_chart(fig_c, use_container_width=True)
+                cm1, cm2, cm3 = st.columns(3)
+                for col, lbl, sublbl, v, u, clr in [
+                    (cm1, "Root Mean Square Error", "RMSE", f"{m_c['RMSE_C']:.4f}", "°C — lower is better", "#ff8800"),
+                    (cm2, "Mean Absolute Error",    "MAE",  f"{m_c['MAE_C']:.4f}",  "°C — lower is better", "#ffaa44"),
+                    (cm3, "R-Squared",              "R²",   f"{m_c['R2']:.4f}",     "1.0 = perfect fit",    "#00ff88"),
+                ]:
+                    with col:
+                        st.markdown(f"""
+                        <div style="background:rgba(255,255,255,0.97);border:2px solid {clr}44;
+                                    border-radius:14px;padding:16px;text-align:center;margin-bottom:12px;">
+                          <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.75rem;
+                                      margin-bottom:4px;">{lbl}</div>
+                          <div style="font-family:'Orbitron',monospace;color:#aabbcc;font-size:0.68rem;
+                                      letter-spacing:0.12em;margin-bottom:6px;">({sublbl})</div>
+                          <div style="font-family:'Orbitron',monospace;color:{clr};font-size:2.0rem;
+                                      font-weight:900;">{v}</div>
+                          <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;
+                                      font-size:0.80rem;margin-top:4px;">{u}</div>
+                        </div>""", unsafe_allow_html=True)
+
+            with plot_right:
+                if valid_res:
+                    m_v = valid_res["metrics"]
+                    st.markdown(f"""
+                    <div class="glass-panel" style="border-color:rgba(204,68,255,0.3);">
+                      <h4 style="color:#9933cc;font-size:1.05rem;margin:0 0 4px;">
+                        VALIDATION - Predicted vs Measured Temperature</h4>
+                      <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;">
+                        {valid_res.get("_filename","unknown")} | RMSE={m_v["RMSE_C"]:.4f}C | R2={m_v["R2"]:.4f}
+                      </p>
+                    </div>""", unsafe_allow_html=True)
+                    fig_v = go.Figure()
+                    fig_v.add_trace(go.Scatter(x=valid_res["time"], y=valid_res["T_measured"],
+                        name="T Measured", line=dict(color="#cc44ff", width=2.5)))
+                    fig_v.add_trace(go.Scatter(x=valid_res["time"], y=valid_res["T_predicted"],
+                        name="T Predicted", line=dict(color="#ff66ff", width=2.5, dash="dash")))
+                    lay_v = cyber_plotly_layout(360)
+                    lay_v["xaxis"]["title"] = dict(text="TIME (s)",
+                        font=dict(family="Orbitron,monospace", size=10, color="#0066aa"))
+                    lay_v["yaxis"]["title"] = dict(text="TEMPERATURE (C)",
+                        font=dict(family="Orbitron,monospace", size=10, color="#0066aa"))
+                    fig_v.update_layout(**lay_v)
+                    st.plotly_chart(fig_v, use_container_width=True)
+                    vm1, vm2, vm3 = st.columns(3)
+                    for col, lbl, sublbl, v, u, clr in [
+                        (vm1, "Root Mean Square Error", "RMSE", f"{m_v['RMSE_C']:.4f}", "°C — lower is better", "#cc44ff"),
+                        (vm2, "Mean Absolute Error",    "MAE",  f"{m_v['MAE_C']:.4f}",  "°C — lower is better", "#dd66ff"),
+                        (vm3, "R-Squared",              "R²",   f"{m_v['R2']:.4f}",     "1.0 = perfect fit",    "#00ff88"),
+                    ]:
+                        with col:
+                            st.markdown(f"""
+                            <div style="background:rgba(255,255,255,0.97);border:2px solid {clr}44;
+                                        border-radius:14px;padding:16px;text-align:center;margin-bottom:12px;">
+                              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.75rem;
+                                          margin-bottom:4px;">{lbl}</div>
+                              <div style="font-family:'Orbitron',monospace;color:#aabbcc;font-size:0.68rem;
+                                          letter-spacing:0.12em;margin-bottom:6px;">({sublbl})</div>
+                              <div style="font-family:'Orbitron',monospace;color:{clr};font-size:2.0rem;
+                                          font-weight:900;">{v}</div>
+                              <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;
+                                          font-size:0.80rem;margin-top:4px;">{u}</div>
+                            </div>""", unsafe_allow_html=True)
+                else:
+                    st.markdown("""
+                    <div style="background:rgba(255,255,255,0.95);border:2px solid rgba(204,68,255,0.25);
+                                border-radius:18px;padding:60px 30px;text-align:center;">
+                      <div style="font-size:4rem;margin-bottom:1rem;">&#x1F52C;</div>
+                      <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:800;
+                                  color:#9933cc;margin-bottom:0.6rem;">VALIDATION PENDING</div>
+                      <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;">
+                        Upload Validation files above and re-run.</div>
+                    </div>""", unsafe_allow_html=True)
+
+            if valid_res:
+                st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+                st.markdown("""
+                <div class="glass-panel">
+                  <h4 style="font-size:1.15rem;margin:0 0 4px;">📊 CALIBRATION vs VALIDATION SUMMARY</h4>
+                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:4px 0 0;">
+                    Calibration = model accuracy on training data &nbsp;|&nbsp; Validation = accuracy on unseen data
+                  </p>
+                </div>""", unsafe_allow_html=True)
+                sv1, sv2, sv3, sv4 = st.columns(4)
+                for col, lbl, sublbl, v, u, clr in [
+                    (sv1, "Calibration RMSE", "(lower is better)", f"{calib_res['metrics']['RMSE_C']:.4f}", "°C", "#ff8800"),
+                    (sv2, "Validation RMSE",  "(lower is better)", f"{valid_res['metrics']['RMSE_C']:.4f}",  "°C", "#cc44ff"),
+                    (sv3, "Calibration R²",   "(1.0 = perfect)",   f"{calib_res['metrics']['R2']:.4f}",     "",   "#00c8ff"),
+                    (sv4, "Validation R²",    "(1.0 = perfect)",   f"{valid_res['metrics']['R2']:.4f}",     "",   "#00ff88"),
+                ]:
+                    with col:
+                        st.markdown(f"""
+                        <div style="background:rgba(255,255,255,0.97);border:2px solid {clr}44;
+                                    border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;">
+                          <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.80rem;
+                                      margin-bottom:4px;">{lbl}</div>
+                          <div style="font-family:'Share Tech Mono',monospace;color:#aabbcc;font-size:0.70rem;
+                                      margin-bottom:8px;">{sublbl}</div>
+                          <div style="font-family:'Orbitron',monospace;color:{clr};font-size:2.2rem;
+                                      font-weight:900;">{v}</div>
+                          <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;
+                                      font-size:0.86rem;margin-top:4px;">{u}</div>
+                        </div>""", unsafe_allow_html=True)
+
+        else:
+            st.markdown("""
+            <div style="background:linear-gradient(145deg,rgba(255,255,255,0.98),rgba(255,240,224,0.92));
+                        border:2px solid rgba(255,136,0,0.3);border-radius:22px;padding:60px 40px;text-align:center;">
+              <div style="font-size:7rem;margin-bottom:1.5rem;">&#x1F321;&#xFE0F;</div>
+              <div style="font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;
+                          color:#0a1628;letter-spacing:0.08em;margin-bottom:0.8rem;">
+                AWAITING THERMAL DATA</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.9rem;
+                          letter-spacing:0.1em;line-height:1.8;max-width:520px;margin:0 auto 2rem;">
+                Upload Charge CSV files for calibration<br>
+                Optionally upload Validation files<br>
+                Click RUN THERMAL MODEL
+              </div>
+              <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
+                <div style="background:rgba(255,136,0,0.08);border:1px solid rgba(255,136,0,0.3);
+                            border-radius:12px;padding:12px 24px;">
+                  <span style="font-family:'Share Tech Mono',monospace;color:#ff8800;font-size:0.8rem;">
+                    Required columns</span><br>
+                  <span style="font-family:'Orbitron',monospace;color:#0a1628;font-size:0.72rem;font-weight:700;">
+                    Time | Current_measured | Temperature_measured</span>
+                </div>
+                <div style="background:rgba(204,68,255,0.08);border:1px solid rgba(204,68,255,0.3);
+                            border-radius:12px;padding:12px 24px;">
+                  <span style="font-family:'Share Tech Mono',monospace;color:#cc44ff;font-size:0.8rem;">
+                    Tip</span><br>
+                  <span style="font-family:'Orbitron',monospace;color:#0a1628;font-size:0.72rem;font-weight:700;">
+                    Run ECM first for best R accuracy</span>
+                </div>
+              </div>
+            </div>""", unsafe_allow_html=True)
+
+    elif _sel == "Co-Simulation":
         # ── Original simulation control UI (from first app.py) ──────────────
         selected_model = models[st.session_state.selected_model]
         running = st.session_state.is_simulating
@@ -1232,27 +1727,163 @@ with tab4:
 
     # ── Model-aware notice ──────────────────────────────────────────────────
     _active = st.session_state.selected_model
-    if _active != "ECM":
-        _bc = "#ff8800" if _active == "Thermal" else "#00ff88"
-        _bi = "🌡️"      if _active == "Thermal" else "🔄"
-        st.markdown(f"""
-        <div style="background:rgba(255,255,255,0.97);border:2px solid {_bc}55;
-          border-radius:12px;padding:12px 20px;margin-bottom:18px;
-          display:flex;align-items:center;gap:12px;">
-          <span style="font-size:1.5rem;">{_bi}</span>
-          <span style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#2a4060;">
-            <b style="color:{_bc};">{_active}</b> model selected —
-            analytics display ECM reference data. Switch to <b>ECM</b> for live results.
-          </span>
-        </div>""", unsafe_allow_html=True)
 
-    res = st.session_state.ecm_results
+    # ── Thermal Analytics ────────────────────────────────────────────────────
+    _th_res  = st.session_state.get("thermal_results")
+    _th_vres = st.session_state.get("thermal_valid_results")
+
+    if _active == "Thermal":
+        if _th_res:
+            m_th = _th_res["metrics"]
+            C_th_show = _th_res.get("C_th_final", _th_res["C_th"])
+            hA_show   = _th_res.get("hA_final",   _th_res["hA"])
+
+            st.markdown("""
+            <div class="glass-panel">
+              <h3 style="font-size:1.25rem;margin-bottom:4px;">&#x1F321;&#xFE0F; THERMAL ANALYSIS — Calibration Results</h3>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
+                Predicted vs Measured Temperature · Identified Parameters · Error Distribution
+              </p>
+            </div>""", unsafe_allow_html=True)
+
+            # Parameter summary cards
+            ta1, ta2, ta3, ta4 = st.columns(4)
+            for col, lbl, val, unit, clr in [
+                (ta1, "C_th",   f"{C_th_show:.1f}",               "J/K",  "#ff8800"),
+                (ta2, "hA",     f"{hA_show:.4f}",                  "W/K",  "#cc44ff"),
+                (ta3, "R",      f"{_th_res['R_ohm']*1000:.2f}",    "mOhm", "#00c8ff"),
+                (ta4, "T_amb",  f"{_th_res['T_amb']:.1f}",         "C",    "#00ff88"),
+            ]:
+                with col:
+                    st.markdown(f"""
+                    <div style="background:rgba(255,255,255,0.97);border:2px solid {clr}44;
+                                border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;">
+                      <div style="font-family:'Orbitron',monospace;color:#5a7090;font-size:0.65rem;
+                                  letter-spacing:0.18em;margin-bottom:8px;">{lbl}</div>
+                      <div style="font-family:'Orbitron',monospace;color:{clr};font-size:1.8rem;
+                                  font-weight:900;">{val}</div>
+                      <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;font-size:0.8rem;">{unit}</div>
+                    </div>""", unsafe_allow_html=True)
+
+            st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+
+            # Temperature plot
+            fig_th = go.Figure()
+            fig_th.add_trace(go.Scatter(
+                x=_th_res["time"], y=_th_res["T_measured"],
+                name="T Measured", line=dict(color="#ff8800", width=2.5)))
+            fig_th.add_trace(go.Scatter(
+                x=_th_res["time"], y=_th_res["T_predicted"],
+                name="T Predicted", line=dict(color="#ffdd44", width=2.5, dash="dash")))
+            lay_th = cyber_plotly_layout(400)
+            lay_th["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+            lay_th["yaxis"]["title"] = dict(text="TEMPERATURE (C)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+            fig_th.update_layout(**lay_th)
+            st.plotly_chart(fig_th, use_container_width=True)
+
+            # Metrics row
+            tm1, tm2, tm3, tm4, tm5 = st.columns(5)
+            for col, lbl, val, unit, clr in [
+                (tm1, "RMSE",    f"{m_th['RMSE_C']:.4f}",  "C",   "#ff8800"),
+                (tm2, "MAE",     f"{m_th['MAE_C']:.4f}",   "C",   "#ffaa44"),
+                (tm3, "R2",      f"{m_th['R2']:.4f}",      "",    "#00ff88"),
+                (tm4, "MAX ERR", f"{m_th['MaxErr_C']:.4f}","C",   "#ff3366"),
+                (tm5, "MAPE",    f"{m_th['MAPE_pct']:.2f}","%",   "#cc44ff"),
+            ]:
+                with col:
+                    st.markdown(f"""
+                    <div style="background:rgba(255,255,255,0.97);border:2px solid {clr}44;
+                                border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;">
+                      <div style="font-family:'Orbitron',monospace;color:#5a7090;font-size:0.65rem;
+                                  letter-spacing:0.18em;margin-bottom:8px;">{lbl}</div>
+                      <div style="font-family:'Orbitron',monospace;color:{clr};font-size:1.8rem;
+                                  font-weight:900;">{val}</div>
+                      <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;font-size:0.8rem;">{unit}</div>
+                    </div>""", unsafe_allow_html=True)
+
+            st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+
+            # Validation plot if available
+            if _th_vres:
+                m_tv = _th_vres["metrics"]
+                st.markdown("""
+                <div class="glass-panel" style="border-color:rgba(204,68,255,0.4);">
+                  <h4 style="color:#9933cc;font-size:1.15rem;margin:0 0 4px;">
+                    &#x1F52C; VALIDATION RESULTS</h4>
+                </div>""", unsafe_allow_html=True)
+                fig_tv = go.Figure()
+                fig_tv.add_trace(go.Scatter(
+                    x=_th_vres["time"], y=_th_vres["T_measured"],
+                    name="T Measured", line=dict(color="#cc44ff", width=2.5)))
+                fig_tv.add_trace(go.Scatter(
+                    x=_th_vres["time"], y=_th_vres["T_predicted"],
+                    name="T Predicted", line=dict(color="#ff66ff", width=2.5, dash="dash")))
+                lay_tv = cyber_plotly_layout(380)
+                lay_tv["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+                lay_tv["yaxis"]["title"] = dict(text="TEMPERATURE (C)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+                fig_tv.update_layout(**lay_tv)
+                st.plotly_chart(fig_tv, use_container_width=True)
+
+                vm1, vm2, vm3 = st.columns(3)
+                for col, lbl, val, unit, clr in [
+                    (vm1, "VALID RMSE", f"{m_tv['RMSE_C']:.4f}", "C",  "#cc44ff"),
+                    (vm2, "VALID MAE",  f"{m_tv['MAE_C']:.4f}",  "C",  "#dd66ff"),
+                    (vm3, "VALID R2",   f"{m_tv['R2']:.4f}",     "",   "#00ff88"),
+                ]:
+                    with col:
+                        st.markdown(f"""
+                        <div style="background:rgba(255,255,255,0.97);border:2px solid {clr}44;
+                                    border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;">
+                          <div style="font-family:'Orbitron',monospace;color:#5a7090;font-size:0.65rem;
+                                      letter-spacing:0.18em;margin-bottom:8px;">{lbl}</div>
+                          <div style="font-family:'Orbitron',monospace;color:{clr};font-size:1.8rem;
+                                      font-weight:900;">{val}</div>
+                          <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;font-size:0.8rem;">{unit}</div>
+                        </div>""", unsafe_allow_html=True)
+
+            # Error histogram
+            st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+            st.markdown("""
+            <div class="glass-panel">
+              <h4 style="font-size:1.1rem;margin:0 0 4px;">&#x1F4CA; THERMAL ERROR DISTRIBUTION</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+                Histogram of temperature prediction errors (Celsius)
+              </p>
+            </div>""", unsafe_allow_html=True)
+            err_th = np.array(_th_res["T_measured"]) - np.array(_th_res["T_predicted"])
+            fig_th_hist = go.Figure(go.Histogram(
+                x=err_th, nbinsx=30,
+                marker_color="#ff8800",
+                marker_line_color="rgba(255,136,0,0.5)", marker_line_width=1.5, opacity=0.85))
+            fig_th_hist.add_vline(x=0, line=dict(color="#ff3366", width=2, dash="dash"))
+            lay_hist = cyber_plotly_layout(320)
+            lay_hist["xaxis"]["title"] = dict(text="ERROR (C)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+            lay_hist["yaxis"]["title"] = dict(text="COUNT", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+            lay_hist["showlegend"] = False
+            fig_th_hist.update_layout(**lay_hist)
+            st.plotly_chart(fig_th_hist, use_container_width=True)
+
+        else:
+            st.markdown("""
+            <div style="background:linear-gradient(145deg,rgba(255,255,255,0.98),rgba(255,240,224,0.92));
+                        border:2px solid rgba(255,136,0,0.3);border-radius:22px;padding:60px 40px;text-align:center;">
+              <div style="font-size:7rem;margin-bottom:1.5rem;">&#x1F321;&#xFE0F;</div>
+              <div style="font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;
+                          color:#0a1628;letter-spacing:0.08em;margin-bottom:0.8rem;">
+                NO THERMAL DATA YET</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.9rem;
+                          letter-spacing:0.1em;line-height:1.8;max-width:520px;margin:0 auto;">
+                Go to the Simulation tab, upload Charge CSVs,<br>and click RUN THERMAL MODEL to see analytics here.
+              </div>
+            </div>""", unsafe_allow_html=True)
+
+    res = None if _active == "Thermal" else st.session_state.ecm_results
 
     if res:
         soc = res["soc"]
         st.markdown("""
         <div class="glass-panel">
-          <h3 style="font-size:1.25rem;margin-bottom:4px;">📊 FULL DISCHARGE ANALYSIS</h3>
+          <h3 style="font-size:1.25rem;margin-bottom:4px;">&#x1F4C8; FULL DISCHARGE ANALYSIS</h3>
           <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
             Voltage · SOC · Current · Temperature — complete profile from real data
           </p>
@@ -1342,19 +1973,17 @@ with tab4:
         fig_hist.update_layout(**layout_h)
         st.plotly_chart(fig_hist, use_container_width=True)
 
-    else:
-        # Fallback: demo data with notice
-        st.info("💡 Run the **▶ ECM SIMULATION** first to see real analytics from your dataset.")
-        df_chart = generate_chart_data(100)
-        fig = go.Figure()
-        for col_name, color, name in [("Voltage (V)","#00c8ff","Voltage"), ("Current (A)","#ff8800","Current"), ("Temperature (°C)","#ff3366","Temp")]:
-            fig.add_trace(go.Scatter(x=df_chart["Time"], y=df_chart[col_name], name=name,
-                line=dict(color=color, width=3), mode="lines+markers", marker=dict(size=3)))
-        layout = cyber_plotly_layout(520)
-        layout["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
-        layout["yaxis"]["title"] = dict(text="VALUES", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
-        fig.update_layout(**layout)
-        st.plotly_chart(fig, use_container_width=True)
+    elif _active != "Thermal":
+        st.markdown("""
+        <div style="background:rgba(224,240,255,0.95);border:2px solid rgba(0,200,255,0.3);
+                    border-radius:18px;padding:60px;text-align:center;margin-top:12px;">
+          <div style="font-size:4rem;margin-bottom:1rem;">⚡</div>
+          <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:1rem;font-weight:800;
+                      letter-spacing:0.1em;">NO ECM DATA YET</div>
+          <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;margin-top:8px;">
+            Go to the Simulation tab, upload CSV files,<br>
+            and click RUN ECM to see analytics here.</div>
+        </div>""", unsafe_allow_html=True)
 
 # ═══════════════════════════════════════════════════════════════
 # TAB 5 — PARAMETERS
@@ -1371,19 +2000,6 @@ with tab5:
 
     # ── Model-aware notice ──────────────────────────────────────────────────
     _active = st.session_state.selected_model
-    if _active != "ECM":
-        _bc = "#ff8800" if _active == "Thermal" else "#00ff88"
-        _bi = "🌡️"      if _active == "Thermal" else "🔄"
-        st.markdown(f"""
-        <div style="background:rgba(255,255,255,0.97);border:2px solid {_bc}55;
-          border-radius:12px;padding:12px 20px;margin-bottom:18px;
-          display:flex;align-items:center;gap:12px;">
-          <span style="font-size:1.5rem;">{_bi}</span>
-          <span style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#2a4060;">
-            <b style="color:{_bc};">{_active}</b> model selected —
-            analytics display ECM reference data. Switch to <b>ECM</b> for live results.
-          </span>
-        </div>""", unsafe_allow_html=True)
 
     col1, col2 = st.columns([1,1])
     with col1:
@@ -1414,34 +2030,121 @@ with tab5:
 
     with col2:
         st.markdown("""<div class="glass-panel"><h4 style="font-size:1.15rem;margin:0;">📊 OUTPUT METRICS</h4></div>""", unsafe_allow_html=True)
-        res = st.session_state.ecm_results
-        voltage_out = round(res["V_measured"][-1], 3) if res else round(3.2 + (st.session_state.soc/100)*0.9, 2)
-        soh_out     = round(res["soc"][-1]*100, 1)    if res else 94
-        power_out   = round(voltage_out * st.session_state.current, 1)
-        rmse_out    = round(res["metrics"]["RMSE_V"]*1000, 2) if res else 0
+        _param_active = st.session_state.selected_model
+        _param_th_res = st.session_state.get("thermal_results")
+        res           = st.session_state.ecm_results
 
-        col_a, col_b = st.columns(2, gap="medium")
-        for col, icon, label, val, unit, color, grad in [
-            (col_a, "⚡", "VOLTAGE",  voltage_out, "VOLTS",   "#00c8ff", "rgba(0,80,120,1),rgba(0,120,180,1)"),
-            (col_b, "💚", "SOC END",  soh_out,     "PERCENT", "#00ff88", "rgba(0,80,40,1),rgba(0,130,60,1)"),
-        ]:
-            with col:
-                st.markdown(f"""
-                <div class="output-card" style="background:linear-gradient(135deg,{grad});border:2px solid {color};box-shadow:0 8px 32px {color}55;">
-                  <div class="output-icon" style="filter:drop-shadow(0 0 10px {color});">{icon}</div>
-                  <div class="output-label" style="color:rgba(200,240,255,0.9);">{label}</div>
-                  <div class="output-value" style="color:{color};text-shadow:0 0 24px {color}99;">{val}</div>
-                  <div class="output-unit" style="color:rgba(200,240,255,0.7);">{unit}</div>
+        if _param_active == "Thermal" and _param_th_res:
+            C_th_p = _param_th_res.get("C_th_final", _param_th_res["C_th"])
+            hA_p   = _param_th_res.get("hA_final",   _param_th_res["hA"])
+            R_p    = _param_th_res["R_ohm"] * 1000
+            T_p    = _param_th_res["T_amb"]
+            m_p    = _param_th_res["metrics"]
+
+            pc1, pc2 = st.columns(2, gap="medium")
+            for col, icon, label, val, unit, clr, grad in [
+                (pc1, "🌡️", "C_th",  f"{C_th_p:.1f}",  "J/K", "#ff8800", "rgba(100,40,0,1),rgba(160,70,0,1)"),
+                (pc2, "💧", "hA",    f"{hA_p:.4f}",    "W/K", "#cc44ff", "rgba(60,0,100,1),rgba(100,20,160,1)"),
+            ]:
+                with col:
+                    st.markdown(f"""
+                    <div class="output-card" style="background:linear-gradient(135deg,{grad});
+                                border:2px solid {clr};box-shadow:0 8px 32px {clr}55;">
+                      <div class="output-icon" style="filter:drop-shadow(0 0 10px {clr});">{icon}</div>
+                      <div class="output-label" style="color:rgba(255,230,200,0.9);">{label}</div>
+                      <div class="output-value" style="color:{clr};text-shadow:0 0 24px {clr}99;">{val}</div>
+                      <div class="output-unit" style="color:rgba(255,220,180,0.7);">{unit}</div>
+                    </div>""", unsafe_allow_html=True)
+
+            st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
+            pc3, pc4 = st.columns(2, gap="medium")
+            for col, icon, label, val, unit, clr, grad in [
+                (pc3, "🌡️", "T_amb",  f"{T_p:.1f}",           "C",   "#00c8ff", "rgba(0,50,90,1),rgba(0,80,130,1)"),
+                (pc4, "📡", "T RMSE", f"{m_p['RMSE_C']:.4f}", "C",   "#00ff88", "rgba(0,80,40,1),rgba(0,130,60,1)"),
+            ]:
+                with col:
+                    st.markdown(f"""
+                    <div class="output-card" style="background:linear-gradient(135deg,{grad});
+                                border:2px solid {clr};box-shadow:0 8px 32px {clr}55;">
+                      <div class="output-icon" style="filter:drop-shadow(0 0 10px {clr});">{icon}</div>
+                      <div class="output-label" style="color:rgba(200,240,255,0.9);">{label}</div>
+                      <div class="output-value" style="color:{clr};text-shadow:0 0 24px {clr}99;">{val}</div>
+                      <div class="output-unit" style="color:rgba(200,240,255,0.7);">{unit}</div>
+                    </div>""", unsafe_allow_html=True)
+
+            st.markdown(f"""
+            <div style="background:rgba(255,136,0,0.06);border:2px solid rgba(255,136,0,0.3);
+                        border-radius:14px;padding:18px;margin-top:16px;">
+              <div style="font-family:'Orbitron',monospace;color:#cc6600;font-size:0.72rem;
+                          font-weight:700;letter-spacing:0.12em;margin-bottom:10px;">
+                🌡️ IDENTIFIED THERMAL PARAMETERS</div>
+              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">C_th (J/K)</span>
+                <span style="font-family:Orbitron,monospace;color:#ff8800;font-weight:700;">{C_th_p:.2f}</span></div>
+              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">hA (W/K)</span>
+                <span style="font-family:Orbitron,monospace;color:#cc44ff;font-weight:700;">{hA_p:.5f}</span></div>
+              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">R (mOhm)</span>
+                <span style="font-family:Orbitron,monospace;color:#00c8ff;font-weight:700;">{R_p:.2f}</span></div>
+              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">T_amb (C)</span>
+                <span style="font-family:Orbitron,monospace;color:#00ff88;font-weight:700;">{T_p:.2f}</span></div>
+              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">RMSE_T (C)</span>
+                <span style="font-family:Orbitron,monospace;color:#ffaa00;font-weight:700;">{m_p["RMSE_C"]:.4f}</span></div>
+              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">R2_T</span>
+                <span style="font-family:Orbitron,monospace;color:#00ff88;font-weight:700;">{m_p["R2"]:.4f}</span></div>
+            </div>""", unsafe_allow_html=True)
+
+        elif _param_active == "Thermal":
+            st.markdown("""
+            <div style="background:rgba(255,240,224,0.95);border:2px solid rgba(255,136,0,0.3);
+                        border-radius:18px;padding:40px;text-align:center;">
+              <div style="font-size:4rem;margin-bottom:1rem;">🌡️</div>
+              <div style="font-family:'Orbitron',monospace;color:#cc6600;font-size:1rem;font-weight:800;">
+                NO THERMAL DATA YET</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;margin-top:8px;">
+                Run the Thermal Model in the Simulation tab first.</div>
+            </div>""", unsafe_allow_html=True)
+
+        else:
+            # ── ECM output (original) ─────────────────────────────────────────
+            if res:
+                voltage_out = round(res["V_measured"][-1], 3)
+                soh_out     = round(res["soc"][-1]*100, 1)
+                power_out   = round(voltage_out * st.session_state.current, 1)
+                rmse_out    = round(res["metrics"]["RMSE_V"]*1000, 2)
+            else:
+                st.markdown("""
+                <div style="background:rgba(224,240,255,0.95);border:2px solid rgba(0,200,255,0.3);
+                            border-radius:18px;padding:40px;text-align:center;">
+                  <div style="font-size:4rem;margin-bottom:1rem;">⚡</div>
+                  <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:1rem;font-weight:800;">
+                    NO ECM DATA YET</div>
+                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;margin-top:8px;">
+                    Run the ECM in the Simulation tab first.</div>
                 </div>""", unsafe_allow_html=True)
 
-        st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
-        col_c, col_d = st.columns(2, gap="medium")
-        for col, icon, label, val, unit, color, grad in [
-            (col_c, "🔋", "POWER",     power_out, "WATTS",  "#ff8800", "rgba(100,40,0,1),rgba(160,70,0,1)"),
-            (col_d, "📡", "ECM RMSE",  rmse_out,  "mV",     "#cc44ff", "rgba(60,0,100,1),rgba(100,20,160,1)"),
-        ]:
-            with col:
-                st.markdown(f"""
+        if _param_active != 'Thermal'and res:
+            col_a, col_b = st.columns(2, gap="medium")
+            for col, icon, label, val, unit, color, grad in [
+                (col_a, "⚡", "VOLTAGE",  voltage_out, "VOLTS",   "#00c8ff", "rgba(0,80,120,1),rgba(0,120,180,1)"),
+                (col_b, "💚", "SOC END",  soh_out,     "PERCENT", "#00ff88", "rgba(0,80,40,1),rgba(0,130,60,1)"),
+            ]:
+                with col:
+                    st.markdown(f"""
+                    <div class="output-card" style="background:linear-gradient(135deg,{grad});border:2px solid {color};box-shadow:0 8px 32px {color}55;">
+                      <div class="output-icon" style="filter:drop-shadow(0 0 10px {color});">{icon}</div>
+                      <div class="output-label" style="color:rgba(200,240,255,0.9);">{label}</div>
+                      <div class="output-value" style="color:{color};text-shadow:0 0 24px {color}99;">{val}</div>
+                      <div class="output-unit" style="color:rgba(200,240,255,0.7);">{unit}</div>
+                    </div>""", unsafe_allow_html=True)
+
+            if _param_active != "Thermal":
+              st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
+              col_c, col_d = st.columns(2, gap="medium")
+              for col, icon, label, val, unit, color, grad in [
+                (col_c, "🔋", "POWER",     power_out, "WATTS",  "#ff8800", "rgba(100,40,0,1),rgba(160,70,0,1)"),
+                (col_d, "📡", "ECM RMSE",  rmse_out,  "mV",     "#cc44ff", "rgba(60,0,100,1),rgba(100,20,160,1)"),
+              ]:
+                with col:
+                    st.markdown(f"""
                 <div class="output-card" style="background:linear-gradient(135deg,{grad});border:2px solid {color};box-shadow:0 8px 32px {color}55;">
                   <div class="output-icon" style="filter:drop-shadow(0 0 10px {color});">{icon}</div>
                   <div class="output-label" style="color:rgba(255,230,200,0.9);">{label}</div>
@@ -1449,12 +2152,12 @@ with tab5:
                   <div class="output-unit" style="color:rgba(255,220,180,0.7);">{unit}</div>
                 </div>""", unsafe_allow_html=True)
 
-        if res:
-            st.markdown(f"""
-            <div style="background:rgba(0,200,255,0.06);border:2px solid rgba(0,200,255,0.3);border-radius:14px;padding:18px;margin-top:16px;">
-              <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;margin-bottom:10px;">⚡ IDENTIFIED ECM PARAMETERS</div>
-              {''.join([f'<div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">{k}</span><span style="font-family:Orbitron,monospace;color:#00c8ff;font-weight:700;font-size:0.9rem;">{v}</span></div>' for k,v in res["params"].items()])}
-            </div>""", unsafe_allow_html=True)
+            if _param_active != "Thermal" and res:
+                st.markdown(f"""
+                <div style="background:rgba(0,200,255,0.06);border:2px solid rgba(0,200,255,0.3);border-radius:14px;padding:18px;margin-top:16px;">
+                  <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;margin-bottom:10px;">⚡ IDENTIFIED ECM PARAMETERS</div>
+                  {''.join([f'<div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">{k}</span><span style="font-family:Orbitron,monospace;color:#00c8ff;font-weight:700;font-size:0.9rem;">{v}</span></div>' for k,v in res["params"].items()])}
+                </div>""", unsafe_allow_html=True)
 
 # ═══════════════════════════════════════════════════════════════
 # TAB 6 — AI RUL
@@ -1697,20 +2400,51 @@ with tab7:
 
     # ── Model-aware notice ───────────────────────────────────────────────────
     _active = st.session_state.selected_model
-    if _active != "ECM":
-        _bc = "#ff8800" if _active == "Thermal" else "#00ff88"
-        _bi = "🌡️"      if _active == "Thermal" else "🔄"
-        st.markdown(f"""
-        <div style="background:rgba(255,255,255,0.97);border:2px solid {_bc}55;
-          border-radius:12px;padding:12px 20px;margin-bottom:18px;
-          display:flex;align-items:center;gap:12px;">
-          <span style="font-size:1.5rem;">{_bi}</span>
-          <span style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#2a4060;">
-            <b style="color:{_bc};">{_active}</b> model selected —
-            analytics display ECM reference data. Switch to <b>ECM</b> for live results.
-          </span>
-        </div>""", unsafe_allow_html=True)
 
+    # ── Resolve physical model values for compare tab ───────────────────────
+    _cmp_th_res = st.session_state.get("thermal_results")
+    _ecm_res    = st.session_state.ecm_results
+
+    # Determine which physical model ran and extract display values
+    if _active == "Thermal" and _cmp_th_res:
+        _phys_label   = "LUMPED THERMAL MODEL"
+        _phys_icon    = "🌡️"
+        _phys_rul     = "—"
+        _phys_acc     = f"{_cmp_th_res['metrics']['R2']*100:.1f}%"
+        _phys_acc_pct = round(_cmp_th_res["metrics"]["R2"] * 100, 1)
+        _phys_eol     = "—"
+        _phys_params  = [
+            ("C_th (J/K)", f"{_cmp_th_res.get('C_th_final', _cmp_th_res['C_th']):.2f}"),
+            ("hA (W/K)",   f"{_cmp_th_res.get('hA_final',   _cmp_th_res['hA']):.5f}"),
+            ("T_amb (C)",  f"{_cmp_th_res['T_amb']:.2f}"),
+            ("RMSE_T (C)", f"{_cmp_th_res['metrics']['RMSE_C']:.4f}"),
+        ]
+        _phys_desc = "Lumped thermal capacitance model · C_th & hA identified from charge data"
+    elif _ecm_res:
+        _phys_label   = "EQUIVALENT CIRCUIT MODEL"
+        _phys_icon    = "⚡"
+        _phys_rul     = "13"
+        _phys_acc     = f"{round(_ecm_res['metrics']['R2']*100,1)}%"
+        _phys_acc_pct = round(_ecm_res["metrics"]["R2"] * 100, 1)
+        _phys_eol     = "80%"
+        _phys_params  = [
+            ("R0 (mOhm)", f"{_ecm_res['params']['R0_ohm']*1000:.2f}"),
+            ("R1 (mOhm)", f"{_ecm_res['params']['R1_ohm']*1000:.2f}"),
+            ("C1 (F)",    f"{_ecm_res['params']['C1_F']:.1f}"),
+            ("tau (s)",   f"{_ecm_res['params']['tau_s']:.2f}"),
+        ]
+        _phys_desc = "Thevenin 1RC · R0, R1, C1 identified from discharge data"
+    else:
+        _phys_label   = "PHYSICAL MODEL"
+        _phys_icon    = "⚙"
+        _phys_rul     = "—"
+        _phys_acc     = "—"
+        _phys_acc_pct = 0
+        _phys_eol     = "—"
+        _phys_params  = []
+        _phys_desc    = "Run ECM or Thermal model in the Simulation tab first"
+
+    # ── Battery Overview ─────────────────────────────────────────────────────
     # ── Battery Overview ─────────────────────────────────────────────────────
     st.markdown("""
     <div class="glass-panel" style="border-color:rgba(0,200,255,0.4);">
@@ -1720,8 +2454,9 @@ with tab7:
       </p>
     </div>""", unsafe_allow_html=True)
 
-    res = st.session_state.ecm_results
-    ecm_rmse_disp = f"{res['metrics']['RMSE_V']*1000:.1f}mV" if res else "—"
+    if _active != "Thermal":
+        res = st.session_state.ecm_results
+        ecm_rmse_disp = f"{res['metrics']['RMSE_V']*1000:.1f}mV" if res else "—"
     ecm_r2_disp   = f"{res['metrics']['R2']:.3f}"             if res else "—"
     ecm_acc_disp  = f"{round(res['metrics']['R2']*100,1)}%"   if res else "87%"
     ecm_pct       = round(res["metrics"]["R2"]*100, 1)            if res else 87
@@ -1764,6 +2499,15 @@ with tab7:
     phys_col, ai_col = st.columns(2, gap="large")
 
     with phys_col:
+        _param_rows = "".join([
+            f'<div style="display:flex;justify-content:space-between;padding:6px 0;'
+            f'border-bottom:1px solid rgba(0,200,255,0.15);">'
+            f'<span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.7);font-size:0.75rem;">{k}</span>'
+            f'<span style="font-family:Orbitron,monospace;color:#00c8ff;font-weight:700;font-size:0.82rem;">{v}</span>'
+            f'</div>'
+            for k, v in _phys_params
+        ]) if _phys_params else "<div style='color:rgba(180,230,255,0.5);font-family:Share Tech Mono,monospace;font-size:0.78rem;'>Run a model first to see parameters</div>"
+
         st.markdown(f"""
         <div style="position:relative;
           background:linear-gradient(145deg,rgba(70,0,20,0.97),rgba(120,10,40,0.95));
@@ -1772,41 +2516,26 @@ with tab7:
           <div style="position:absolute;top:0;left:0;right:0;height:3px;
             background:linear-gradient(90deg,#ff3366,#cc0033,#ff3366);box-shadow:0 0 12px rgba(255,51,102,0.6);"></div>
           <div style="display:flex;align-items:center;gap:14px;margin-bottom:26px;">
-            <span style="font-size:3.2rem;filter:drop-shadow(0 0 14px #00c8ff);">⚙</span>
+            <span style="font-size:3.2rem;filter:drop-shadow(0 0 14px #00c8ff);">{_phys_icon}</span>
             <div>
-              <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:1.2rem;font-weight:900;letter-spacing:0.08em;">PHYSICAL MODEL</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.75rem;letter-spacing:0.1em;margin-top:3px;">Equivalent Circuit Model (ECM)</div>
+              <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:1.1rem;font-weight:900;letter-spacing:0.06em;">{_phys_label}</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.72rem;letter-spacing:0.08em;margin-top:3px;">{_phys_desc}</div>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;">
             <div style="background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.3);border-radius:14px;padding:18px 12px;text-align:center;">
               <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.65rem;letter-spacing:0.12em;margin-bottom:8px;">PREDICTED RUL</div>
-              <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:2.8rem;font-weight:900;text-shadow:0 0 20px rgba(0,200,255,0.7);">13</div>
+              <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:2.8rem;font-weight:900;text-shadow:0 0 20px rgba(0,200,255,0.7);">{_phys_rul}</div>
               <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.6);font-size:0.7rem;margin-top:4px;">CYCLES</div>
             </div>
             <div style="background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.3);border-radius:14px;padding:18px 12px;text-align:center;">
-              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.65rem;letter-spacing:0.12em;margin-bottom:8px;">ACCURACY</div>
-              <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:2.8rem;font-weight:900;text-shadow:0 0 20px rgba(0,200,255,0.7);">{ecm_acc_disp}</div>
-            </div>
-          </div>
-          <div style="background:rgba(255,165,0,0.15);border:2px solid rgba(255,165,0,0.5);border-radius:14px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">
-            <span style="font-size:1.5rem;">⚠️</span>
-            <div>
-              <div style="font-family:'Orbitron',monospace;color:#ffaa00;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;">EOL DETECTION</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:rgba(255,200,100,0.9);font-size:1.1rem;font-weight:700;margin-top:2px;">80%</div>
-            </div>
-            <div style="margin-left:auto;">
-              <div class="perf-bar-track" style="width:120px;">
-                <div class="perf-bar-fill" style="width:80%;background:linear-gradient(90deg,#ffaa00,#ffdd44);"></div>
-              </div>
+              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.65rem;letter-spacing:0.12em;margin-bottom:8px;">ACCURACY (R²)</div>
+              <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:2.8rem;font-weight:900;text-shadow:0 0 20px rgba(0,200,255,0.7);">{_phys_acc}</div>
             </div>
           </div>
           <div style="background:rgba(0,200,255,0.06);border:1px solid rgba(0,200,255,0.2);border-radius:12px;padding:14px 16px;">
-            <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.85);font-size:0.75rem;letter-spacing:0.06em;line-height:1.8;">
-              ◈ Physics-based degradation equations<br>
-              ◈ Computationally lightweight<br>
-              ◈ Interpretable parameter outputs
-            </div>
+            <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;margin-bottom:8px;">IDENTIFIED PARAMETERS</div>
+            {_param_rows}
           </div>
         </div>""", unsafe_allow_html=True)
 
@@ -1923,7 +2652,7 @@ with tab7:
             </div>
             <div style="display:flex;flex-direction:column;gap:10px;">
               <div style="display:flex;align-items:center;gap:10px;"><span style="color:#00ff88;font-size:1rem;font-weight:900;">✓</span><span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);font-size:0.78rem;letter-spacing:0.06em;">Digital twins align closely with the physical model, validating the simulation</span></div>
-              <div style="display:flex;align-items:center;gap:10px;"><span style="color:#00ff88;font-size:1rem;font-weight:900;">✓</span><span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);font-size:0.78rem;letter-spacing:0.06em;">AI model provides slightly higher accuracy (91% vs {ecm_acc_disp})</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><span style="color:#00ff88;font-size:1rem;font-weight:900;">✓</span><span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);font-size:0.78rem;letter-spacing:0.06em;">AI model provides slightly higher accuracy (91% vs {_phys_acc})</span></div>
               <div style="display:flex;align-items:center;gap:10px;"><span style="color:#00ff88;font-size:1rem;font-weight:900;">✓</span><span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);font-size:0.78rem;letter-spacing:0.06em;">Both models effectively track battery degradation trends</span></div>
               <div style="display:flex;align-items:center;gap:10px;"><span style="color:#00ff88;font-size:1rem;font-weight:900;">✓</span><span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);font-size:0.78rem;letter-spacing:0.06em;">Digital twin combines best of both for robust monitoring</span></div>
             </div>
@@ -1938,9 +2667,9 @@ with tab7:
             <div style="background:rgba(255,255,255,0.97);border:2px solid rgba(0,200,255,0.35);border-radius:14px;padding:16px 20px;">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
                 <span style="font-family:Orbitron,monospace;color:#0a1628;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;">⚙ PHYSICAL MODEL ACCURACY</span>
-                <span style="font-family:Orbitron,monospace;color:#00c8ff;font-weight:900;font-size:1.1rem;">{ecm_acc_disp}</span>
+                <span style="font-family:Orbitron,monospace;color:#00c8ff;font-weight:900;font-size:1.1rem;">{_phys_acc}</span>
               </div>
-              <div class="perf-bar-track"><div class="perf-bar-fill" style="width:{ecm_pct}%;background:linear-gradient(90deg,#00c8ff,#0088ff);"></div></div>
+              <div class="perf-bar-track"><div class="perf-bar-fill" style="width:{_phys_acc_pct}%;background:linear-gradient(90deg,#00c8ff,#0088ff);"></div></div>
             </div>
             <div style="background:rgba(255,255,255,0.97);border:2px solid rgba(204,68,255,0.35);border-radius:14px;padding:16px 20px;">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
@@ -1975,8 +2704,6 @@ st.markdown("""
 <div class="cyber-footer">
   <div class="footer-text">
     ⚡<span class="footer-dot">◆</span>AUTOTWIN<span class="footer-dot">◆</span>
-    BATTERY DIGITAL TWIN PLATFORM<span class="footer-dot">◆</span>
-    THEVENIN 1RC ECM ENGINE<span class="footer-dot">◆</span>
-    NASA PCoE DATASET<span class="footer-dot">◆</span>⚡
+    BATTERY DIGITAL TWIN PLATFORM<span class="footer-dot">◆</span>⚡
   </div>
 </div>""", unsafe_allow_html=True)
