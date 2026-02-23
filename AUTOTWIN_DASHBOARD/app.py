@@ -375,21 +375,77 @@ with tab1:
       </div>
     </div>""", unsafe_allow_html=True)
 
-    # ECM real data if available, else session-state placeholders
-    res = st.session_state.ecm_results
-    ov_soc  = round(res["soc"][-1] * 100, 1)         if res else st.session_state.soc
-    ov_volt = round(res["V_measured"][-1], 3)         if res else voltage_display
-    ov_curr = round(abs(res["current"][-1]), 3)       if res else st.session_state.current
-    ov_rmse = round(res["metrics"]["RMSE_V"]*1000, 2) if res else 0
-    ov_soh  = round(100 - (1 - res["soc"][-1]) * 100 * 0.15, 1) if res else 94
+    # ── Read live session state ───────────────────────────────────────────────
+    _ov_model   = st.session_state.get("selected_model", "ECM")
+    _ov_ecm     = st.session_state.get("ecm_results")
+    _ov_thermal = st.session_state.get("thermal_results")
+    col1, col2, col3, col4 = st.columns(4)
+    col1_ph, col2_ph, col3_ph, col4_ph = col1, col2, col3, col4
+    # ── Determine card values based on active model and what's been run ───────
+    if _ov_model == "ECM" and _ov_ecm:
+        ov_volt  = round(_ov_ecm["V_measured"][-1], 3)
+        ov_soh   = round(100 - (1 - _ov_ecm["soc"][-1]) * 100 * 0.15, 1)
+        ov_soc   = round(_ov_ecm["soc"][-1] * 100, 1)
+        ov_rmse  = round(_ov_ecm["metrics"]["RMSE_V"] * 1000, 2)
+        cards = [
+            (col1_ph, "Voltage",           ov_volt, "V",  "#00c8ff", "ECM",  "⚡"),
+            (col2_ph, "State of Health",   ov_soh,  "%",  "#00ff88", "GOOD", "💚"),
+            (col3_ph, "State of Charge",   ov_soc,  "%",  "#ff8800", "SOC",  "🔋"),
+            (col4_ph, "ECM Error (RMSE)",  ov_rmse, "mV", "#cc44ff", "ECM",  "📡"),
+        ]
+    elif _ov_model == "Thermal" and _ov_thermal:
+        ov_cth  = round(_ov_thermal.get("C_th_final", _ov_thermal["C_th"]), 1)
+        ov_ha   = round(_ov_thermal.get("hA_final", _ov_thermal["hA"]), 5)
+        ov_rmse = round(_ov_thermal["metrics"]["RMSE_C"], 4)
+        ov_r2   = round(_ov_thermal["metrics"]["R2"], 4)
+        cards = [
+            (col1_ph, "Thermal Capacitance", ov_cth,  "J/K", "#ff8800", "THERMAL", "🌡️"),
+            (col2_ph, "Heat Transfer Coeff", ov_ha,   "W/K", "#cc44ff", "THERMAL", "💧"),
+            (col3_ph, "Temp Error (RMSE)",   ov_rmse, "°C",  "#00c8ff", "RMSE",    "📡"),
+            (col4_ph, "Model Fit (R²)",      ov_r2,   "",    "#00ff88", "FIT",     "📈"),
+        ]
+    else:
+        cards = [
+            (col1_ph, "Voltage",          "—", "V",   "#00c8ff", "—", "⚡"),
+            (col2_ph, "State of Health",  "—", "%",   "#00ff88", "—", "💚"),
+            (col3_ph, "State of Charge",  "—", "%",   "#ff8800", "—", "🔋"),
+            (col4_ph, "Model Error RMSE", "—", "",    "#cc44ff", "—", "📡"),
+        ]
 
     col1, col2, col3, col4 = st.columns(4)
-    cards = [
-        (col1, "VOLTAGE",  ov_volt, "V",   "#00c8ff", "LIVE",   "⚡"),
-        (col2, "SOH",      ov_soh,  "%",   "#00ff88", "GOOD",   "💚"),
-        (col3, "SOC",      ov_soc,  "%",   "#ff8800", "ACTIVE", "🔋"),
-        (col4, "ECM RMSE", ov_rmse, "mV",  "#cc44ff", "ECM",    "📡"),
-    ]
+    col1_ph, col2_ph, col3_ph, col4_ph = col1, col2, col3, col4
+
+    # Rebuild cards now that columns exist
+    if _ov_model == "ECM" and _ov_ecm:
+        ov_volt  = round(_ov_ecm["V_measured"][-1], 3)
+        ov_soh   = round(100 - (1 - _ov_ecm["soc"][-1]) * 100 * 0.15, 1)
+        ov_soc   = round(_ov_ecm["soc"][-1] * 100, 1)
+        ov_rmse  = round(_ov_ecm["metrics"]["RMSE_V"] * 1000, 2)
+        cards = [
+            (col1, "Voltage",           ov_volt, "V",  "#00c8ff", "ECM",  "⚡"),
+            (col2, "State of Health",   ov_soh,  "%",  "#00ff88", "GOOD", "💚"),
+            (col3, "State of Charge",   ov_soc,  "%",  "#ff8800", "SOC",  "🔋"),
+            (col4, "ECM Error (RMSE)",  ov_rmse, "mV", "#cc44ff", "ECM",  "📡"),
+        ]
+    elif _ov_model == "Thermal" and _ov_thermal:
+        ov_cth  = round(_ov_thermal.get("C_th_final", _ov_thermal["C_th"]), 1)
+        ov_ha   = round(_ov_thermal.get("hA_final",   _ov_thermal["hA"]), 5)
+        ov_rmse = round(_ov_thermal["metrics"]["RMSE_C"], 4)
+        ov_r2   = round(_ov_thermal["metrics"]["R2"], 4)
+        cards = [
+            (col1, "Thermal Capacitance", ov_cth,  "J/K", "#ff8800", "THERMAL", "🌡️"),
+            (col2, "Heat Transfer Coeff", ov_ha,   "W/K", "#cc44ff", "THERMAL", "💧"),
+            (col3, "Temp Error (RMSE)",   ov_rmse, "°C",  "#00c8ff", "RMSE",    "📡"),
+            (col4, "Model Fit (R²)",      ov_r2,   "",    "#00ff88", "FIT",     "📈"),
+        ]
+    else:
+        cards = [
+            (col1, "Voltage",          "—", "V",  "#00c8ff", "—", "⚡"),
+            (col2, "State of Health",  "—", "%",  "#00ff88", "—", "💚"),
+            (col3, "State of Charge",  "—", "%",  "#ff8800", "—", "🔋"),
+            (col4, "Model Error RMSE", "—", "",   "#cc44ff", "—", "📡"),
+        ]
+
     for col, label, val, unit, color, badge, icon in cards:
         with col:
             st.markdown(f"""
@@ -412,7 +468,8 @@ with tab1:
           </p>
         </div>""", unsafe_allow_html=True)
 
-        if res:
+        if _ov_model == "ECM" and _ov_ecm:
+            res = _ov_ecm
             fig = go.Figure()
             fig.add_trace(go.Scatter(x=res["time"], y=res["V_measured"],
                 name="V Measured", line=dict(color="#00ff88", width=2), mode="lines"))
@@ -423,17 +480,31 @@ with tab1:
             layout["yaxis"]["title"] = dict(text="VOLTAGE (V)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
             fig.update_layout(**layout)
             st.plotly_chart(fig, use_container_width=True)
-        else:
-            df_chart = generate_chart_data()
+
+        elif _ov_model == "Thermal" and _ov_thermal:
             fig = go.Figure()
-            fig.add_trace(go.Scatter(x=df_chart["Time"], y=df_chart["Voltage (V)"],
-                name="Voltage (V)", line=dict(color="#00c8ff", width=3), mode="lines+markers", marker=dict(size=3)))
+            fig.add_trace(go.Scatter(x=_ov_thermal["time"], y=_ov_thermal["T_measured"],
+                name="T Measured", line=dict(color="#ff8800", width=2.5), mode="lines"))
+            fig.add_trace(go.Scatter(x=_ov_thermal["time"], y=_ov_thermal["T_predicted"],
+                name="T Predicted", line=dict(color="#ffdd44", width=2.5, dash="dash"), mode="lines"))
             layout = cyber_plotly_layout(400)
             layout["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
-            layout["yaxis"]["title"] = dict(text="VOLTAGE (V)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+            layout["yaxis"]["title"] = dict(text="TEMPERATURE (°C)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
             fig.update_layout(**layout)
             st.plotly_chart(fig, use_container_width=True)
-            st.info("💡 Upload a discharge CSV in the **▶ ECM SIMULATION** tab to see real results here.")
+
+        else:
+            st.markdown(f"""
+            <div style="background:rgba(224,240,255,0.95);border:2px solid rgba(0,200,255,0.3);
+                        border-radius:18px;padding:60px;text-align:center;margin-top:12px;">
+              <div style="font-size:3rem;margin-bottom:1rem;">📊</div>
+              <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:1rem;font-weight:800;">
+                NO DATA YET</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;margin-top:8px;">
+                Select a model from the <b>Models</b> tab,<br>
+                then go to <b>Simulation</b> and run it to see results here.
+              </div>
+            </div>""", unsafe_allow_html=True)
 
     with col2:
         st.markdown("""
@@ -441,10 +512,11 @@ with tab1:
           <h4 style="font-size:1.1rem;margin:0;">⚡ SYSTEM STATUS</h4>
         </div>""", unsafe_allow_html=True)
         items = [
-            ("ECM Engine",   "ONLINE",  "#00ff88"),
-            ("Optimiser",    "READY",   "#00ff88"),
-            ("OCV Model",    "CALIBRATED" if res else "STANDBY", "#00ff88" if res else "#ffaa00"),
-            ("Data Feed",    "LIVE" if res else "AWAITING", "#00ff88" if res else "#ffaa00"),
+            ("ECM Engine",    "ONLINE",                                          "#00ff88"),
+            ("Optimiser",     "READY",                                           "#00ff88"),
+            ("ECM Model",     "CALIBRATED" if _ov_ecm     else "AWAITING",       "#00ff88" if _ov_ecm     else "#ffaa00"),
+            ("Thermal Model", "CALIBRATED" if _ov_thermal else "AWAITING",       "#00ff88" if _ov_thermal else "#ffaa00"),
+            ("Co-Simulation", "STANDBY",                                         "#5a7090"),
         ]
         for label, status, color in items:
             st.markdown(f"""
@@ -695,6 +767,7 @@ with tab3:
                         st.session_state.ecm_batch_results = _loaded
                         st.session_state.ecm_results       = _loaded[-1]
                         st.session_state.ecm_filename      = _loaded[-1]["_filename"]
+                        st.rerun()
                         st.markdown(f"""
                         <div style="background:rgba(0,255,136,0.08);border:2px solid rgba(0,255,136,0.5);
                           border-radius:14px;padding:16px;text-align:center;margin-top:10px;">
@@ -790,6 +863,7 @@ with tab3:
                 st.session_state.ecm_batch_results = batch_results
                 st.session_state.ecm_results       = batch_results[-1]
                 st.session_state.ecm_filename      = batch_results[-1]["_filename"]
+                st.rerun()
 
                 n_ok = len(batch_results)
                 avg_r2   = sum(r["metrics"]["R2"]       for r in batch_results) / n_ok
