@@ -343,10 +343,6 @@ st.markdown(f"""
     <span class="hstat" style="color:#5a7090;">|</span>
     <span class="hstat">MODEL: <span style="color:#00c8ff;font-weight:700;">{st.session_state.selected_model}</span></span>
     <span class="hstat" style="color:#5a7090;">|</span>
-    <span class="hstat">ECM: <span style="color:{'#00ff88' if st.session_state.ecm_results else '#ff8800'};font-weight:700;">
-      {'✓ RESULTS READY' if st.session_state.ecm_results else 'NO DATA'}</span></span>
-    <span class="hstat" style="color:#5a7090;">|</span>
-    <span class="hstat" style="color:#00cc66;">v2.4.1 STABLE</span>
   </div>
 </div>
 """, unsafe_allow_html=True)
