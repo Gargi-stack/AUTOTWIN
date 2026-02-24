@@ -73,7 +73,7 @@ html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; }
   animation: beam-sweep 4s ease-in-out infinite; }
 @keyframes beam-sweep { 0% { left: -60%; } 100% { left: 160%; } }
 .cyber-title {
-  font-family: 'Orbitron', monospace !important; font-size: 4.2rem; font-weight: 900;
+  font-family: 'Orbitron', monospace !important; font-size: 4.55rem; font-weight: 900;
   letter-spacing: 0.35em; text-align: center;
   background: linear-gradient(90deg, #005fa3, #00c8ff, #ff00c8, #00c8ff, #005fa3);
   background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -82,13 +82,13 @@ html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; }
 }
 @keyframes title-shift { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
 .cyber-subtitle {
-  font-family: 'Share Tech Mono', monospace; text-align: center; font-size: 1rem;
+  font-family: 'Share Tech Mono', monospace; text-align: center; font-size: 1.25rem;
   letter-spacing: 0.25em; color: var(--cyan-dim); margin-top: 0.6rem;
   animation: sub-flicker 5s ease-in-out infinite;
 }
 @keyframes sub-flicker { 0%,100% { opacity:1; } 92% { opacity:1; } 93% { opacity:0.4; } 94% { opacity:1; } }
 .header-stats-bar { display: flex; justify-content: center; gap: 2rem; margin-top: 1.4rem; flex-wrap: wrap; }
-.hstat { font-family: 'Share Tech Mono', monospace; font-size: 0.78rem; letter-spacing: 0.1em;
+.hstat { font-family: 'Share Tech Mono', monospace; font-size: 1.0rem; letter-spacing: 0.1em;
   color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
 .hstat-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green);
   box-shadow: var(--glow-green); animation: pulse-dot 2s ease-in-out infinite; }
@@ -103,7 +103,7 @@ html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; }
 .stTabs [data-baseweb="tab"] {
   height: 58px; background: rgba(240,252,255,0.70); border: 2px solid rgba(0,200,255,0.25);
   border-radius: 12px; color: var(--text-dim); font-family: 'Orbitron', monospace !important;
-  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; padding: 0 18px;
+  font-size: 0.92rem; font-weight: 700; letter-spacing: 0.1em; padding: 0 18px;
   transition: all 0.35s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; flex-shrink: 0;
 }
 .stTabs [data-baseweb="tab"]::before {
@@ -120,7 +120,7 @@ html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; }
   background: linear-gradient(135deg, #00c8ff 0%, #0080cc 50%, #ff00c8 100%) !important;
   border-color: var(--cyan) !important; color: white !important; transform: translateY(-5px) !important;
   box-shadow: 0 10px 30px rgba(0,200,255,0.4), 0 0 25px rgba(0,200,255,0.25), inset 0 1px 0 rgba(255,255,255,0.4) !important;
-  font-family: 'Orbitron', monospace !important; font-size: 0.65rem !important; font-weight: 900 !important;
+  font-family: 'Orbitron', monospace !important; font-size: 0.92rem !important; font-weight: 900 !important;
   letter-spacing: 0.12em !important; animation: tab-active-pulse 3s ease-in-out infinite;
 }
 @keyframes tab-active-pulse {
@@ -139,11 +139,11 @@ html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; }
   content: ''; position: absolute; top: 0; right: 0; width: 200px; height: 100%;
   background: linear-gradient(90deg, transparent, rgba(0,200,255,0.06)); pointer-events: none;
 }
-.tab-header-icon { font-size: 2.6rem; filter: drop-shadow(0 0 8px rgba(0,200,255,0.5)); animation: icon-bob 3s ease-in-out infinite; }
+.tab-header-icon { font-size: 2.9rem; filter: drop-shadow(0 0 8px rgba(0,200,255,0.5)); animation: icon-bob 3s ease-in-out infinite; }
 @keyframes icon-bob { 0%,100%{ transform: translateY(0); } 50% { transform: translateY(-6px); } }
-.tab-header-title { font-family: 'Orbitron', monospace !important; font-size: 1.9rem; font-weight: 800;
+.tab-header-title { font-family: 'Orbitron', monospace !important; font-size: 2.2rem; font-weight: 800;
   color: var(--text-main); margin: 0; letter-spacing: 0.05em; text-shadow: 0 0 20px rgba(0,200,255,0.3); }
-.tab-header-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 0.85rem; color: var(--text-muted); margin: 4px 0 0; letter-spacing: 0.1em; }
+.tab-header-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 1.08rem; color: var(--text-muted); margin: 4px 0 0; letter-spacing: 0.1em; }
 .metric-card {
   position: relative;
   background: linear-gradient(145deg, rgba(255,255,255,0.98), rgba(232,248,255,0.92));
@@ -159,10 +159,10 @@ html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; }
   transform: perspective(800px) rotateX(-4deg) translateY(-10px) scale(1.03);
   box-shadow: 0 24px 60px rgba(0,200,255,0.22), 0 0 40px rgba(0,200,255,0.15), 0 0 0 2px var(--cyan);
 }
-.metric-label { font-family: 'Orbitron', monospace; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.8rem; }
-.metric-value { font-family: 'Orbitron', monospace; font-size: 3.8rem; font-weight: 900; color: var(--text-main); margin: 0.4rem 0; line-height: 1; text-shadow: 0 0 20px rgba(0,200,255,0.4); }
-.metric-unit  { font-family: 'Share Tech Mono', monospace; font-size: 1rem; color: var(--text-muted); letter-spacing: 0.1em; }
-.metric-badge { position: absolute; top: 14px; right: 14px; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 6px; border: 1px solid; }
+.metric-label { font-family: 'Orbitron', monospace; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.8rem; }
+.metric-value { font-family: 'Orbitron', monospace; font-size: 4.15rem; font-weight: 900; color: var(--text-main); margin: 0.4rem 0; line-height: 1; text-shadow: 0 0 20px rgba(0,200,255,0.4); }
+.metric-unit  { font-family: 'Share Tech Mono', monospace; font-size: 1.25rem; color: var(--text-muted); letter-spacing: 0.1em; }
+.metric-badge { position: absolute; top: 14px; right: 14px; font-family: 'Share Tech Mono', monospace; font-size: 0.92rem; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 6px; border: 1px solid; }
 .model-card {
   position: relative; background: linear-gradient(145deg, rgba(255,255,255,0.97), rgba(232,248,255,0.90));
   border: 2px solid rgba(0,200,255,0.3); border-radius: 22px; padding: 2.2rem 1.8rem;
@@ -182,7 +182,7 @@ html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; }
   50% { box-shadow: 0 30px 80px rgba(0,200,255,0.55), 0 0 80px rgba(0,200,255,0.35); }
 }
 .stButton > button {
-  font-family: 'Orbitron', monospace !important; font-size: 0.82rem !important; font-weight: 700 !important;
+  font-family: 'Orbitron', monospace !important; font-size: 1.05rem !important; font-weight: 700 !important;
   letter-spacing: 0.15em !important;
   background: linear-gradient(135deg, #00527a, #00c8ff 60%, #0066aa) !important; background-size: 200% auto !important;
   color: white !important; border: 2px solid rgba(0,200,255,0.6) !important; border-radius: 12px !important;
@@ -222,27 +222,27 @@ html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; }
   box-shadow: 0 8px 32px rgba(0,0,0,0.1);
 }
 .output-card:hover { transform: perspective(700px) rotateX(-5deg) translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
-.output-icon { font-size: 2.8rem; margin-bottom: 10px; }
-.output-label { font-family: 'Orbitron', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; opacity: 0.9; }
-.output-value { font-family: 'Orbitron', monospace; font-size: 3.2rem; font-weight: 900; line-height: 1; margin-bottom: 6px; }
-.output-unit  { font-family: 'Share Tech Mono', monospace; font-size: 0.9rem; opacity: 0.8; letter-spacing: 0.1em; }
+.output-icon { font-size: 3.1rem; margin-bottom: 10px; }
+.output-label { font-family: 'Orbitron', monospace; font-size: 0.88rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; opacity: 0.9; }
+.output-value { font-family: 'Orbitron', monospace; font-size: 3.5rem; font-weight: 900; line-height: 1; margin-bottom: 6px; }
+.output-unit  { font-family: 'Share Tech Mono', monospace; font-size: 1.12rem; opacity: 0.8; letter-spacing: 0.1em; }
 .stProgress > div > div { background: linear-gradient(90deg, var(--cyan), var(--pink)) !important; box-shadow: 0 0 12px rgba(0,200,255,0.5) !important; border-radius: 8px !important; }
 .stProgress > div { background: rgba(0,200,255,0.1) !important; border-radius: 8px !important; border: 1px solid rgba(0,200,255,0.2) !important; }
 .param-box { border-radius: 16px; padding: 26px 28px; margin-bottom: 12px; position: relative; overflow: hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
-.param-title { font-family: 'Orbitron', monospace; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.05em; margin-bottom: 4px; }
-.param-desc  { font-family: 'Share Tech Mono', monospace; font-size: 0.78rem; letter-spacing: 0.06em; opacity: 0.7; }
+.param-title { font-family: 'Orbitron', monospace; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.05em; margin-bottom: 4px; }
+.param-desc  { font-family: 'Share Tech Mono', monospace; font-size: 1.0rem; letter-spacing: 0.06em; opacity: 0.7; }
 .param-value-badge { background: rgba(255,255,255,0.95); padding: 12px 22px; border-radius: 12px; border: 2px solid; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-.param-val   { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 2.2rem; line-height: 1; }
-.param-unit  { font-family: 'Share Tech Mono', monospace; font-size: 1rem; margin-left: 3px; }
+.param-val   { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 2.52rem; line-height: 1; }
+.param-unit  { font-family: 'Share Tech Mono', monospace; font-size: 1.25rem; margin-left: 3px; }
 .perf-bar-track { background: rgba(0,200,255,0.1); height: 10px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(0,200,255,0.2); }
 .perf-bar-fill  { height: 100%; border-radius: 10px; transition: width 0.6s ease; position: relative; overflow: hidden; }
 .cyber-footer { background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(224,248,255,0.88)); border: 2px solid rgba(0,200,255,0.25); border-radius: 16px; padding: 24px; text-align: center; margin-top: 20px; }
-.footer-text { font-family: 'Share Tech Mono', monospace; font-size: 0.82rem; letter-spacing: 0.2em; color: var(--text-muted); }
+.footer-text { font-family: 'Share Tech Mono', monospace; font-size: 1.05rem; letter-spacing: 0.2em; color: var(--text-muted); }
 .footer-dot  { color: var(--cyan); text-shadow: 0 0 8px var(--cyan); margin: 0 8px; }
 .compare-model-card { position: relative; border-radius: 22px; padding: 36px 32px; min-height: 340px; overflow: hidden; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); transform-style: preserve-3d; }
 .compare-model-card:hover { transform: perspective(900px) rotateY(-4deg) translateY(-8px); }
 #MainMenu { visibility: hidden; } footer { visibility: hidden; } header { visibility: hidden; }
-.stDownloadButton > button { font-family: 'Orbitron', monospace !important; font-size: 0.82rem !important; letter-spacing: 0.12em !important; background: linear-gradient(135deg, #003d5c, #00527a, #006095) !important; color: white !important; border: 2px solid var(--cyan) !important; border-radius: 12px !important; box-shadow: 0 6px 28px rgba(0,200,255,0.25) !important; }
+.stDownloadButton > button { font-family: 'Orbitron', monospace !important; font-size: 1.05rem !important; letter-spacing: 0.12em !important; background: linear-gradient(135deg, #003d5c, #00527a, #006095) !important; color: white !important; border: 2px solid var(--cyan) !important; border-radius: 12px !important; box-shadow: 0 6px 28px rgba(0,200,255,0.25) !important; }
 .stDownloadButton > button:hover { transform: translateY(-4px) !important; box-shadow: 0 12px 40px rgba(0,200,255,0.4) !important; }
 .ecm-result-card {
   background: linear-gradient(145deg, rgba(0,30,60,0.97), rgba(0,60,100,0.95));
@@ -288,18 +288,18 @@ def cyber_plotly_layout(height=450):
     return dict(
         plot_bgcolor='rgba(245,252,255,0.95)',
         paper_bgcolor='rgba(240,250,255,0.4)',
-        font=dict(color='#0a1628', size=12, family='Exo 2, sans-serif'),
+        font=dict(color='#0a1628', size=14, family='Exo 2, sans-serif'),
         xaxis=dict(
             gridcolor='rgba(0,200,255,0.12)', linecolor='rgba(0,200,255,0.3)',
-            tickfont=dict(family='Share Tech Mono', size=11),
-            title_font=dict(family='Orbitron, monospace', size=12, color='#0066aa')),
+            tickfont=dict(family='Share Tech Mono', size=13),
+            title_font=dict(family='Orbitron, monospace', size=14, color='#0066aa')),
         yaxis=dict(
             gridcolor='rgba(0,200,255,0.12)', linecolor='rgba(0,200,255,0.3)',
-            tickfont=dict(family='Share Tech Mono', size=11),
-            title_font=dict(family='Orbitron, monospace', size=12, color='#0066aa')),
+            tickfont=dict(family='Share Tech Mono', size=13),
+            title_font=dict(family='Orbitron, monospace', size=14, color='#0066aa')),
         height=height, hovermode='x unified',
         legend=dict(bgcolor='rgba(255,255,255,0.9)', bordercolor='rgba(0,200,255,0.4)',
-                    borderwidth=2, font=dict(family='Share Tech Mono', size=11, color='#003355')),
+                    borderwidth=2, font=dict(family='Share Tech Mono', size=13, color='#003355')),
         margin=dict(l=20, r=20, t=30, b=20)
     )
 
@@ -458,8 +458,8 @@ with tab1:
     with col1:
         st.markdown("""
         <div class="glass-panel">
-          <h3 style="font-size:1.3rem;margin-bottom:4px;">📈 BATTERY VOLTAGE MONITOR</h3>
-          <p style="font-family:'Share Tech Mono',monospace;font-size:1.1rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
+          <h3 style="font-size:1.55rem;margin-bottom:4px;">📈 BATTERY VOLTAGE MONITOR</h3>
+          <p style="font-family:'Share Tech Mono',monospace;font-size:1.3rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
             measured vs simulated 
           </p>
         </div>""", unsafe_allow_html=True)
@@ -472,8 +472,8 @@ with tab1:
             fig.add_trace(go.Scatter(x=res["time"], y=res["V_simulated"],
                 name="V Simulated (ECM)", line=dict(color="#00c8ff", width=2.5, dash="dash"), mode="lines"))
             layout = cyber_plotly_layout(400)
-            layout["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
-            layout["yaxis"]["title"] = dict(text="VOLTAGE (V)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+            layout["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
+            layout["yaxis"]["title"] = dict(text="VOLTAGE (V)", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
             fig.update_layout(**layout)
             st.plotly_chart(fig, use_container_width=True)
 
@@ -484,8 +484,8 @@ with tab1:
             fig.add_trace(go.Scatter(x=_ov_thermal["time"], y=_ov_thermal["T_predicted"],
                 name="T Predicted", line=dict(color="#ffdd44", width=2.5, dash="dash"), mode="lines"))
             layout = cyber_plotly_layout(400)
-            layout["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
-            layout["yaxis"]["title"] = dict(text="TEMPERATURE (°C)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+            layout["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
+            layout["yaxis"]["title"] = dict(text="TEMPERATURE (°C)", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
             fig.update_layout(**layout)
             st.plotly_chart(fig, use_container_width=True)
 
@@ -493,10 +493,10 @@ with tab1:
             st.markdown(f"""
             <div style="background:rgba(224,240,255,0.95);border:2px solid rgba(0,200,255,0.3);
                         border-radius:18px;padding:60px;text-align:center;margin-top:12px;">
-              <div style="font-size:3rem;margin-bottom:1rem;">📊</div>
-              <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:1rem;font-weight:800;">
+              <div style="font-size:3.75rem;margin-bottom:1rem;">📊</div>
+              <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:1.25rem;font-weight:800;">
                 NO DATA YET</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;margin-top:8px;">
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.05rem;margin-top:8px;">
                 Select a model from the <b>Models</b> tab,<br>
                 then go to <b>Simulation</b> and run it to see results here.
               </div>
@@ -505,7 +505,7 @@ with tab1:
     with col2:
         st.markdown("""
         <div class="glass-panel">
-          <h4 style="font-size:1.1rem;margin:0;">⚡ SYSTEM STATUS</h4>
+          <h4 style="font-size:1.3rem;margin:0;">⚡ SYSTEM STATUS</h4>
         </div>""", unsafe_allow_html=True)
         items = [
             ("ECM Engine",    "ONLINE",                                          "#00ff88"),
@@ -518,8 +518,8 @@ with tab1:
             st.markdown(f"""
             <div style="background:rgba(255,255,255,0.95);border:2px solid {color}44;border-radius:12px;
               padding:14px 20px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.82rem;">{label}</span>
-              <span style="font-family:'Orbitron',monospace;color:{color};font-size:0.72rem;font-weight:700;
+              <span style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:1.05rem;">{label}</span>
+              <span style="font-family:'Orbitron',monospace;color:{color};font-size:0.95rem;font-weight:700;
                 text-shadow:0 0 8px {color}66;">{status}</span>
             </div>""", unsafe_allow_html=True)
 
@@ -569,14 +569,14 @@ with tab2:
             badge_bg = "rgba(255,255,255,0.2)" if is_active else f"{model['color']}18"
             st.markdown(f"""
             <div class="{card_cls}" style="{bg_extra}border:{border};">
-              <div style="font-size:4.5rem;text-align:center;filter:drop-shadow(0 0 12px {model['color']}88);">{model['icon']}</div>
-              <h3 style="font-family:'Orbitron',monospace;color:{txt_col};font-size:1.1rem;font-weight:800;letter-spacing:0.06em;text-align:center;margin:0.8rem 0 0.6rem;">{model['name']}</h3>
-              <p style="color:{'rgba(255,255,255,0.85)' if is_active else '#4a6080'};font-family:'Exo 2',sans-serif;font-size:0.9rem;text-align:center;line-height:1.55;font-weight:500;margin-bottom:1.2rem;">{model['description']}</p>
+              <div style="font-size:4.82rem;text-align:center;filter:drop-shadow(0 0 12px {model['color']}88);">{model['icon']}</div>
+              <h3 style="font-family:'Orbitron',monospace;color:{txt_col};font-size:1.3rem;font-weight:800;letter-spacing:0.06em;text-align:center;margin:0.8rem 0 0.6rem;">{model['name']}</h3>
+              <p style="color:{'rgba(255,255,255,0.85)' if is_active else '#4a6080'};font-family:'Exo 2',sans-serif;font-size:1.12rem;text-align:center;line-height:1.55;font-weight:500;margin-bottom:1.2rem;">{model['description']}</p>
               <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-                <span style="background:{badge_bg};padding:8px 18px;border-radius:20px;color:{txt_col};font-family:'Share Tech Mono',monospace;font-size:0.8rem;border:{border};">📊 {model['accuracy']}</span>
-                <span style="background:{badge_bg};padding:8px 18px;border-radius:20px;color:{txt_col};font-family:'Share Tech Mono',monospace;font-size:0.8rem;border:{border};">⚡ {model['speed']}</span>
+                <span style="background:{badge_bg};padding:8px 18px;border-radius:20px;color:{txt_col};font-family:'Share Tech Mono',monospace;font-size:1.0rem;border:{border};">📊 {model['accuracy']}</span>
+                <span style="background:{badge_bg};padding:8px 18px;border-radius:20px;color:{txt_col};font-family:'Share Tech Mono',monospace;font-size:1.0rem;border:{border};">⚡ {model['speed']}</span>
               </div>
-              {'<div style="position:absolute;top:14px;right:14px;background:rgba(0,200,255,0.25);border:1px solid rgba(255,255,255,0.4);border-radius:8px;padding:4px 10px;font-family:Share Tech Mono,monospace;font-size:0.65rem;color:white;letter-spacing:0.1em;">ACTIVE</div>' if is_active else ''}
+              {'<div style="position:absolute;top:14px;right:14px;background:rgba(0,200,255,0.25);border:1px solid rgba(255,255,255,0.4);border-radius:8px;padding:4px 10px;font-family:Share Tech Mono,monospace;font-size:0.92rem;color:white;letter-spacing:0.1em;">ACTIVE</div>' if is_active else ''}
             </div>""", unsafe_allow_html=True)
 
 # ═══════════════════════════════════════════════════════════════
@@ -617,8 +617,8 @@ with tab3:
         if load_mode == "⬆ Upload new CSV files":
             st.markdown("""
             <div class="glass-panel">
-              <h4 style="font-size:1.15rem;margin:0 0 6px;">📂 LOAD DISCHARGE FILES</h4>
-              <p style="font-family:'Share Tech Mono',monospace;font-size:1.15rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+              <h4 style="font-size:1.35rem;margin:0 0 6px;">📂 LOAD DISCHARGE FILES</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:1.35rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
                 Upload one or multiple discharge CSVs — each file is one cycle
               </p>
             </div>""", unsafe_allow_html=True)
@@ -638,7 +638,7 @@ with tab3:
                 st.markdown("""
                 <div style="background:rgba(255,255,255,0.97);border:2px solid rgba(0,200,255,0.35);
                   border-radius:14px;padding:20px;margin-bottom:12px;">
-                  <div style="font-family:'Orbitron',monospace;color:#005f8a;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;margin-bottom:8px;">
+                  <div style="font-family:'Orbitron',monospace;color:#005f8a;font-size:1.0rem;font-weight:700;letter-spacing:0.1em;margin-bottom:8px;">
                     ⚡ NOMINAL CAPACITY (Ah)
                   </div>
                 </div>""", unsafe_allow_html=True)
@@ -647,7 +647,7 @@ with tab3:
                                   label_visibility="collapsed")
                 st.session_state.ecm_qnom = q_nom
                 st.markdown(f"""
-                <div style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;
+                <div style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#5a7090;
                   text-align:center;margin-top:-10px;">
                   Q_nom = <span style="color:#00c8ff;font-weight:700;">{q_nom:.1f} Ah</span>
                   &nbsp;|&nbsp; Fresh cell: 2.0 Ah &nbsp;|&nbsp; Adjust for aged batteries
@@ -661,8 +661,8 @@ with tab3:
 
             st.markdown("""
             <div class="glass-panel">
-              <h4 style="font-size:1.15rem;margin:0 0 6px;">📁 AUTO-LOAD FROM RESULTS FOLDER</h4>
-              <p style="font-family:'Share Tech Mono',monospace;font-size:1.15rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+              <h4 style="font-size:1.35rem;margin:0 0 6px;">📁 AUTO-LOAD FROM RESULTS FOLDER</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:1.35rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
               </p>
             </div>""", unsafe_allow_html=True)
 
@@ -687,7 +687,7 @@ with tab3:
                 st.markdown("""
                 <div style="background:rgba(255,180,0,0.08);border:1px solid rgba(255,180,0,0.4);
                   border-radius:10px;padding:12px 16px;margin-top:8px;">
-                  <span style="font-family:'Share Tech Mono',monospace;font-size:0.78rem;color:#cc8800;">
+                  <span style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#cc8800;">
                     ⚠ Folder not found — check the path above
                   </span>
                 </div>""", unsafe_allow_html=True)
@@ -695,7 +695,7 @@ with tab3:
                 st.markdown(f"""
                 <div style="background:rgba(0,255,136,0.06);border:1px solid rgba(0,255,136,0.3);
                   border-radius:10px;padding:10px 16px;margin:8px 0;">
-                  <span style="font-family:'Share Tech Mono',monospace;font-size:0.78rem;color:#00aa55;">
+                  <span style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#00aa55;">
                     ✓ {len(_result_files)} pre-computed result file(s) found
                   </span>
                 </div>""", unsafe_allow_html=True)
@@ -767,10 +767,10 @@ with tab3:
                         st.markdown(f"""
                         <div style="background:rgba(0,255,136,0.08);border:2px solid rgba(0,255,136,0.5);
                           border-radius:14px;padding:16px;text-align:center;margin-top:10px;">
-                          <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:1.3rem;font-weight:900;">
+                          <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:1.55rem;font-weight:900;">
                             ✓ {len(_loaded)} FILE(S) LOADED INSTANTLY
                           </div>
-                          <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.78rem;margin-top:6px;">
+                          <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.0rem;margin-top:6px;">
                             No re-processing needed · results loaded from disk
                           </div>
                         </div>""", unsafe_allow_html=True)
@@ -779,7 +779,7 @@ with tab3:
                 st.markdown("""
                 <div style="background:rgba(255,180,0,0.08);border:1px solid rgba(255,180,0,0.4);
                   border-radius:10px;padding:12px 16px;margin-top:8px;">
-                  <span style="font-family:'Share Tech Mono',monospace;font-size:0.78rem;color:#cc8800;">
+                  <span style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#cc8800;">
                     ⚠ No *_ecm.csv files found — run batch_run.py first to generate results
                   </span>
                 </div>""", unsafe_allow_html=True)
@@ -796,13 +796,13 @@ with tab3:
             if n_files == 0:
                 st.markdown("""
                 <div style="text-align:center;font-family:'Share Tech Mono',monospace;
-                  color:#ffaa00;font-size:0.75rem;letter-spacing:0.1em;margin-top:8px;">
+                  color:#ffaa00;font-size:1.0rem;letter-spacing:0.1em;margin-top:8px;">
                   ⚠ Upload one or more CSV files to enable simulation
                 </div>""", unsafe_allow_html=True)
             elif n_files > 1:
                 st.markdown(f"""
                 <div style="text-align:center;font-family:'Share Tech Mono',monospace;
-                  color:#00c8ff;font-size:0.75rem;letter-spacing:0.1em;margin-top:8px;">
+                  color:#00c8ff;font-size:1.0rem;letter-spacing:0.1em;margin-top:8px;">
                   📂 {n_files} files queued for batch processing
                 </div>""", unsafe_allow_html=True)
 
@@ -821,11 +821,11 @@ with tab3:
                 ecm_status_box.markdown(f"""
                 <div style="background:rgba(0,200,255,0.08);border:2px solid rgba(0,200,255,0.4);
                   border-radius:14px;padding:20px;text-align:center;">
-                  <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:1.3rem;
+                  <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:1.55rem;
                     font-weight:900;text-shadow:0 0 20px rgba(0,200,255,0.5);">
                     ⏳ PROCESSING {file_idx+1}/{len(uploaded_files)}: {uf.name}
                   </div>
-                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.78rem;
+                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.0rem;
                     letter-spacing:0.1em;margin-top:6px;">
                     Stage 1 — Differential Evolution · Stage 2 — L-BFGS-B
                   </div>
@@ -845,10 +845,10 @@ with tab3:
                     ecm_status_box.markdown(f"""
                     <div style="background:rgba(255,0,100,0.08);border:2px solid rgba(255,50,100,0.5);
                       border-radius:14px;padding:20px;text-align:center;">
-                      <div style="font-family:'Orbitron',monospace;color:#ff3366;font-size:1.1rem;font-weight:900;">
+                      <div style="font-family:'Orbitron',monospace;color:#ff3366;font-size:1.3rem;font-weight:900;">
                         ✗ ERROR — {uf.name}
                       </div>
-                      <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.75rem;margin-top:6px;">
+                      <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.0rem;margin-top:6px;">
                         {str(e)}
                       </div>
                     </div>""", unsafe_allow_html=True)
@@ -868,11 +868,11 @@ with tab3:
                 ecm_status_box.markdown(f"""
                 <div style="background:rgba(0,255,136,0.08);border:2px solid rgba(0,255,136,0.5);
                   border-radius:14px;padding:20px;text-align:center;">
-                  <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:1.4rem;font-weight:900;
+                  <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:1.65rem;font-weight:900;
                     text-shadow:0 0 20px rgba(0,255,136,0.5);">
                     ✓ BATCH COMPLETE — {n_ok}/{len(uploaded_files)} FILES
                   </div>
-                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.8rem;
+                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.0rem;
                     letter-spacing:0.1em;margin-top:8px;">
                     Avg RMSE = {avg_rmse*1000:.2f} mV &nbsp;|&nbsp;
                     Avg R² = {avg_r2:.4f} &nbsp;|&nbsp;
@@ -887,8 +887,8 @@ with tab3:
             st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
             st.markdown("""
             <div class="glass-panel">
-              <h4 style="font-size:1.15rem;margin:0 0 6px;">📊 BATCH COMPARISON — ALL FILES</h4>
-              <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+              <h4 style="font-size:1.35rem;margin:0 0 6px;">📊 BATCH COMPARISON — ALL FILES</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
                 Identified ECM parameters and accuracy metrics across all processed discharge files
               </p>
             </div>""", unsafe_allow_html=True)
@@ -943,7 +943,7 @@ with tab3:
             st.markdown("<br>", unsafe_allow_html=True)
             st.markdown("""
             <div class="glass-panel">
-              <h4 style="font-size:1.15rem;margin:0 0 6px;">📈 VOLTAGE — ALL FILES OVERLAY</h4>
+              <h4 style="font-size:1.35rem;margin:0 0 6px;">📈 VOLTAGE — ALL FILES OVERLAY</h4>
             </div>""", unsafe_allow_html=True)
 
             fig_ov = go.Figure()
@@ -976,7 +976,7 @@ with tab3:
             st.markdown("""
             <div style="background:rgba(0,200,255,0.06);border:1px solid rgba(0,200,255,0.3);
               border-radius:12px;padding:14px 20px;">
-              <span style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#2a4060;">
+              <span style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#2a4060;">
                 ℹ Individual file results shown below are for the <b>last processed file</b>.
                 Use the download button above to export all files' data.
               </span>
@@ -993,8 +993,8 @@ with tab3:
             st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
             st.markdown(f"""
             <div class="glass-panel">
-              <h4 style="font-size:1.15rem;margin:0 0 6px;">✅ ECM RESULTS — {fname}</h4>
-              <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+              <h4 style="font-size:1.35rem;margin:0 0 6px;">✅ ECM RESULTS — {fname}</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
                 Thevenin 1RC · {len(res['time'])} discharge samples · Q_nom = {res['Q_nominal_Ah']} Ah
               </p>
             </div>""", unsafe_allow_html=True)
@@ -1016,15 +1016,15 @@ with tab3:
                     st.markdown(f"""
                     <div class="ecm-result-card">
                       <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.9);
-                        font-size:0.80rem;margin-bottom:2px;">{label}</div>
-                      <div style="font-family:'Orbitron',monospace;color:{color};font-size:0.68rem;
+                        font-size:1.0rem;margin-bottom:2px;">{label}</div>
+                      <div style="font-family:'Orbitron',monospace;color:{color};font-size:0.92rem;
                         font-weight:700;letter-spacing:0.15em;margin-bottom:10px;">({sublabel})</div>
-                      <div style="font-family:'Orbitron',monospace;color:white;font-size:2.6rem;
+                      <div style="font-family:'Orbitron',monospace;color:white;font-size:2.9rem;
                         font-weight:900;text-shadow:0 0 20px {color}88;line-height:1;">{val}</div>
                       <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);
-                        font-size:0.85rem;margin-top:4px;">{unit}</div>
+                        font-size:1.08rem;margin-top:4px;">{unit}</div>
                       <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.5);
-                        font-size:0.68rem;margin-top:8px;letter-spacing:0.06em;">{desc}</div>
+                        font-size:0.92rem;margin-top:8px;letter-spacing:0.06em;">{desc}</div>
                     </div>""", unsafe_allow_html=True)
 
             st.markdown("<br>", unsafe_allow_html=True)
@@ -1045,13 +1045,13 @@ with tab3:
                     <div style="background:rgba(255,255,255,0.97);border:2px solid {color}44;
                       border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;
                       box-shadow:0 6px 20px {color}22;">
-                      <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.72rem;
+                      <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.95rem;
                         margin-bottom:2px;">{label}</div>
-                      <div style="font-family:'Orbitron',monospace;color:#aabbcc;font-size:0.62rem;
+                      <div style="font-family:'Orbitron',monospace;color:#aabbcc;font-size:0.88rem;
                         letter-spacing:0.15em;margin-bottom:8px;">({sublabel})</div>
-                      <div style="font-family:'Orbitron',monospace;color:{color};font-size:1.9rem;
+                      <div style="font-family:'Orbitron',monospace;color:{color};font-size:2.2rem;
                         font-weight:900;text-shadow:0 0 16px {color}88;">{val}</div>
-                      <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;font-size:0.78rem;margin-top:4px;">{unit}</div>
+                      <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;font-size:1.0rem;margin-top:4px;">{unit}</div>
                     </div>""", unsafe_allow_html=True)
 
             # ── SOC Summary ─────────────────────────────────────────────────────
@@ -1061,36 +1061,36 @@ with tab3:
               display:flex;gap:40px;align-items:center;flex-wrap:wrap;
               box-shadow:0 8px 28px rgba(0,200,255,0.3);">
               <div style="text-align:center;">
-                <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.68rem;letter-spacing:0.1em;margin-bottom:4px;">INITIAL SOC</div>
-                <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:2rem;font-weight:900;">{soc[0]*100:.1f}<span style="font-size:1rem;">%</span></div>
+                <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.92rem;letter-spacing:0.1em;margin-bottom:4px;">INITIAL SOC</div>
+                <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:2.5rem;font-weight:900;">{soc[0]*100:.1f}<span style="font-size:1.25rem;">%</span></div>
               </div>
-              <div style="font-family:'Orbitron',monospace;color:rgba(0,200,255,0.4);font-size:2rem;">→</div>
+              <div style="font-family:'Orbitron',monospace;color:rgba(0,200,255,0.4);font-size:2.5rem;">→</div>
               <div style="text-align:center;">
-                <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.68rem;letter-spacing:0.1em;margin-bottom:4px;">FINAL SOC</div>
-                <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:2rem;font-weight:900;">{soc[-1]*100:.1f}<span style="font-size:1rem;">%</span></div>
+                <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.92rem;letter-spacing:0.1em;margin-bottom:4px;">FINAL SOC</div>
+                <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:2.5rem;font-weight:900;">{soc[-1]*100:.1f}<span style="font-size:1.25rem;">%</span></div>
               </div>
-              <div style="font-family:'Orbitron',monospace;color:rgba(0,200,255,0.4);font-size:2rem;">|</div>
+              <div style="font-family:'Orbitron',monospace;color:rgba(0,200,255,0.4);font-size:2.5rem;">|</div>
               <div style="text-align:center;">
-                <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.68rem;letter-spacing:0.1em;margin-bottom:4px;">DEPTH OF DISCHARGE</div>
-                <div style="font-family:'Orbitron',monospace;color:#ff8800;font-size:2rem;font-weight:900;">{(soc[0]-soc[-1])*100:.1f}<span style="font-size:1rem;">%</span></div>
+                <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.92rem;letter-spacing:0.1em;margin-bottom:4px;">DEPTH OF DISCHARGE</div>
+                <div style="font-family:'Orbitron',monospace;color:#ff8800;font-size:2.5rem;font-weight:900;">{(soc[0]-soc[-1])*100:.1f}<span style="font-size:1.25rem;">%</span></div>
               </div>
-              <div style="font-family:'Orbitron',monospace;color:rgba(0,200,255,0.4);font-size:2rem;">|</div>
+              <div style="font-family:'Orbitron',monospace;color:rgba(0,200,255,0.4);font-size:2.5rem;">|</div>
               <div style="text-align:center;">
-                <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.68rem;letter-spacing:0.1em;margin-bottom:4px;">DURATION</div>
-                <div style="font-family:'Orbitron',monospace;color:#cc44ff;font-size:2rem;font-weight:900;">{res['time'][-1]:.0f}<span style="font-size:1rem;">s</span></div>
+                <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.92rem;letter-spacing:0.1em;margin-bottom:4px;">DURATION</div>
+                <div style="font-family:'Orbitron',monospace;color:#cc44ff;font-size:2.5rem;font-weight:900;">{res['time'][-1]:.0f}<span style="font-size:1.25rem;">s</span></div>
               </div>
-              <div style="font-family:'Orbitron',monospace;color:rgba(0,200,255,0.4);font-size:2rem;">|</div>
+              <div style="font-family:'Orbitron',monospace;color:rgba(0,200,255,0.4);font-size:2.5rem;">|</div>
               <div style="text-align:center;">
-                <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.68rem;letter-spacing:0.1em;margin-bottom:4px;">MODEL ACCURACY</div>
-                <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:2rem;font-weight:900;">{accuracy_pct:.1f}<span style="font-size:1rem;">%</span></div>
+                <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.92rem;letter-spacing:0.1em;margin-bottom:4px;">MODEL ACCURACY</div>
+                <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:2.5rem;font-weight:900;">{accuracy_pct:.1f}<span style="font-size:1.25rem;">%</span></div>
               </div>
             </div>""", unsafe_allow_html=True)
 
             # ── Voltage Plot ────────────────────────────────────────────────────
             st.markdown("""
             <div class="glass-panel">
-              <h4 style="font-size:1.15rem;margin:0 0 6px;">📈 VOLTAGE — MEASURED vs ECM SIMULATED</h4>
-              <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+              <h4 style="font-size:1.35rem;margin:0 0 6px;">📈 VOLTAGE — MEASURED vs ECM SIMULATED</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
                 Green = actual battery · Cyan dashed = Thevenin 1RC model
               </p>
             </div>""", unsafe_allow_html=True)
@@ -1101,12 +1101,12 @@ with tab3:
             fig_v.add_trace(go.Scatter(x=res["time"], y=res["V_simulated"],
                 name="V Simulated (ECM)", line=dict(color="#00c8ff", width=2.5, dash="dash"), mode="lines"))
             layout_v = cyber_plotly_layout(400)
-            layout_v["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
-            layout_v["yaxis"]["title"] = dict(text="VOLTAGE (V)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+            layout_v["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
+            layout_v["yaxis"]["title"] = dict(text="VOLTAGE (V)", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
             layout_v["annotations"] = [{
                 "text": f"R₀={params['R0_ohm']*1000:.1f}mΩ | R₁={params['R1_ohm']*1000:.1f}mΩ | C₁={params['C1_F']:.0f}F | τ={params['tau_s']:.1f}s",
                 "xref": "paper", "yref": "paper", "x": 0.01, "y": 0.03,
-                "showarrow": False, "font": dict(family="Share Tech Mono", size=10, color="#003355"),
+                "showarrow": False, "font": dict(family="Share Tech Mono", size=12, color="#003355"),
                 "bgcolor": "rgba(255,255,255,0.9)", "bordercolor": "rgba(0,200,255,0.4)", "borderwidth": 1
             }]
             fig_v.update_layout(**layout_v)
@@ -1117,8 +1117,8 @@ with tab3:
             with ec1:
                 st.markdown("""
                 <div class="glass-panel" style="border-color:rgba(255,0,200,0.3);">
-                  <h4 style="color:#cc0099;font-size:1.05rem;margin:0 0 4px;">⚠ PREDICTION ERROR</h4>
-                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+                  <h4 style="color:#cc0099;font-size:1.25rem;margin:0 0 4px;">⚠ PREDICTION ERROR</h4>
+                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
                     Measured − Simulated (mV)
                   </p>
                 </div>""", unsafe_allow_html=True)
@@ -1129,8 +1129,8 @@ with tab3:
                     fill="tozeroy", fillcolor="rgba(255,0,200,0.08)", mode="lines"))
                 fig_err.add_hline(y=0, line=dict(color="black", width=1, dash="dash"))
                 layout_err = cyber_plotly_layout(320)
-                layout_err["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=10))
-                layout_err["yaxis"]["title"] = dict(text="ERROR (mV)", font=dict(family="Orbitron,monospace", size=10))
+                layout_err["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=12))
+                layout_err["yaxis"]["title"] = dict(text="ERROR (mV)", font=dict(family="Orbitron,monospace", size=12))
                 layout_err["showlegend"] = False
                 fig_err.update_layout(**layout_err)
                 st.plotly_chart(fig_err, use_container_width=True)
@@ -1138,8 +1138,8 @@ with tab3:
             with ec2:
                 st.markdown("""
                 <div class="glass-panel" style="border-color:rgba(0,255,136,0.3);">
-                  <h4 style="color:#00aa55;font-size:1.05rem;margin:0 0 4px;">🔋 STATE OF CHARGE (SOC)</h4>
-                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+                  <h4 style="color:#00aa55;font-size:1.25rem;margin:0 0 4px;">🔋 STATE OF CHARGE (SOC)</h4>
+                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
                     Coulomb counting from discharge data
                   </p>
                 </div>""", unsafe_allow_html=True)
@@ -1148,8 +1148,8 @@ with tab3:
                     name="SOC (%)", line=dict(color="#00ff88", width=2.5),
                     fill="tozeroy", fillcolor="rgba(0,255,136,0.08)", mode="lines"))
                 layout_soc = cyber_plotly_layout(320)
-                layout_soc["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=10))
-                layout_soc["yaxis"]["title"] = dict(text="SOC (%)", font=dict(family="Orbitron,monospace", size=10))
+                layout_soc["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=12))
+                layout_soc["yaxis"]["title"] = dict(text="SOC (%)", font=dict(family="Orbitron,monospace", size=12))
                 layout_soc["yaxis"]["range"]  = [-5, 105]
                 layout_soc["showlegend"] = False
                 fig_soc.update_layout(**layout_soc)
@@ -1173,12 +1173,12 @@ with tab3:
             <div style="background:linear-gradient(145deg,rgba(255,255,255,0.98),rgba(224,248,255,0.92));
               border:2px solid rgba(0,200,255,0.3);border-radius:22px;padding:60px 40px;text-align:center;
               box-shadow:0 6px 28px rgba(0,0,0,0.07);">
-              <div style="font-size:7rem;margin-bottom:1.5rem;filter:drop-shadow(0 0 16px rgba(0,200,255,0.4));">⚡</div>
-              <div style="font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;color:#0a1628;
+              <div style="font-size:8.75rem;margin-bottom:1.5rem;filter:drop-shadow(0 0 16px rgba(0,200,255,0.4));">⚡</div>
+              <div style="font-family:'Orbitron',monospace;font-size:2.1rem;font-weight:900;color:#0a1628;
                 letter-spacing:0.08em;text-shadow:0 0 20px rgba(0,200,255,0.3);margin-bottom:0.8rem;">
                 AWAITING DISCHARGE FILE
               </div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.9rem;
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.12rem;
                 letter-spacing:0.1em;line-height:1.8;max-width:520px;margin:0 auto 2rem;">
                 Upload a NASA discharge CSV (B0043, B0045, B0047, B0048…)<br>
                 Set Q_nominal for aged cells<br>
@@ -1186,12 +1186,12 @@ with tab3:
               </div>
               <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
                 <div style="background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.3);border-radius:12px;padding:12px 24px;">
-                  <span style="font-family:'Share Tech Mono',monospace;color:#00c8ff;font-size:0.8rem;">Required columns</span><br>
-                  <span style="font-family:'Orbitron',monospace;color:#0a1628;font-size:0.75rem;font-weight:700;">Voltage_measured · Current_measured · Time</span>
+                  <span style="font-family:'Share Tech Mono',monospace;color:#00c8ff;font-size:1.0rem;">Required columns</span><br>
+                  <span style="font-family:'Orbitron',monospace;color:#0a1628;font-size:1.0rem;font-weight:700;">Voltage_measured · Current_measured · Time</span>
                 </div>
                 <div style="background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.3);border-radius:12px;padding:12px 24px;">
-                  <span style="font-family:'Share Tech Mono',monospace;color:#00ff88;font-size:0.8rem;">ECM Target</span><br>
-                  <span style="font-family:'Orbitron',monospace;color:#0a1628;font-size:0.75rem;font-weight:700;">R² ≥ 0.99 · RMSE &lt; 20 mV</span>
+                  <span style="font-family:'Share Tech Mono',monospace;color:#00ff88;font-size:1.0rem;">ECM Target</span><br>
+                  <span style="font-family:'Orbitron',monospace;color:#0a1628;font-size:1.0rem;font-weight:700;">R² ≥ 0.99 · RMSE &lt; 20 mV</span>
                 </div>
               </div>
             </div>""", unsafe_allow_html=True)
@@ -1201,8 +1201,8 @@ with tab3:
         # ── THERMAL MODEL ─────────────────────────────────────────────────────
         st.markdown("""
         <div class="glass-panel">
-          <h4 style="font-size:1.15rem;margin:0 0 6px;">&#x1F321;&#xFE0F; LUMPED THERMAL MODEL</h4>
-          <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+          <h4 style="font-size:1.35rem;margin:0 0 6px;">&#x1F321;&#xFE0F; LUMPED THERMAL MODEL</h4>
+          <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
             Upload <b>Charge</b> files for calibration and <b>Validation</b> files with Temperature_measured.
             C_th and hA are estimated automatically. R is reused from the last ECM run.
           </p>
@@ -1218,11 +1218,11 @@ with tab3:
                 st.markdown(f"""
                 <div style="background:rgba(0,200,255,0.08);border:2px solid rgba(0,200,255,0.4);
                             border-radius:14px;padding:18px;text-align:center;">
-                  <div style="font-family:'Orbitron',monospace;color:#5a7090;font-size:0.65rem;
+                  <div style="font-family:'Orbitron',monospace;color:#5a7090;font-size:0.92rem;
                               letter-spacing:0.15em;margin-bottom:6px;">R (FROM ECM)</div>
-                  <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:2.2rem;
+                  <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:2.52rem;
                               font-weight:900;">{R_display}</div>
-                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;">m&#937; (R0)</div>
+                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.05rem;">m&#937; (R0)</div>
                 </div>""", unsafe_allow_html=True)
                 st.session_state.thermal_R_ohm = R_ecm
             else:
@@ -1246,8 +1246,8 @@ with tab3:
         if th_mode == "⚡ Auto Load (from batch results)":
             st.markdown("""
             <div class="glass-panel" style="border-color:rgba(255,136,0,0.3);">
-              <h4 style="font-size:1.05rem;margin:0 0 6px;">⚡ AUTO LOAD — Batch Results Folder</h4>
-              <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;">
+              <h4 style="font-size:1.25rem;margin:0 0 6px;">⚡ AUTO LOAD — Batch Results Folder</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin:0;">
                 Point to the thermal_results folder generated by batch_thermal_run.py
               </p>
             </div>""", unsafe_allow_html=True)
@@ -1343,14 +1343,14 @@ with tab3:
                 st.markdown(f"""
                 <div style="background:rgba(0,255,136,0.06);border:2px solid rgba(0,255,136,0.3);
                             border-radius:14px;padding:16px 20px;margin-top:12px;">
-                  <div style="font-family:'Orbitron',monospace;color:#00cc66;font-size:0.72rem;
+                  <div style="font-family:'Orbitron',monospace;color:#00cc66;font-size:0.95rem;
                               font-weight:700;letter-spacing:0.12em;margin-bottom:8px;">✅ RESULTS LOADED</div>
                   <div style="display:flex;gap:32px;flex-wrap:wrap;">
-                    <span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">
+                    <span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:1.05rem;">
                       C_th = <b style="color:#ff8800;">{_th_loaded['C_th']:.1f} J/K</b></span>
-                    <span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">
+                    <span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:1.05rem;">
                       hA = <b style="color:#cc44ff;">{_th_loaded['hA']:.5f} W/K</b></span>
-                    <span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">
+                    <span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:1.05rem;">
                       RMSE = <b style="color:#00ff88;">{_th_loaded['metrics']['RMSE_C']:.4f} °C</b></span>
                   </div>
                 </div>""", unsafe_allow_html=True)
@@ -1360,8 +1360,8 @@ with tab3:
             with cal_col:
                 st.markdown("""
                 <div class="glass-panel" style="border-color:rgba(255,136,0,0.4);">
-                  <h4 style="color:#cc6600;font-size:1.05rem;margin:0 0 4px;">CALIBRATION FILES</h4>
-                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;">
+                  <h4 style="color:#cc6600;font-size:1.25rem;margin:0 0 4px;">CALIBRATION FILES</h4>
+                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin:0;">
                     Upload NASA Charge CSV files. C_th and hA estimated here.
                   </p>
                 </div>""", unsafe_allow_html=True)
@@ -1376,8 +1376,8 @@ with tab3:
             with val_col:
                 st.markdown("""
                 <div class="glass-panel" style="border-color:rgba(204,68,255,0.4);">
-                  <h4 style="color:#9933cc;font-size:1.05rem;margin:0 0 4px;">VALIDATION FILES</h4>
-                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;">
+                  <h4 style="color:#9933cc;font-size:1.25rem;margin:0 0 4px;">VALIDATION FILES</h4>
+                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin:0;">
                     Upload CSV files with Temperature_measured. Same C_th/hA, no re-tuning.
                   </p>
                 </div>""", unsafe_allow_html=True)
@@ -1404,7 +1404,7 @@ with tab3:
             if n_calib == 0:
                 st.markdown("""
                 <div style="text-align:center;font-family:'Share Tech Mono',monospace;
-                            color:#ffaa00;font-size:0.75rem;margin-top:8px;">
+                            color:#ffaa00;font-size:1.0rem;margin-top:8px;">
                   Upload at least one Charge CSV to calibrate
                 </div>""", unsafe_allow_html=True)
 
@@ -1418,10 +1418,10 @@ with tab3:
             th_status.markdown("""
             <div style="background:rgba(255,136,0,0.08);border:2px solid rgba(255,136,0,0.4);
                         border-radius:14px;padding:20px;text-align:center;">
-              <div style="font-family:'Orbitron',monospace;color:#ff8800;font-size:1.3rem;font-weight:900;">
+              <div style="font-family:'Orbitron',monospace;color:#ff8800;font-size:1.55rem;font-weight:900;">
                 CALIBRATING - estimating C_th and hA
               </div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.78rem;margin-top:6px;">
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.0rem;margin-top:6px;">
                 Differential Evolution then L-BFGS-B refinement
               </div>
             </div>""", unsafe_allow_html=True)
@@ -1455,7 +1455,7 @@ with tab3:
                     th_status.markdown("""
                     <div style="background:rgba(204,68,255,0.08);border:2px solid rgba(204,68,255,0.4);
                                 border-radius:14px;padding:20px;text-align:center;">
-                      <div style="font-family:'Orbitron',monospace;color:#cc44ff;font-size:1.3rem;font-weight:900;">
+                      <div style="font-family:'Orbitron',monospace;color:#cc44ff;font-size:1.55rem;font-weight:900;">
                         VALIDATING - fixed C_th / hA, no re-tuning
                       </div>
                     </div>""", unsafe_allow_html=True)
@@ -1479,10 +1479,10 @@ with tab3:
                 th_status.markdown(f"""
                 <div style="background:rgba(0,255,136,0.08);border:2px solid rgba(0,255,136,0.5);
                             border-radius:14px;padding:20px;text-align:center;">
-                  <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:1.4rem;font-weight:900;">
+                  <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:1.65rem;font-weight:900;">
                     THERMAL MODEL COMPLETE
                   </div>
-                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.8rem;margin-top:8px;">
+                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.0rem;margin-top:8px;">
                     Calibrated {len(calib_batch)} file(s) | C_th={C_th_final:.1f} J/K | hA={hA_final:.4f} W/K | Validated {len(valid_batch)} file(s)
                   </div>
                 </div>""", unsafe_allow_html=True)
@@ -1494,8 +1494,8 @@ with tab3:
             st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
             st.markdown("""
             <div class="glass-panel" style="border-color:rgba(255,136,0,0.4);">
-              <h4 style="color:#cc6600;font-size:1.15rem;margin:0 0 4px;">🌡️ IDENTIFIED THERMAL PARAMETERS</h4>
-              <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:4px 0 0;">
+              <h4 style="color:#cc6600;font-size:1.35rem;margin:0 0 4px;">🌡️ IDENTIFIED THERMAL PARAMETERS</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin:4px 0 0;">
                 Parameters identified by fitting the thermal model equation to your battery data
               </p>
             </div>""", unsafe_allow_html=True)
@@ -1514,15 +1514,15 @@ with tab3:
                     st.markdown(f"""
                     <div class="ecm-result-card">
                       <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.9);
-                                  font-size:0.82rem;margin-bottom:4px;">{label}</div>
-                      <div style="font-family:'Orbitron',monospace;color:{color};font-size:0.72rem;
+                                  font-size:1.05rem;margin-bottom:4px;">{label}</div>
+                      <div style="font-family:'Orbitron',monospace;color:{color};font-size:0.95rem;
                                   font-weight:700;letter-spacing:0.12em;margin-bottom:10px;">({sublabel})</div>
-                      <div style="font-family:'Orbitron',monospace;color:white;font-size:2.6rem;
+                      <div style="font-family:'Orbitron',monospace;color:white;font-size:2.9rem;
                                   font-weight:900;text-shadow:0 0 20px {color}88;line-height:1;">{val}</div>
                       <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);
-                                  font-size:0.92rem;margin-top:4px;">{unit}</div>
+                                  font-size:1.16rem;margin-top:4px;">{unit}</div>
                       <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.6);
-                                  font-size:0.72rem;margin-top:8px;">{desc}</div>
+                                  font-size:0.95rem;margin-top:8px;">{desc}</div>
                     </div>""", unsafe_allow_html=True)
 
             st.markdown("<br>", unsafe_allow_html=True)
@@ -1532,9 +1532,9 @@ with tab3:
                 m_c = calib_res["metrics"]
                 st.markdown(f"""
                 <div class="glass-panel" style="border-color:rgba(255,136,0,0.3);">
-                  <h4 style="color:#cc6600;font-size:1.05rem;margin:0 0 4px;">
+                  <h4 style="color:#cc6600;font-size:1.25rem;margin:0 0 4px;">
                     CALIBRATION - Predicted vs Measured Temperature</h4>
-                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;">
+                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin:0;">
                     {calib_res.get("_filename","unknown")} | RMSE={m_c["RMSE_C"]:.4f}C | R2={m_c["R2"]:.4f}
                   </p>
                 </div>""", unsafe_allow_html=True)
@@ -1545,9 +1545,9 @@ with tab3:
                     name="T Predicted", line=dict(color="#ffdd44", width=2.5, dash="dash")))
                 lay_c = cyber_plotly_layout(360)
                 lay_c["xaxis"]["title"] = dict(text="TIME (s)",
-                    font=dict(family="Orbitron,monospace", size=10, color="#0066aa"))
+                    font=dict(family="Orbitron,monospace", size=12, color="#0066aa"))
                 lay_c["yaxis"]["title"] = dict(text="TEMPERATURE (C)",
-                    font=dict(family="Orbitron,monospace", size=10, color="#0066aa"))
+                    font=dict(family="Orbitron,monospace", size=12, color="#0066aa"))
                 fig_c.update_layout(**lay_c)
                 st.plotly_chart(fig_c, use_container_width=True)
                 cm1, cm2, cm3 = st.columns(3)
@@ -1560,14 +1560,14 @@ with tab3:
                         st.markdown(f"""
                         <div style="background:rgba(255,255,255,0.97);border:2px solid {clr}44;
                                     border-radius:14px;padding:16px;text-align:center;margin-bottom:12px;">
-                          <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.75rem;
+                          <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.0rem;
                                       margin-bottom:4px;">{lbl}</div>
-                          <div style="font-family:'Orbitron',monospace;color:#aabbcc;font-size:0.68rem;
+                          <div style="font-family:'Orbitron',monospace;color:#aabbcc;font-size:0.92rem;
                                       letter-spacing:0.12em;margin-bottom:6px;">({sublbl})</div>
-                          <div style="font-family:'Orbitron',monospace;color:{clr};font-size:2.0rem;
+                          <div style="font-family:'Orbitron',monospace;color:{clr};font-size:2.5rem;
                                       font-weight:900;">{v}</div>
                           <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;
-                                      font-size:0.80rem;margin-top:4px;">{u}</div>
+                                      font-size:1.0rem;margin-top:4px;">{u}</div>
                         </div>""", unsafe_allow_html=True)
 
             with plot_right:
@@ -1575,9 +1575,9 @@ with tab3:
                     m_v = valid_res["metrics"]
                     st.markdown(f"""
                     <div class="glass-panel" style="border-color:rgba(204,68,255,0.3);">
-                      <h4 style="color:#9933cc;font-size:1.05rem;margin:0 0 4px;">
+                      <h4 style="color:#9933cc;font-size:1.25rem;margin:0 0 4px;">
                         VALIDATION - Predicted vs Measured Temperature</h4>
-                      <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;">
+                      <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin:0;">
                         {valid_res.get("_filename","unknown")} | RMSE={m_v["RMSE_C"]:.4f}C | R2={m_v["R2"]:.4f}
                       </p>
                     </div>""", unsafe_allow_html=True)
@@ -1588,9 +1588,9 @@ with tab3:
                         name="T Predicted", line=dict(color="#ff66ff", width=2.5, dash="dash")))
                     lay_v = cyber_plotly_layout(360)
                     lay_v["xaxis"]["title"] = dict(text="TIME (s)",
-                        font=dict(family="Orbitron,monospace", size=10, color="#0066aa"))
+                        font=dict(family="Orbitron,monospace", size=12, color="#0066aa"))
                     lay_v["yaxis"]["title"] = dict(text="TEMPERATURE (C)",
-                        font=dict(family="Orbitron,monospace", size=10, color="#0066aa"))
+                        font=dict(family="Orbitron,monospace", size=12, color="#0066aa"))
                     fig_v.update_layout(**lay_v)
                     st.plotly_chart(fig_v, use_container_width=True)
                     vm1, vm2, vm3 = st.columns(3)
@@ -1603,23 +1603,23 @@ with tab3:
                             st.markdown(f"""
                             <div style="background:rgba(255,255,255,0.97);border:2px solid {clr}44;
                                         border-radius:14px;padding:16px;text-align:center;margin-bottom:12px;">
-                              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.75rem;
+                              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.0rem;
                                           margin-bottom:4px;">{lbl}</div>
-                              <div style="font-family:'Orbitron',monospace;color:#aabbcc;font-size:0.68rem;
+                              <div style="font-family:'Orbitron',monospace;color:#aabbcc;font-size:0.92rem;
                                           letter-spacing:0.12em;margin-bottom:6px;">({sublbl})</div>
-                              <div style="font-family:'Orbitron',monospace;color:{clr};font-size:2.0rem;
+                              <div style="font-family:'Orbitron',monospace;color:{clr};font-size:2.5rem;
                                           font-weight:900;">{v}</div>
                               <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;
-                                          font-size:0.80rem;margin-top:4px;">{u}</div>
+                                          font-size:1.0rem;margin-top:4px;">{u}</div>
                             </div>""", unsafe_allow_html=True)
                 else:
                     st.markdown("""
                     <div style="background:rgba(255,255,255,0.95);border:2px solid rgba(204,68,255,0.25);
                                 border-radius:18px;padding:60px 30px;text-align:center;">
-                      <div style="font-size:4rem;margin-bottom:1rem;">&#x1F52C;</div>
-                      <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:800;
+                      <div style="font-size:5.0rem;margin-bottom:1rem;">&#x1F52C;</div>
+                      <div style="font-family:'Orbitron',monospace;font-size:1.25rem;font-weight:800;
                                   color:#9933cc;margin-bottom:0.6rem;">VALIDATION PENDING</div>
-                      <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;">
+                      <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.05rem;">
                         Upload Validation files above and re-run.</div>
                     </div>""", unsafe_allow_html=True)
 
@@ -1627,8 +1627,8 @@ with tab3:
                 st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
                 st.markdown("""
                 <div class="glass-panel">
-                  <h4 style="font-size:1.15rem;margin:0 0 4px;">📊 CALIBRATION vs VALIDATION SUMMARY</h4>
-                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:4px 0 0;">
+                  <h4 style="font-size:1.35rem;margin:0 0 4px;">📊 CALIBRATION vs VALIDATION SUMMARY</h4>
+                  <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin:4px 0 0;">
                     Calibration = model accuracy on training data &nbsp;|&nbsp; Validation = accuracy on unseen data
                   </p>
                 </div>""", unsafe_allow_html=True)
@@ -1643,25 +1643,25 @@ with tab3:
                         st.markdown(f"""
                         <div style="background:rgba(255,255,255,0.97);border:2px solid {clr}44;
                                     border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;">
-                          <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.80rem;
+                          <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.0rem;
                                       margin-bottom:4px;">{lbl}</div>
-                          <div style="font-family:'Share Tech Mono',monospace;color:#aabbcc;font-size:0.70rem;
+                          <div style="font-family:'Share Tech Mono',monospace;color:#aabbcc;font-size:0.88rem;
                                       margin-bottom:8px;">{sublbl}</div>
-                          <div style="font-family:'Orbitron',monospace;color:{clr};font-size:2.2rem;
+                          <div style="font-family:'Orbitron',monospace;color:{clr};font-size:2.52rem;
                                       font-weight:900;">{v}</div>
                           <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;
-                                      font-size:0.86rem;margin-top:4px;">{u}</div>
+                                      font-size:1.07rem;margin-top:4px;">{u}</div>
                         </div>""", unsafe_allow_html=True)
 
         else:
             st.markdown("""
             <div style="background:linear-gradient(145deg,rgba(255,255,255,0.98),rgba(255,240,224,0.92));
                         border:2px solid rgba(255,136,0,0.3);border-radius:22px;padding:60px 40px;text-align:center;">
-              <div style="font-size:7rem;margin-bottom:1.5rem;">&#x1F321;&#xFE0F;</div>
-              <div style="font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;
+              <div style="font-size:8.75rem;margin-bottom:1.5rem;">&#x1F321;&#xFE0F;</div>
+              <div style="font-family:'Orbitron',monospace;font-size:2.1rem;font-weight:900;
                           color:#0a1628;letter-spacing:0.08em;margin-bottom:0.8rem;">
                 AWAITING THERMAL DATA</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.9rem;
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.12rem;
                           letter-spacing:0.1em;line-height:1.8;max-width:520px;margin:0 auto 2rem;">
                 Upload Charge CSV files for calibration<br>
                 Optionally upload Validation files<br>
@@ -1670,16 +1670,16 @@ with tab3:
               <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
                 <div style="background:rgba(255,136,0,0.08);border:1px solid rgba(255,136,0,0.3);
                             border-radius:12px;padding:12px 24px;">
-                  <span style="font-family:'Share Tech Mono',monospace;color:#ff8800;font-size:0.8rem;">
+                  <span style="font-family:'Share Tech Mono',monospace;color:#ff8800;font-size:1.0rem;">
                     Required columns</span><br>
-                  <span style="font-family:'Orbitron',monospace;color:#0a1628;font-size:0.72rem;font-weight:700;">
+                  <span style="font-family:'Orbitron',monospace;color:#0a1628;font-size:0.95rem;font-weight:700;">
                     Time | Current_measured | Temperature_measured</span>
                 </div>
                 <div style="background:rgba(204,68,255,0.08);border:1px solid rgba(204,68,255,0.3);
                             border-radius:12px;padding:12px 24px;">
-                  <span style="font-family:'Share Tech Mono',monospace;color:#cc44ff;font-size:0.8rem;">
+                  <span style="font-family:'Share Tech Mono',monospace;color:#cc44ff;font-size:1.0rem;">
                     Tip</span><br>
-                  <span style="font-family:'Orbitron',monospace;color:#0a1628;font-size:0.72rem;font-weight:700;">
+                  <span style="font-family:'Orbitron',monospace;color:#0a1628;font-size:0.95rem;font-weight:700;">
                     Run ECM first for best R accuracy</span>
                 </div>
               </div>
@@ -1701,21 +1701,21 @@ with tab3:
               display:flex;flex-direction:column;justify-content:center;align-items:center;
               box-shadow:{"0 0 60px " + selected_model["color"] + "33" if running else "0 6px 28px rgba(0,0,0,0.07)"};
               transition:all 0.5s ease;">
-              <div style="font-size:9rem;margin-bottom:2rem;{glow_style}transition:all 0.5s ease;">
+              <div style="font-size:11.25rem;margin-bottom:2rem;{glow_style}transition:all 0.5s ease;">
                 {selected_model["icon"]}
               </div>
-              <div style="font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;
+              <div style="font-family:'Orbitron',monospace;font-size:2.1rem;font-weight:900;
                 letter-spacing:0.1em;
                 color:{"" + selected_model["color"] if running else "#7a90a8"};
                 text-shadow:{"0 0 20px " + selected_model["color"] + "88" if running else "none"};
                 margin-bottom:0.8rem;">
                 {"🟢 RUNNING" if running else "⚪ STANDBY"}
               </div>
-              <div style="font-family:'Share Tech Mono',monospace;font-size:1.1rem;
+              <div style="font-family:'Share Tech Mono',monospace;font-size:1.3rem;
                 letter-spacing:0.1em;color:{"#2a4060" if running else "#8aaabb"};">
                 {selected_model["name"].upper()}
               </div>
-              {'<div style="margin-top:1.2rem;font-family:Share Tech Mono,monospace;font-size:0.78rem;color:' + selected_model["color"] + ';letter-spacing:0.15em;animation:sub-flicker 1.5s ease-in-out infinite;">&#9612; PROCESSING DATA &#9614;</div>' if running else ''}
+              {'<div style="margin-top:1.2rem;font-family:Share Tech Mono,monospace;font-size:1.0rem;color:' + selected_model["color"] + ';letter-spacing:0.15em;animation:sub-flicker 1.5s ease-in-out infinite;">&#9612; PROCESSING DATA &#9614;</div>' if running else ''}
             </div>""", unsafe_allow_html=True)
 
             st.markdown("<br>", unsafe_allow_html=True)
@@ -1734,7 +1734,7 @@ with tab3:
         with col2:
             st.markdown("""
             <div class="glass-panel">
-              <h4 style="font-size:1.15rem;margin:0;">⏱ SIMULATION PROGRESS</h4>
+              <h4 style="font-size:1.35rem;margin:0;">⏱ SIMULATION PROGRESS</h4>
             </div>""", unsafe_allow_html=True)
 
             if st.session_state.is_simulating:
@@ -1746,10 +1746,10 @@ with tab3:
                     <div style="text-align:center;background:rgba(255,255,255,0.97);
                       border:2px solid rgba(0,200,255,0.4);border-radius:16px;
                       padding:26px;box-shadow:0 0 30px rgba(0,200,255,0.15);">
-                      <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:3.2rem;
+                      <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:3.5rem;
                         font-weight:900;text-shadow:0 0 20px rgba(0,200,255,0.5);">{i}%</div>
                       <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;
-                        font-size:0.82rem;letter-spacing:0.1em;margin-top:6px;">PROCESSING... ⚡</div>
+                        font-size:1.05rem;letter-spacing:0.1em;margin-top:6px;">PROCESSING... ⚡</div>
                     </div>""", unsafe_allow_html=True)
                     time.sleep(0.05)
                     if not st.session_state.is_simulating:
@@ -1775,11 +1775,11 @@ with tab3:
                       border:2px solid {color}44;border-radius:16px;
                       padding:24px;text-align:center;margin-bottom:18px;
                       box-shadow:0 6px 20px {color}22;">
-                      <div style="font-size:2.8rem;margin-bottom:10px;">{icon}</div>
+                      <div style="font-size:3.1rem;margin-bottom:10px;">{icon}</div>
                       <div style="font-family:'Orbitron',monospace;color:#5a7090;
-                        font-size:0.65rem;letter-spacing:0.18em;margin-bottom:8px;">{label}</div>
+                        font-size:0.92rem;letter-spacing:0.18em;margin-bottom:8px;">{label}</div>
                       <div style="font-family:'Orbitron',monospace;color:{color};
-                        font-size:2rem;font-weight:900;
+                        font-size:2.5rem;font-weight:900;
                         text-shadow:0 0 16px {color}88;">{val}</div>
                     </div>""", unsafe_allow_html=True)
 
@@ -1810,8 +1810,8 @@ with tab4:
 
             st.markdown("""
             <div class="glass-panel">
-              <h3 style="font-size:1.25rem;margin-bottom:4px;">&#x1F321;&#xFE0F; THERMAL ANALYSIS — Calibration Results</h3>
-              <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
+              <h3 style="font-size:1.48rem;margin-bottom:4px;">&#x1F321;&#xFE0F; THERMAL ANALYSIS — Calibration Results</h3>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
                 Predicted vs Measured Temperature · Identified Parameters · Error Distribution
               </p>
             </div>""", unsafe_allow_html=True)
@@ -1828,11 +1828,11 @@ with tab4:
                     st.markdown(f"""
                     <div style="background:rgba(255,255,255,0.97);border:2px solid {clr}44;
                                 border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;">
-                      <div style="font-family:'Orbitron',monospace;color:#5a7090;font-size:0.65rem;
+                      <div style="font-family:'Orbitron',monospace;color:#5a7090;font-size:0.92rem;
                                   letter-spacing:0.18em;margin-bottom:8px;">{lbl}</div>
-                      <div style="font-family:'Orbitron',monospace;color:{clr};font-size:1.8rem;
+                      <div style="font-family:'Orbitron',monospace;color:{clr};font-size:2.1rem;
                                   font-weight:900;">{val}</div>
-                      <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;font-size:0.8rem;">{unit}</div>
+                      <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;font-size:1.0rem;">{unit}</div>
                     </div>""", unsafe_allow_html=True)
 
             st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
@@ -1846,8 +1846,8 @@ with tab4:
                 x=_th_res["time"], y=_th_res["T_predicted"],
                 name="T Predicted", line=dict(color="#ffdd44", width=2.5, dash="dash")))
             lay_th = cyber_plotly_layout(400)
-            lay_th["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
-            lay_th["yaxis"]["title"] = dict(text="TEMPERATURE (C)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+            lay_th["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
+            lay_th["yaxis"]["title"] = dict(text="TEMPERATURE (C)", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
             fig_th.update_layout(**lay_th)
             st.plotly_chart(fig_th, use_container_width=True)
 
@@ -1864,11 +1864,11 @@ with tab4:
                     st.markdown(f"""
                     <div style="background:rgba(255,255,255,0.97);border:2px solid {clr}44;
                                 border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;">
-                      <div style="font-family:'Orbitron',monospace;color:#5a7090;font-size:0.65rem;
+                      <div style="font-family:'Orbitron',monospace;color:#5a7090;font-size:0.92rem;
                                   letter-spacing:0.18em;margin-bottom:8px;">{lbl}</div>
-                      <div style="font-family:'Orbitron',monospace;color:{clr};font-size:1.8rem;
+                      <div style="font-family:'Orbitron',monospace;color:{clr};font-size:2.1rem;
                                   font-weight:900;">{val}</div>
-                      <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;font-size:0.8rem;">{unit}</div>
+                      <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;font-size:1.0rem;">{unit}</div>
                     </div>""", unsafe_allow_html=True)
 
             st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
@@ -1878,7 +1878,7 @@ with tab4:
                 m_tv = _th_vres["metrics"]
                 st.markdown("""
                 <div class="glass-panel" style="border-color:rgba(204,68,255,0.4);">
-                  <h4 style="color:#9933cc;font-size:1.15rem;margin:0 0 4px;">
+                  <h4 style="color:#9933cc;font-size:1.35rem;margin:0 0 4px;">
                     &#x1F52C; VALIDATION RESULTS</h4>
                 </div>""", unsafe_allow_html=True)
                 fig_tv = go.Figure()
@@ -1889,8 +1889,8 @@ with tab4:
                     x=_th_vres["time"], y=_th_vres["T_predicted"],
                     name="T Predicted", line=dict(color="#ff66ff", width=2.5, dash="dash")))
                 lay_tv = cyber_plotly_layout(380)
-                lay_tv["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
-                lay_tv["yaxis"]["title"] = dict(text="TEMPERATURE (C)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+                lay_tv["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
+                lay_tv["yaxis"]["title"] = dict(text="TEMPERATURE (C)", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
                 fig_tv.update_layout(**lay_tv)
                 st.plotly_chart(fig_tv, use_container_width=True)
 
@@ -1904,19 +1904,19 @@ with tab4:
                         st.markdown(f"""
                         <div style="background:rgba(255,255,255,0.97);border:2px solid {clr}44;
                                     border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;">
-                          <div style="font-family:'Orbitron',monospace;color:#5a7090;font-size:0.65rem;
+                          <div style="font-family:'Orbitron',monospace;color:#5a7090;font-size:0.92rem;
                                       letter-spacing:0.18em;margin-bottom:8px;">{lbl}</div>
-                          <div style="font-family:'Orbitron',monospace;color:{clr};font-size:1.8rem;
+                          <div style="font-family:'Orbitron',monospace;color:{clr};font-size:2.1rem;
                                       font-weight:900;">{val}</div>
-                          <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;font-size:0.8rem;">{unit}</div>
+                          <div style="font-family:'Share Tech Mono',monospace;color:#8a9ab0;font-size:1.0rem;">{unit}</div>
                         </div>""", unsafe_allow_html=True)
 
             # Error histogram
             st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
             st.markdown("""
             <div class="glass-panel">
-              <h4 style="font-size:1.1rem;margin:0 0 4px;">&#x1F4CA; THERMAL ERROR DISTRIBUTION</h4>
-              <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+              <h4 style="font-size:1.3rem;margin:0 0 4px;">&#x1F4CA; THERMAL ERROR DISTRIBUTION</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
                 Histogram of temperature prediction errors (Celsius)
               </p>
             </div>""", unsafe_allow_html=True)
@@ -1927,8 +1927,8 @@ with tab4:
                 marker_line_color="rgba(255,136,0,0.5)", marker_line_width=1.5, opacity=0.85))
             fig_th_hist.add_vline(x=0, line=dict(color="#ff3366", width=2, dash="dash"))
             lay_hist = cyber_plotly_layout(320)
-            lay_hist["xaxis"]["title"] = dict(text="ERROR (C)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
-            lay_hist["yaxis"]["title"] = dict(text="COUNT", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+            lay_hist["xaxis"]["title"] = dict(text="ERROR (C)", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
+            lay_hist["yaxis"]["title"] = dict(text="COUNT", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
             lay_hist["showlegend"] = False
             fig_th_hist.update_layout(**lay_hist)
             st.plotly_chart(fig_th_hist, use_container_width=True)
@@ -1937,11 +1937,11 @@ with tab4:
             st.markdown("""
             <div style="background:linear-gradient(145deg,rgba(255,255,255,0.98),rgba(255,240,224,0.92));
                         border:2px solid rgba(255,136,0,0.3);border-radius:22px;padding:60px 40px;text-align:center;">
-              <div style="font-size:7rem;margin-bottom:1.5rem;">&#x1F321;&#xFE0F;</div>
-              <div style="font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;
+              <div style="font-size:8.75rem;margin-bottom:1.5rem;">&#x1F321;&#xFE0F;</div>
+              <div style="font-family:'Orbitron',monospace;font-size:2.1rem;font-weight:900;
                           color:#0a1628;letter-spacing:0.08em;margin-bottom:0.8rem;">
                 NO THERMAL DATA YET</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.9rem;
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.12rem;
                           letter-spacing:0.1em;line-height:1.8;max-width:520px;margin:0 auto;">
                 Go to the Simulation tab, upload Charge CSVs,<br>and click RUN THERMAL MODEL to see analytics here.
               </div>
@@ -1953,8 +1953,8 @@ with tab4:
         soc = res["soc"]
         st.markdown("""
         <div class="glass-panel">
-          <h3 style="font-size:1.25rem;margin-bottom:4px;">&#x1F4C8; FULL DISCHARGE ANALYSIS</h3>
-          <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
+          <h3 style="font-size:1.48rem;margin-bottom:4px;">&#x1F4C8; FULL DISCHARGE ANALYSIS</h3>
+          <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
             Voltage · SOC · Current · Temperature — complete profile from real data
           </p>
         </div>""", unsafe_allow_html=True)
@@ -1968,8 +1968,8 @@ with tab4:
         fig_multi.add_trace(go.Scatter(x=res["time"], y=soc*100/30,  # scaled to V range
             name="SOC/30 (scaled)", line=dict(color="#00ff88", width=1.5, dash="dot"), mode="lines"))
         layout_m = cyber_plotly_layout(500)
-        layout_m["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
-        layout_m["yaxis"]["title"] = dict(text="VALUES", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+        layout_m["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
+        layout_m["yaxis"]["title"] = dict(text="VALUES", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
         fig_multi.update_layout(**layout_m)
         st.plotly_chart(fig_multi, use_container_width=True)
 
@@ -1979,8 +1979,8 @@ with tab4:
         with col1:
             st.markdown("""
             <div class="glass-panel" style="border-color:rgba(0,255,136,0.3);">
-              <h4 style="color:#00aa55;font-size:1.1rem;margin-bottom:4px;">📈 SOC DECAY CURVE</h4>
-              <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
+              <h4 style="color:#00aa55;font-size:1.3rem;margin-bottom:4px;">📈 SOC DECAY CURVE</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
                 Coulomb counting · actual discharge trajectory
               </p>
             </div>""", unsafe_allow_html=True)
@@ -1989,8 +1989,8 @@ with tab4:
                 fill="tozeroy", fillcolor="rgba(0,255,136,0.1)",
                 line=dict(color="#00ff88", width=3), mode="lines+markers", marker=dict(size=2)))
             layout_s2 = cyber_plotly_layout(330)
-            layout_s2["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=10))
-            layout_s2["yaxis"]["title"] = dict(text="SOC (%)", font=dict(family="Orbitron,monospace", size=10))
+            layout_s2["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=12))
+            layout_s2["yaxis"]["title"] = dict(text="SOC (%)", font=dict(family="Orbitron,monospace", size=12))
             layout_s2["yaxis"]["range"]  = [-2, 105]
             layout_s2["showlegend"] = False
             fig_soc2.update_layout(**layout_s2)
@@ -1999,8 +1999,8 @@ with tab4:
         with col2:
             st.markdown("""
             <div class="glass-panel" style="border-color:rgba(204,68,255,0.3);">
-              <h4 style="color:#9933cc;font-size:1.1rem;margin-bottom:4px;">🌡️ TEMPERATURE PROFILE</h4>
-              <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
+              <h4 style="color:#9933cc;font-size:1.3rem;margin-bottom:4px;">🌡️ TEMPERATURE PROFILE</h4>
+              <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
                 cell temperature during discharge
               </p>
             </div>""", unsafe_allow_html=True)
@@ -2016,8 +2016,8 @@ with tab4:
                     line=dict(color="#cc44ff", width=2.5), mode="lines"))
                 ylabel = "|Current| (A)"
             layout_t = cyber_plotly_layout(330)
-            layout_t["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=10))
-            layout_t["yaxis"]["title"] = dict(text=ylabel, font=dict(family="Orbitron,monospace", size=10))
+            layout_t["xaxis"]["title"] = dict(text="TIME (s)", font=dict(family="Orbitron,monospace", size=12))
+            layout_t["yaxis"]["title"] = dict(text=ylabel, font=dict(family="Orbitron,monospace", size=12))
             layout_t["showlegend"] = False
             fig_temp.update_layout(**layout_t)
             st.plotly_chart(fig_temp, use_container_width=True)
@@ -2026,8 +2026,8 @@ with tab4:
         st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
         st.markdown("""
         <div class="glass-panel">
-          <h4 style="font-size:1.1rem;margin:0 0 4px;">📊 ERROR DISTRIBUTION — ECM RESIDUALS</h4>
-          <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+          <h4 style="font-size:1.3rem;margin:0 0 4px;">📊 ERROR DISTRIBUTION — ECM RESIDUALS</h4>
+          <p style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
             Histogram of voltage prediction errors (mV)
           </p>
         </div>""", unsafe_allow_html=True)
@@ -2037,8 +2037,8 @@ with tab4:
             opacity=0.85))
         fig_hist.add_vline(x=0, line=dict(color="#ff3366", width=2, dash="dash"))
         layout_h = cyber_plotly_layout(320)
-        layout_h["xaxis"]["title"] = dict(text="ERROR (mV)", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
-        layout_h["yaxis"]["title"] = dict(text="COUNT", font=dict(family="Orbitron,monospace", size=11, color="#0066aa"))
+        layout_h["xaxis"]["title"] = dict(text="ERROR (mV)", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
+        layout_h["yaxis"]["title"] = dict(text="COUNT", font=dict(family="Orbitron,monospace", size=13, color="#0066aa"))
         layout_h["showlegend"] = False
         fig_hist.update_layout(**layout_h)
         st.plotly_chart(fig_hist, use_container_width=True)
@@ -2047,10 +2047,10 @@ with tab4:
         st.markdown("""
         <div style="background:rgba(224,240,255,0.95);border:2px solid rgba(0,200,255,0.3);
                     border-radius:18px;padding:60px;text-align:center;margin-top:12px;">
-          <div style="font-size:4rem;margin-bottom:1rem;">⚡</div>
-          <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:1rem;font-weight:800;
+          <div style="font-size:5.0rem;margin-bottom:1rem;">⚡</div>
+          <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:1.25rem;font-weight:800;
                       letter-spacing:0.1em;">NO ECM DATA YET</div>
-          <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;margin-top:8px;">
+          <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.05rem;margin-top:8px;">
             Go to the Simulation tab, upload CSV files,<br>
             and click RUN ECM to see analytics here.</div>
         </div>""", unsafe_allow_html=True)
@@ -2073,7 +2073,7 @@ with tab5:
 
     col1, col2 = st.columns([1,1])
     with col1:
-        st.markdown("""<div class="glass-panel"><h4 style="font-size:1.15rem;margin:0;">🎛 INPUT PARAMETERS</h4></div>""", unsafe_allow_html=True)
+        st.markdown("""<div class="glass-panel"><h4 style="font-size:1.35rem;margin:0;">🎛 INPUT PARAMETERS</h4></div>""", unsafe_allow_html=True)
         for label, key, unit, color, desc, mn, mx, step in [
             ("⚡ STATE OF CHARGE (SOC)", "soc", "%", "#00c8ff", "current battery charge level", 0, 100, 1),
             ("🌡 TEMPERATURE", "temperature", "°C", "#ff8800", "operating temperature", 0, 60, 1),
@@ -2099,7 +2099,7 @@ with tab5:
             st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
 
     with col2:
-        st.markdown("""<div class="glass-panel"><h4 style="font-size:1.15rem;margin:0;">📊 OUTPUT METRICS</h4></div>""", unsafe_allow_html=True)
+        st.markdown("""<div class="glass-panel"><h4 style="font-size:1.35rem;margin:0;">📊 OUTPUT METRICS</h4></div>""", unsafe_allow_html=True)
         _param_active = st.session_state.selected_model
         _param_th_res = st.session_state.get("thermal_results")
         res           = st.session_state.ecm_results
@@ -2145,20 +2145,20 @@ with tab5:
             st.markdown(f"""
             <div style="background:rgba(255,136,0,0.06);border:2px solid rgba(255,136,0,0.3);
                         border-radius:14px;padding:18px;margin-top:16px;">
-              <div style="font-family:'Orbitron',monospace;color:#cc6600;font-size:0.72rem;
+              <div style="font-family:'Orbitron',monospace;color:#cc6600;font-size:0.95rem;
                           font-weight:700;letter-spacing:0.12em;margin-bottom:10px;">
                 🌡️ IDENTIFIED THERMAL PARAMETERS</div>
-              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">C_th (J/K)</span>
+              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:1.05rem;">C_th (J/K)</span>
                 <span style="font-family:Orbitron,monospace;color:#ff8800;font-weight:700;">{C_th_p:.2f}</span></div>
-              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">hA (W/K)</span>
+              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:1.05rem;">hA (W/K)</span>
                 <span style="font-family:Orbitron,monospace;color:#cc44ff;font-weight:700;">{hA_p:.5f}</span></div>
-              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">R (mOhm)</span>
+              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:1.05rem;">R (mOhm)</span>
                 <span style="font-family:Orbitron,monospace;color:#00c8ff;font-weight:700;">{R_p:.2f}</span></div>
-              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">T_amb (C)</span>
+              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:1.05rem;">T_amb (C)</span>
                 <span style="font-family:Orbitron,monospace;color:#00ff88;font-weight:700;">{T_p:.2f}</span></div>
-              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">RMSE_T (C)</span>
+              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:1.05rem;">RMSE_T (C)</span>
                 <span style="font-family:Orbitron,monospace;color:#ffaa00;font-weight:700;">{m_p["RMSE_C"]:.4f}</span></div>
-              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">R2_T</span>
+              <div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:1.05rem;">R2_T</span>
                 <span style="font-family:Orbitron,monospace;color:#00ff88;font-weight:700;">{m_p["R2"]:.4f}</span></div>
             </div>""", unsafe_allow_html=True)
 
@@ -2166,10 +2166,10 @@ with tab5:
             st.markdown("""
             <div style="background:rgba(255,240,224,0.95);border:2px solid rgba(255,136,0,0.3);
                         border-radius:18px;padding:40px;text-align:center;">
-              <div style="font-size:4rem;margin-bottom:1rem;">🌡️</div>
-              <div style="font-family:'Orbitron',monospace;color:#cc6600;font-size:1rem;font-weight:800;">
+              <div style="font-size:5.0rem;margin-bottom:1rem;">🌡️</div>
+              <div style="font-family:'Orbitron',monospace;color:#cc6600;font-size:1.25rem;font-weight:800;">
                 NO THERMAL DATA YET</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;margin-top:8px;">
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.05rem;margin-top:8px;">
                 Run the Thermal Model in the Simulation tab first.</div>
             </div>""", unsafe_allow_html=True)
 
@@ -2184,10 +2184,10 @@ with tab5:
                 st.markdown("""
                 <div style="background:rgba(224,240,255,0.95);border:2px solid rgba(0,200,255,0.3);
                             border-radius:18px;padding:40px;text-align:center;">
-                  <div style="font-size:4rem;margin-bottom:1rem;">⚡</div>
-                  <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:1rem;font-weight:800;">
+                  <div style="font-size:5.0rem;margin-bottom:1rem;">⚡</div>
+                  <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:1.25rem;font-weight:800;">
                     NO ECM DATA YET</div>
-                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;margin-top:8px;">
+                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:1.05rem;margin-top:8px;">
                     Run the ECM in the Simulation tab first.</div>
                 </div>""", unsafe_allow_html=True)
 
@@ -2225,8 +2225,8 @@ with tab5:
             if _param_active != "Thermal" and res:
                 st.markdown(f"""
                 <div style="background:rgba(0,200,255,0.06);border:2px solid rgba(0,200,255,0.3);border-radius:14px;padding:18px;margin-top:16px;">
-                  <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;margin-bottom:10px;">⚡ IDENTIFIED ECM PARAMETERS</div>
-                  {''.join([f'<div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:0.82rem;">{k}</span><span style="font-family:Orbitron,monospace;color:#00c8ff;font-weight:700;font-size:0.9rem;">{v}</span></div>' for k,v in res["params"].items()])}
+                  <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:0.95rem;font-weight:700;letter-spacing:0.12em;margin-bottom:10px;">⚡ IDENTIFIED ECM PARAMETERS</div>
+                  {''.join([f'<div class="ecm-param-row"><span style="font-family:Share Tech Mono,monospace;color:#2a4060;font-size:1.05rem;">{k}</span><span style="font-family:Orbitron,monospace;color:#00c8ff;font-weight:700;font-size:1.12rem;">{v}</span></div>' for k,v in res["params"].items()])}
                 </div>""", unsafe_allow_html=True)
 
 # ═══════════════════════════════════════════════════════════════
@@ -2247,8 +2247,8 @@ with tab6:
     # ── Battery selector ────────────────────────────────────────
     st.markdown("""
     <div class="glass-panel">
-      <h4 style="font-size:1.15rem;margin:0 0 6px;">🔋 SELECT BATTERY</h4>
-      <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;
+      <h4 style="font-size:1.35rem;margin:0 0 6px;">🔋 SELECT BATTERY</h4>
+      <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;
                 color:#5a7090;margin:0;letter-spacing:0.1em;">
         B0043 &amp; B0047 = training batteries &nbsp;|&nbsp; B0045 = unseen validation battery
       </p>
@@ -2308,8 +2308,8 @@ with tab6:
     # ── Battery overview KPIs ───────────────────────────────────
     st.markdown("""
     <div class="glass-panel">
-      <h4 style="font-size:1.15rem;margin:0 0 6px;">🔋 BATTERY OVERVIEW</h4>
-      <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;
+      <h4 style="font-size:1.35rem;margin:0 0 6px;">🔋 BATTERY OVERVIEW</h4>
+      <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;
                 color:#5a7090;margin:0;letter-spacing:0.1em;">
         real-time snapshot of current battery state
       </p>
@@ -2331,7 +2331,7 @@ with tab6:
             <div class="metric-card" style="border-color:{color}55;">
               <div class="metric-label">{icon} {label}</div>
               <div class="metric-value"
-                   style="color:{color};text-shadow:0 0 24px {color}88;font-size:3.2rem;">
+                   style="color:{color};text-shadow:0 0 24px {color}88;font-size:3.5rem;">
                 {val}</div>
               <div class="metric-unit">{unit}</div>
             </div>""", unsafe_allow_html=True)
@@ -2341,8 +2341,8 @@ with tab6:
     # ── Model comparison cards ──────────────────────────────────
     st.markdown("""
     <div class="glass-panel">
-      <h4 style="font-size:1.15rem;margin:0 0 6px;">⚡ MODEL COMPARISON</h4>
-      <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;
+      <h4 style="font-size:1.35rem;margin:0 0 6px;">⚡ MODEL COMPARISON</h4>
+      <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;
                 color:#5a7090;margin:0;letter-spacing:0.1em;">
         LSTM vs XGBoost — real XGBoost metrics shown, LSTM pending training
       </p>
@@ -2363,16 +2363,16 @@ with tab6:
           <div style="position:absolute;top:16px;right:16px;
                       background:rgba(255,107,53,0.25);border:1px solid rgba(255,107,53,0.6);
                       border-radius:8px;padding:4px 12px;
-                      font-family:'Share Tech Mono',monospace;font-size:0.65rem;
+                      font-family:'Share Tech Mono',monospace;font-size:0.92rem;
                       color:#ff6b35;letter-spacing:0.1em;">⏳ COMING SOON</div>
           <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;">
-            <span style="font-size:3rem;filter:drop-shadow(0 0 12px #00c8ff);">🧠</span>
+            <span style="font-size:3.75rem;filter:drop-shadow(0 0 12px #00c8ff);">🧠</span>
             <div>
               <div style="font-family:'Orbitron',monospace;color:#00c8ff;
-                          font-size:1.25rem;font-weight:900;letter-spacing:0.08em;">
+                          font-size:1.48rem;font-weight:900;letter-spacing:0.08em;">
                 LSTM MODEL</div>
               <div style="font-family:'Share Tech Mono',monospace;
-                          color:rgba(180,230,255,0.7);font-size:0.75rem;
+                          color:rgba(180,230,255,0.7);font-size:1.0rem;
                           letter-spacing:0.1em;margin-top:2px;">
                 Long Short-Term Memory Network</div>
             </div>
@@ -2381,33 +2381,33 @@ with tab6:
             <div style="background:rgba(0,200,255,0.08);border:1px dashed rgba(0,200,255,0.25);
                         border-radius:14px;padding:16px 10px;text-align:center;opacity:0.5;">
               <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);
-                          font-size:0.65rem;letter-spacing:0.1em;margin-bottom:6px;">MAE</div>
+                          font-size:0.92rem;letter-spacing:0.1em;margin-bottom:6px;">MAE</div>
               <div style="font-family:'Orbitron',monospace;color:#00c8ff;
-                          font-size:1.4rem;font-weight:900;">—</div>
+                          font-size:1.65rem;font-weight:900;">—</div>
             </div>
             <div style="background:rgba(0,200,255,0.08);border:1px dashed rgba(0,200,255,0.25);
                         border-radius:14px;padding:16px 10px;text-align:center;opacity:0.5;">
               <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);
-                          font-size:0.65rem;letter-spacing:0.1em;margin-bottom:6px;">R²</div>
+                          font-size:0.92rem;letter-spacing:0.1em;margin-bottom:6px;">R²</div>
               <div style="font-family:'Orbitron',monospace;color:#00c8ff;
-                          font-size:1.4rem;font-weight:900;">—</div>
+                          font-size:1.65rem;font-weight:900;">—</div>
             </div>
             <div style="background:rgba(0,200,255,0.08);border:1px dashed rgba(0,200,255,0.25);
                         border-radius:14px;padding:16px 10px;text-align:center;opacity:0.5;">
               <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);
-                          font-size:0.65rem;letter-spacing:0.1em;margin-bottom:6px;">PRED. RUL</div>
+                          font-size:0.92rem;letter-spacing:0.1em;margin-bottom:6px;">PRED. RUL</div>
               <div style="font-family:'Orbitron',monospace;color:#00e8ff;
-                          font-size:1.4rem;font-weight:900;">—</div>
+                          font-size:1.65rem;font-weight:900;">—</div>
               <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.6);
-                          font-size:0.65rem;margin-top:2px;">CYCLES</div>
+                          font-size:0.92rem;margin-top:2px;">CYCLES</div>
             </div>
           </div>
           <div style="background:rgba(255,107,53,0.08);border:1px solid rgba(255,107,53,0.25);
                       border-radius:12px;padding:12px 16px;
                       display:flex;align-items:center;gap:10px;">
-            <span style="font-size:1.2rem;">⏳</span>
+            <span style="font-size:1.42rem;">⏳</span>
             <span style="font-family:'Share Tech Mono',monospace;
-                         color:rgba(255,180,140,0.85);font-size:0.78rem;letter-spacing:0.06em;">
+                         color:rgba(255,180,140,0.85);font-size:1.0rem;letter-spacing:0.06em;">
               Model training in progress — will address cross-battery generalization
             </span>
           </div>
@@ -2444,57 +2444,57 @@ with tab6:
           <div style="position:absolute;top:16px;right:16px;
                       background:rgba(255,136,0,0.2);border:1px solid rgba(255,136,0,0.5);
                       border-radius:8px;padding:4px 12px;
-                      font-family:'Share Tech Mono',monospace;font-size:0.65rem;
+                      font-family:'Share Tech Mono',monospace;font-size:0.92rem;
                       color:#ff8800;letter-spacing:0.1em;">ACTIVE MODEL</div>
           <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px;">
-            <span style="font-size:3rem;filter:drop-shadow(0 0 12px #ff8800);">⚡</span>
+            <span style="font-size:3.75rem;filter:drop-shadow(0 0 12px #ff8800);">⚡</span>
             <div>
               <div style="font-family:'Orbitron',monospace;color:#ff8800;
-                          font-size:1.25rem;font-weight:900;letter-spacing:0.08em;">
+                          font-size:1.48rem;font-weight:900;letter-spacing:0.08em;">
                 XGBOOST MODEL</div>
               <div style="font-family:'Share Tech Mono',monospace;
-                          color:rgba(255,210,160,0.7);font-size:0.75rem;
+                          color:rgba(255,210,160,0.7);font-size:1.0rem;
                           letter-spacing:0.1em;margin-top:2px;">
                 Extreme Gradient Boosting</div>
             </div>
           </div>
-          <div style="font-family:'Share Tech Mono',monospace;font-size:0.68rem;
+          <div style="font-family:'Share Tech Mono',monospace;font-size:0.92rem;
                       color:rgba(255,210,160,0.6);letter-spacing:0.08em;
                       margin-bottom:16px;">{card_subtitle}</div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:18px;">
             <div style="background:rgba(255,136,0,0.1);border:1px solid rgba(255,136,0,0.3);
                         border-radius:14px;padding:14px 10px;text-align:center;">
               <div style="font-family:'Share Tech Mono',monospace;color:rgba(255,210,160,0.7);
-                          font-size:0.62rem;letter-spacing:0.1em;margin-bottom:6px;">SOH MAE</div>
+                          font-size:0.88rem;letter-spacing:0.1em;margin-bottom:6px;">SOH MAE</div>
               <div style="font-family:'Orbitron',monospace;color:{mae_col};
-                          font-size:1.55rem;font-weight:900;
+                          font-size:1.82rem;font-weight:900;
                           text-shadow:0 0 16px rgba(255,136,0,0.6);">{card_soh_mae:.4f}</div>
             </div>
             <div style="background:rgba(255,136,0,0.1);border:1px solid rgba(255,136,0,0.3);
                         border-radius:14px;padding:14px 10px;text-align:center;">
               <div style="font-family:'Share Tech Mono',monospace;color:rgba(255,210,160,0.7);
-                          font-size:0.62rem;letter-spacing:0.1em;margin-bottom:6px;">SOH R²</div>
+                          font-size:0.88rem;letter-spacing:0.1em;margin-bottom:6px;">SOH R²</div>
               <div style="font-family:'Orbitron',monospace;color:{r2_col};
-                          font-size:1.55rem;font-weight:900;
+                          font-size:1.82rem;font-weight:900;
                           text-shadow:0 0 16px rgba(255,136,0,0.6);">{card_soh_r2:.3f}</div>
             </div>
             <div style="background:rgba(255,136,0,0.12);border:1px solid rgba(255,136,0,0.4);
                         border-radius:14px;padding:14px 10px;text-align:center;">
               <div style="font-family:'Share Tech Mono',monospace;color:rgba(255,210,160,0.7);
-                          font-size:0.62rem;letter-spacing:0.1em;margin-bottom:6px;">PRED. RUL</div>
+                          font-size:0.88rem;letter-spacing:0.1em;margin-bottom:6px;">PRED. RUL</div>
               <div style="font-family:'Orbitron',monospace;color:#ffaa44;
-                          font-size:1.55rem;font-weight:900;
+                          font-size:1.82rem;font-weight:900;
                           text-shadow:0 0 20px rgba(255,136,0,0.8);">{bd["pred_rul_xgb"]}</div>
               <div style="font-family:'Share Tech Mono',monospace;color:rgba(255,210,160,0.6);
-                          font-size:0.62rem;margin-top:2px;">CYCLES</div>
+                          font-size:0.88rem;margin-top:2px;">CYCLES</div>
             </div>
           </div>
           <div style="background:rgba(255,136,0,0.08);border:1px solid rgba(255,136,0,0.25);
                       border-radius:12px;padding:12px 16px;
                       display:flex;align-items:center;gap:10px;">
-            <span style="font-size:1.2rem;">📊</span>
+            <span style="font-size:1.42rem;">📊</span>
             <span style="font-family:'Share Tech Mono',monospace;
-                         color:rgba(255,210,160,0.85);font-size:0.78rem;letter-spacing:0.06em;">
+                         color:rgba(255,210,160,0.85);font-size:1.0rem;letter-spacing:0.06em;">
               {"⚠️ Distribution shift on unseen battery — generalization failure" if bd["is_unseen"] else "High-speed ensemble — excellent in-distribution performance"}
             </span>
           </div>
@@ -2505,8 +2505,8 @@ with tab6:
     # ── Metrics comparison table ────────────────────────────────
     st.markdown("""
     <div class="glass-panel">
-      <h4 style="font-size:1.15rem;margin:0 0 6px;">📋 DETAILED METRICS TABLE</h4>
-      <p style="font-family:'Share Tech Mono',monospace;font-size:1rem;
+      <h4 style="font-size:1.35rem;margin:0 0 6px;">📋 DETAILED METRICS TABLE</h4>
+      <p style="font-family:'Share Tech Mono',monospace;font-size:1.25rem;
                 color:#5a7090;margin:0;letter-spacing:0.1em;">
         SOH &amp; RUL metrics — green = good, yellow = moderate, red = poor
       </p>
@@ -2529,20 +2529,20 @@ with tab6:
        if is_placeholder or m is None:
         return f"""
         <tr style="opacity:0.35;font-style:italic;">
-          <td style="padding:14px 16px;font-size:1.5rem;color:#5a7090;">{label} <span style="font-size:0.72rem;background:rgba(255,107,53,0.15);border:1px solid rgba(255,107,53,0.4);color:#ff6b35;padding:2px 8px;border-radius:4px;">LSTM SOON</span></td>
-          <td style="text-align:right;font-size:1.5rem;color:#5a7090;">—</td>
-          <td style="text-align:right;font-size:1.5rem;color:#5a7090;">—</td>
-          <td style="text-align:right;font-size:1.5rem;color:#5a7090;">—</td>
-          <td style="text-align:right;font-size:1.5rem;color:#5a7090;">—</td>
+          <td style="padding:14px 16px;font-size:1.75rem;color:#5a7090;">{label} <span style="font-size:0.95rem;background:rgba(255,107,53,0.15);border:1px solid rgba(255,107,53,0.4);color:#ff6b35;padding:2px 8px;border-radius:4px;">LSTM SOON</span></td>
+          <td style="text-align:right;font-size:1.75rem;color:#5a7090;">—</td>
+          <td style="text-align:right;font-size:1.75rem;color:#5a7090;">—</td>
+          <td style="text-align:right;font-size:1.75rem;color:#5a7090;">—</td>
+          <td style="text-align:right;font-size:1.75rem;color:#5a7090;">—</td>
         </tr>"""
        dec = 1 if is_rul else 4
        return f"""
         <tr>
-           <td style="padding:14px 16px;font-size:1.5rem;font-family:'Share Tech Mono',monospace;color:rgba(180,210,255,0.95);letter-spacing:0.04em;">{label}</td>           
-           <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.25rem;font-weight:900;letter-spacing:0.05em;color:{color_mae(m['MAE'],is_rul)};text-shadow:0 0 10px {color_mae(m['MAE'],is_rul)}88;">{m['MAE']:.{dec}f}</td>
-           <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.25rem;font-weight:900;letter-spacing:0.05em;color:rgba(180,210,255,0.95);">{m['RMSE']:.{dec}f}</td>
-           <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.25rem;font-weight:900;letter-spacing:0.05em;color:{color_r2(m['R2'])};text-shadow:0 0 10px {color_r2(m['R2'])}88;">{m['R2']:.4f}</td>
-           <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.25rem;font-weight:900;letter-spacing:0.05em;color:rgba(180,210,255,0.95);">{m['MaxErr']:.{dec}f}</td>
+           <td style="padding:14px 16px;font-size:1.75rem;font-family:'Share Tech Mono',monospace;color:rgba(180,210,255,0.95);letter-spacing:0.04em;">{label}</td>           
+           <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.48rem;font-weight:900;letter-spacing:0.05em;color:{color_mae(m['MAE'],is_rul)};text-shadow:0 0 10px {color_mae(m['MAE'],is_rul)}88;">{m['MAE']:.{dec}f}</td>
+           <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.48rem;font-weight:900;letter-spacing:0.05em;color:rgba(180,210,255,0.95);">{m['RMSE']:.{dec}f}</td>
+           <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.48rem;font-weight:900;letter-spacing:0.05em;color:{color_r2(m['R2'])};text-shadow:0 0 10px {color_r2(m['R2'])}88;">{m['R2']:.4f}</td>
+           <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.48rem;font-weight:900;letter-spacing:0.05em;color:rgba(180,210,255,0.95);">{m['MaxErr']:.{dec}f}</td>
         </tr>"""
 
     table_style = """
@@ -2552,24 +2552,24 @@ with tab6:
     header_row = """
         <tr style="background:rgba(0,200,255,0.08);border-bottom:1px solid rgba(0,200,255,0.2);">
           <th style="padding:10px 14px;text-align:left;font-family:'Share Tech Mono',monospace;
-                     font-size:1.5rem;color:#5a7090;letter-spacing:0.1em;">SPLIT</th>
+                     font-size:1.75rem;color:#5a7090;letter-spacing:0.1em;">SPLIT</th>
           <th style="padding:10px 14px;text-align:right;font-family:'Share Tech Mono',monospace;
-                     font-size:1.5rem;color:#5a7090;letter-spacing:0.1em;">MAE</th>
+                     font-size:1.75rem;color:#5a7090;letter-spacing:0.1em;">MAE</th>
           <th style="padding:10px 14px;text-align:right;font-family:'Share Tech Mono',monospace;
-                     font-size:1.5rem;color:#5a7090;letter-spacing:0.1em;">RMSE</th>
+                     font-size:1.75rem;color:#5a7090;letter-spacing:0.1em;">RMSE</th>
           <th style="padding:10px 14px;text-align:right;font-family:'Share Tech Mono',monospace;
-                     font-size:1.5rem;color:#5a7090;letter-spacing:0.1em;">R²</th>
+                     font-size:1.75rem;color:#5a7090;letter-spacing:0.1em;">R²</th>
           <th style="padding:10px 14px;text-align:right;font-family:'Share Tech Mono',monospace;
-                     font-size:1.5rem;color:#5a7090;letter-spacing:0.1em;">MAX ERR</th>
+                     font-size:1.75rem;color:#5a7090;letter-spacing:0.1em;">MAX ERR</th>
         </tr>"""
 
     with tbl_col1:
         val_row_soh = metric_row(f"XGB — Validation ({bat_key})", bd["soh_xgb_val"]) if bd["soh_xgb_val"] else (
-            f"<tr><td colspan='5' style='text-align:center;font-size:0.75rem;opacity:0.4;padding:10px;font-style:italic;'>{bat_key} is a training battery — validation N/A</td></tr>"
+            f"<tr><td colspan='5' style='text-align:center;font-size:1.0rem;opacity:0.4;padding:10px;font-style:italic;'>{bat_key} is a training battery — validation N/A</td></tr>"
         )
         soh_table_html = (
            f'<div style="margin-bottom:10px;">'
-           f'<div style="font-family:\'Orbitron\',monospace;font-size:2rem;color:#ff8800;'
+           f'<div style="font-family:\'Orbitron\',monospace;font-size:2.5rem;color:#ff8800;'
            f'letter-spacing:0.1em;margin-bottom:10px;">⚡ SOH METRICS (XGBoost)</div>'
            f'<table style="{table_style}">'
            + header_row
@@ -2584,11 +2584,11 @@ with tab6:
 
     with tbl_col2:
         val_row_rul = metric_row(f"XGB — Validation ({bat_key})", bd["rul_xgb_val"], is_rul=True) if bd["rul_xgb_val"] else (
-            f"<tr><td colspan='5' style='text-align:center;font-size:0.75rem;opacity:0.4;padding:10px;font-style:italic;'>{bat_key} is a training battery — validation N/A</td></tr>"
+            f"<tr><td colspan='5' style='text-align:center;font-size:1.0rem;opacity:0.4;padding:10px;font-style:italic;'>{bat_key} is a training battery — validation N/A</td></tr>"
         )
         rul_table_html = (
             f'<div style="margin-bottom:10px;">'
-            f'<div style="font-family:\'Orbitron\',monospace;font-size:2rem;color:#ff8800;'
+            f'<div style="font-family:\'Orbitron\',monospace;font-size:2.5rem;color:#ff8800;'
             f'letter-spacing:0.1em;margin-bottom:10px;">⚡ RUL METRICS (XGBoost)</div>'
             f'<table style="{table_style}">'
             + header_row
@@ -2606,8 +2606,8 @@ with tab6:
     # ── SOH Trajectory Chart ────────────────────────────────────
     st.markdown("""
     <div class="glass-panel">
-      <h4 style="font-size:1.15rem;margin:0 0 6px;">📈 SOH DEGRADATION TRAJECTORY</h4>
-      <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;
+      <h4 style="font-size:1.35rem;margin:0 0 6px;">📈 SOH DEGRADATION TRAJECTORY</h4>
+      <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;
                 color:#5a7090;margin:0;letter-spacing:0.1em;">
         actual vs XGBoost predicted SOH — LSTM prediction coming soon
       </p>
@@ -2662,19 +2662,19 @@ with tab6:
     fig_soh.update_layout(
         plot_bgcolor="rgba(245,252,255,0.95)",
         paper_bgcolor="rgba(240,250,255,0.4)",
-        font=dict(color="#0a1628", size=12, family="Exo 2, sans-serif"),
+        font=dict(color="#0a1628", size=14, family="Exo 2, sans-serif"),
         xaxis=dict(
-            title=dict(text="CYCLE", font=dict(family="Orbitron, monospace", size=12, color="#0066aa")),
+            title=dict(text="CYCLE", font=dict(family="Orbitron, monospace", size=14, color="#0066aa")),
             gridcolor="rgba(0,200,255,0.12)", linecolor="rgba(0,200,255,0.3)",
-            tickfont=dict(family="Share Tech Mono", size=11)),
+            tickfont=dict(family="Share Tech Mono", size=13)),
         yaxis=dict(
-            title=dict(text="SOH (%)", font=dict(family="Orbitron, monospace", size=12, color="#0066aa")),
+            title=dict(text="SOH (%)", font=dict(family="Orbitron, monospace", size=14, color="#0066aa")),
             gridcolor="rgba(0,200,255,0.12)", linecolor="rgba(0,200,255,0.3)",
-            tickfont=dict(family="Share Tech Mono", size=11)),
+            tickfont=dict(family="Share Tech Mono", size=13)),
         height=400, hovermode="x unified",
         legend=dict(
             bgcolor="rgba(255,255,255,0.95)", bordercolor="rgba(0,200,255,0.4)",
-            borderwidth=2, font=dict(family="Share Tech Mono", size=11, color="#003355"),
+            borderwidth=2, font=dict(family="Share Tech Mono", size=13, color="#003355"),
             orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         margin=dict(l=20, r=20, t=50, b=20))
     st.plotly_chart(fig_soh, use_container_width=True)
@@ -2682,8 +2682,8 @@ with tab6:
     # ── RUL Trajectory Chart ────────────────────────────────────
     st.markdown("""
     <div class="glass-panel">
-      <h4 style="font-size:1.15rem;margin:0 0 6px;">📉 RUL DEGRADATION TRAJECTORY</h4>
-      <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;
+      <h4 style="font-size:1.35rem;margin:0 0 6px;">📉 RUL DEGRADATION TRAJECTORY</h4>
+      <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;
                 color:#5a7090;margin:0;letter-spacing:0.1em;">
         actual vs XGBoost predicted RUL (cycles) — LSTM prediction coming soon
       </p>
@@ -2708,19 +2708,19 @@ with tab6:
     fig_rul.update_layout(
         plot_bgcolor="rgba(245,252,255,0.95)",
         paper_bgcolor="rgba(240,250,255,0.4)",
-        font=dict(color="#0a1628", size=12, family="Exo 2, sans-serif"),
+        font=dict(color="#0a1628", size=14, family="Exo 2, sans-serif"),
         xaxis=dict(
-            title=dict(text="CYCLE", font=dict(family="Orbitron, monospace", size=12, color="#0066aa")),
+            title=dict(text="CYCLE", font=dict(family="Orbitron, monospace", size=14, color="#0066aa")),
             gridcolor="rgba(0,200,255,0.12)", linecolor="rgba(0,200,255,0.3)",
-            tickfont=dict(family="Share Tech Mono", size=11)),
+            tickfont=dict(family="Share Tech Mono", size=13)),
         yaxis=dict(
-            title=dict(text="RUL (cycles)", font=dict(family="Orbitron, monospace", size=12, color="#0066aa")),
+            title=dict(text="RUL (cycles)", font=dict(family="Orbitron, monospace", size=14, color="#0066aa")),
             gridcolor="rgba(0,200,255,0.12)", linecolor="rgba(0,200,255,0.3)",
-            tickfont=dict(family="Share Tech Mono", size=11)),
+            tickfont=dict(family="Share Tech Mono", size=13)),
         height=400, hovermode="x unified",
         legend=dict(
             bgcolor="rgba(255,255,255,0.95)", bordercolor="rgba(0,200,255,0.4)",
-            borderwidth=2, font=dict(family="Share Tech Mono", size=11, color="#003355"),
+            borderwidth=2, font=dict(family="Share Tech Mono", size=13, color="#003355"),
             orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         margin=dict(l=20, r=20, t=50, b=20))
     st.plotly_chart(fig_rul, use_container_width=True)
@@ -2736,38 +2736,38 @@ with tab6:
         status_text  = "XGBoost fails cross-battery generalization — LSTM needed" if bd["is_unseen"] else "XGBoost performs excellently on in-distribution data"
         st.markdown(f"""
         <div class="glass-panel" style="border-color:rgba(0,200,255,0.45);min-height:280px;">
-        <h4 style="font-size:1.15rem;margin:0 0 18px;color:#0a1628;">🏆 CONCLUSION</h4>
+        <h4 style="font-size:1.35rem;margin:0 0 18px;color:#0a1628;">🏆 CONCLUSION</h4>
         <div style="background:linear-gradient(135deg,rgba(0,50,90,0.95),rgba(0,80,130,0.90));
             border:2px solid #00c8ff;border-radius:16px;padding:24px 20px;
             box-shadow:0 8px 28px rgba(0,200,255,0.3);">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
-            <span style="font-size:2rem;">{status_icon}</span>
+            <span style="font-size:2.5rem;">{status_icon}</span>
             <div>
               <div style="font-family:Orbitron,monospace;color:#00c8ff;
-                font-size:0.9rem;font-weight:900;letter-spacing:0.1em;">XGBoost STATUS</div>
+                font-size:1.12rem;font-weight:900;letter-spacing:0.1em;">XGBoost STATUS</div>
               <div style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.9);
-                font-size:0.85rem;margin-top:4px;">{bat_key}</div>
+                font-size:1.08rem;margin-top:4px;">{bat_key}</div>
             </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px;">
             <div style="display:flex;align-items:flex-start;gap:10px;">
               <span style="color:#00c8ff;font-weight:900;flex-shrink:0;">✓</span>
               <span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);
-                font-size:0.78rem;letter-spacing:0.04em;">
+                font-size:1.0rem;letter-spacing:0.04em;">
                 Test R² = <b style="color:#00ff88">0.9921</b> (B0043+B0047 split — excellent)
               </span>
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;">
               <span style="color:{"#ff4444" if bd["is_unseen"] else "#00c8ff"};font-weight:900;flex-shrink:0;">{"✗" if bd["is_unseen"] else "✓"}</span>
               <span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);
-                font-size:0.78rem;letter-spacing:0.04em;">
+                font-size:1.0rem;letter-spacing:0.04em;">
                 {"B0045 Val R² = " + "<b style='color:#ff4444'>−35.48</b>" + " (cross-battery failure)" if bd["is_unseen"] else "RUL test R² = <b style='color:#00ff88'>0.972</b> (scatter plot: tight diagonal)"}
               </span>
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;">
               <span style="color:#ffcc00;font-weight:900;flex-shrink:0;">→</span>
               <span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);
-                font-size:0.78rem;letter-spacing:0.04em;">{status_text}</span>
+                font-size:1.0rem;letter-spacing:0.04em;">{status_text}</span>
             </div>
           </div>
         </div>
@@ -2786,15 +2786,15 @@ with tab6:
 
         st.markdown(f"""
         <div class="glass-panel" style="border-color:rgba(0,200,255,0.3);min-height:280px;">
-        <h4 style="font-size:1.15rem;margin:0 0 18px;color:#0a1628;">📊 PERFORMANCE SUMMARY</h4>
+        <h4 style="font-size:1.35rem;margin:0 0 18px;color:#0a1628;">📊 PERFORMANCE SUMMARY</h4>
         <div style="display:flex;flex-direction:column;gap:14px;">
           <div style="background:rgba(255,255,255,0.97);border:2px solid rgba(255,136,0,0.35);
             border-radius:14px;padding:16px 20px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
               <span style="font-family:Orbitron,monospace;color:#0a1628;
-                font-size:0.72rem;font-weight:700;letter-spacing:0.1em;">⚡ XGB SOH R² — TEST SET</span>
+                font-size:0.95rem;font-weight:700;letter-spacing:0.1em;">⚡ XGB SOH R² — TEST SET</span>
               <span style="font-family:Orbitron,monospace;color:{soh_r2_col};
-                font-weight:900;font-size:1.1rem;">{soh_r2_pct:.1f}%</span>
+                font-weight:900;font-size:1.3rem;">{soh_r2_pct:.1f}%</span>
             </div>
             <div class="perf-bar-track">
               <div class="perf-bar-fill"
@@ -2806,9 +2806,9 @@ with tab6:
             border-radius:14px;padding:16px 20px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
               <span style="font-family:Orbitron,monospace;color:#0a1628;
-                font-size:0.72rem;font-weight:700;letter-spacing:0.1em;">⚡ XGB RUL R² — TEST SET</span>
+                font-size:0.95rem;font-weight:700;letter-spacing:0.1em;">⚡ XGB RUL R² — TEST SET</span>
               <span style="font-family:Orbitron,monospace;color:{rul_r2_col};
-                font-weight:900;font-size:1.1rem;">{rul_r2_pct:.1f}%</span>
+                font-weight:900;font-size:1.3rem;">{rul_r2_pct:.1f}%</span>
             </div>
             <div class="perf-bar-track">
               <div class="perf-bar-fill"
@@ -2820,9 +2820,9 @@ with tab6:
             border-radius:14px;padding:16px 20px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
               <span style="font-family:Orbitron,monospace;color:#0a1628;
-                font-size:0.68rem;font-weight:700;letter-spacing:0.06em;">{val_label.upper()}</span>
+                font-size:0.92rem;font-weight:700;letter-spacing:0.06em;">{val_label.upper()}</span>
               <span style="font-family:Orbitron,monospace;color:{val_r2_col};
-                font-weight:900;font-size:1.1rem;">{"FAIL" if bd["is_unseen"] and val_r2_pct <= 0 else f"{max(0,val_r2_pct):.1f}%"}</span>
+                font-weight:900;font-size:1.3rem;">{"FAIL" if bd["is_unseen"] and val_r2_pct <= 0 else f"{max(0,val_r2_pct):.1f}%"}</span>
             </div>
             <div class="perf-bar-track">
               <div class="perf-bar-fill"
@@ -2897,8 +2897,8 @@ with tab7:
     # ── Battery Overview ─────────────────────────────────────────────────────
     st.markdown("""
     <div class="glass-panel" style="border-color:rgba(0,200,255,0.4);">
-      <h4 style="font-size:1.15rem;margin:0 0 6px;">🔋 BATTERY OVERVIEW</h4>
-      <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+      <h4 style="font-size:1.35rem;margin:0 0 6px;">🔋 BATTERY OVERVIEW</h4>
+      <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
         current battery state snapshot used for both models
       </p>
     </div>""", unsafe_allow_html=True)
@@ -2922,14 +2922,14 @@ with tab7:
             st.markdown(f"""
             <div class="metric-card" style="border-color:{color}55;">
               <div class="metric-label">{icon} {label}</div>
-              <div class="metric-value" style="color:{color};text-shadow:0 0 24px {color}88;font-size:3rem;">{val}</div>
+              <div class="metric-value" style="color:{color};text-shadow:0 0 24px {color}88;font-size:3.75rem;">{val}</div>
               <div class="metric-unit">{unit}</div>
             </div>""", unsafe_allow_html=True)
 
     st.markdown("""
     <div style="background:rgba(0,200,255,0.06);border:1px solid rgba(0,200,255,0.25);
       border-radius:12px;padding:14px 20px;margin-bottom:24px;">
-      <span style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#2a4060;letter-spacing:0.06em;">
+      <span style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#2a4060;letter-spacing:0.06em;">
         ℹ Comparison between the Physical Model and AI Model for battery degradation prediction.
       </span>
     </div>""", unsafe_allow_html=True)
@@ -2939,8 +2939,8 @@ with tab7:
     # ── Model Comparison Cards ───────────────────────────────────────────────
     st.markdown("""
     <div class="glass-panel">
-      <h4 style="font-size:1.15rem;margin:0 0 6px;">⚡ MODEL COMPARISON</h4>
-      <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+      <h4 style="font-size:1.35rem;margin:0 0 6px;">⚡ MODEL COMPARISON</h4>
+      <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
         Physical Model vs AI Model side-by-side
       </p>
     </div>""", unsafe_allow_html=True)
@@ -2951,11 +2951,11 @@ with tab7:
         _param_rows = "".join([
             f'<div style="display:flex;justify-content:space-between;padding:6px 0;'
             f'border-bottom:1px solid rgba(0,200,255,0.15);">'
-            f'<span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.7);font-size:0.75rem;">{k}</span>'
-            f'<span style="font-family:Orbitron,monospace;color:#00c8ff;font-weight:700;font-size:0.82rem;">{v}</span>'
+            f'<span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.7);font-size:1.0rem;">{k}</span>'
+            f'<span style="font-family:Orbitron,monospace;color:#00c8ff;font-weight:700;font-size:1.05rem;">{v}</span>'
             f'</div>'
             for k, v in _phys_params
-        ]) if _phys_params else "<div style='color:rgba(180,230,255,0.5);font-family:Share Tech Mono,monospace;font-size:0.78rem;'>Run a model first to see parameters</div>"
+        ]) if _phys_params else "<div style='color:rgba(180,230,255,0.5);font-family:Share Tech Mono,monospace;font-size:1.0rem;'>Run a model first to see parameters</div>"
 
         st.markdown(f"""
         <div style="position:relative;
@@ -2965,25 +2965,25 @@ with tab7:
           <div style="position:absolute;top:0;left:0;right:0;height:3px;
             background:linear-gradient(90deg,#ff3366,#cc0033,#ff3366);box-shadow:0 0 12px rgba(255,51,102,0.6);"></div>
           <div style="display:flex;align-items:center;gap:14px;margin-bottom:26px;">
-            <span style="font-size:3.2rem;filter:drop-shadow(0 0 14px #00c8ff);">{_phys_icon}</span>
+            <span style="font-size:3.5rem;filter:drop-shadow(0 0 14px #00c8ff);">{_phys_icon}</span>
             <div>
-              <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:1.1rem;font-weight:900;letter-spacing:0.06em;">{_phys_label}</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.72rem;letter-spacing:0.08em;margin-top:3px;">{_phys_desc}</div>
+              <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:1.3rem;font-weight:900;letter-spacing:0.06em;">{_phys_label}</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.95rem;letter-spacing:0.08em;margin-top:3px;">{_phys_desc}</div>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;">
             <div style="background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.3);border-radius:14px;padding:18px 12px;text-align:center;">
-              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.65rem;letter-spacing:0.12em;margin-bottom:8px;">PREDICTED RUL</div>
-              <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:2.8rem;font-weight:900;text-shadow:0 0 20px rgba(0,200,255,0.7);">{_phys_rul}</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.6);font-size:0.7rem;margin-top:4px;">CYCLES</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.92rem;letter-spacing:0.12em;margin-bottom:8px;">PREDICTED RUL</div>
+              <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:3.1rem;font-weight:900;text-shadow:0 0 20px rgba(0,200,255,0.7);">{_phys_rul}</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.6);font-size:0.88rem;margin-top:4px;">CYCLES</div>
             </div>
             <div style="background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.3);border-radius:14px;padding:18px 12px;text-align:center;">
-              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.65rem;letter-spacing:0.12em;margin-bottom:8px;">ACCURACY (R²)</div>
-              <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:2.8rem;font-weight:900;text-shadow:0 0 20px rgba(0,200,255,0.7);">{_phys_acc}</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,230,255,0.7);font-size:0.92rem;letter-spacing:0.12em;margin-bottom:8px;">ACCURACY (R²)</div>
+              <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:3.1rem;font-weight:900;text-shadow:0 0 20px rgba(0,200,255,0.7);">{_phys_acc}</div>
             </div>
           </div>
           <div style="background:rgba(0,200,255,0.06);border:1px solid rgba(0,200,255,0.2);border-radius:12px;padding:14px 16px;">
-            <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;margin-bottom:8px;">IDENTIFIED PARAMETERS</div>
+            <div style="font-family:'Orbitron',monospace;color:#00c8ff;font-size:0.92rem;font-weight:700;letter-spacing:0.12em;margin-bottom:8px;">IDENTIFIED PARAMETERS</div>
             {_param_rows}
           </div>
         </div>""", unsafe_allow_html=True)
@@ -2998,38 +2998,38 @@ with tab7:
             background:linear-gradient(90deg,#cc44ff,#ff00c8,#cc44ff);box-shadow:0 0 12px rgba(204,68,255,0.6);"></div>
           <div style="position:absolute;top:16px;right:16px;background:rgba(0,255,136,0.2);
             border:1px solid rgba(0,255,136,0.5);border-radius:8px;padding:4px 12px;
-            font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#00ff88;letter-spacing:0.1em;">✓ BEST</div>
+            font-family:'Share Tech Mono',monospace;font-size:0.92rem;color:#00ff88;letter-spacing:0.1em;">✓ BEST</div>
           <div style="display:flex;align-items:center;gap:14px;margin-bottom:26px;">
-            <span style="font-size:3.2rem;filter:drop-shadow(0 0 14px #cc44ff);">🤖</span>
+            <span style="font-size:3.5rem;filter:drop-shadow(0 0 14px #cc44ff);">🤖</span>
             <div>
-              <div style="font-family:'Orbitron',monospace;color:#cc44ff;font-size:1.2rem;font-weight:900;letter-spacing:0.08em;">AI MODEL</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:rgba(230,190,255,0.7);font-size:0.75rem;letter-spacing:0.1em;margin-top:3px;">LSTM Neural Network</div>
+              <div style="font-family:'Orbitron',monospace;color:#cc44ff;font-size:1.42rem;font-weight:900;letter-spacing:0.08em;">AI MODEL</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:rgba(230,190,255,0.7);font-size:1.0rem;letter-spacing:0.1em;margin-top:3px;">LSTM Neural Network</div>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;">
             <div style="background:rgba(204,68,255,0.12);border:1px solid rgba(204,68,255,0.35);border-radius:14px;padding:18px 12px;text-align:center;">
-              <div style="font-family:'Share Tech Mono',monospace;color:rgba(230,190,255,0.7);font-size:0.65rem;letter-spacing:0.12em;margin-bottom:8px;">PREDICTED RUL</div>
-              <div style="font-family:'Orbitron',monospace;color:#dd66ff;font-size:2.8rem;font-weight:900;text-shadow:0 0 20px rgba(204,68,255,0.7);">14</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:rgba(230,190,255,0.6);font-size:0.7rem;margin-top:4px;">CYCLES</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:rgba(230,190,255,0.7);font-size:0.92rem;letter-spacing:0.12em;margin-bottom:8px;">PREDICTED RUL</div>
+              <div style="font-family:'Orbitron',monospace;color:#dd66ff;font-size:3.1rem;font-weight:900;text-shadow:0 0 20px rgba(204,68,255,0.7);">14</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:rgba(230,190,255,0.6);font-size:0.88rem;margin-top:4px;">CYCLES</div>
             </div>
             <div style="background:rgba(204,68,255,0.12);border:1px solid rgba(204,68,255,0.35);border-radius:14px;padding:18px 12px;text-align:center;">
-              <div style="font-family:'Share Tech Mono',monospace;color:rgba(230,190,255,0.7);font-size:0.65rem;letter-spacing:0.12em;margin-bottom:8px;">ACCURACY</div>
-              <div style="font-family:'Orbitron',monospace;color:#dd66ff;font-size:2.8rem;font-weight:900;text-shadow:0 0 20px rgba(204,68,255,0.7);">91%</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:rgba(230,190,255,0.7);font-size:0.92rem;letter-spacing:0.12em;margin-bottom:8px;">ACCURACY</div>
+              <div style="font-family:'Orbitron',monospace;color:#dd66ff;font-size:3.1rem;font-weight:900;text-shadow:0 0 20px rgba(204,68,255,0.7);">91%</div>
             </div>
           </div>
           <div style="background:rgba(0,255,136,0.12);border:2px solid rgba(0,255,136,0.4);border-radius:14px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">
-            <span style="font-size:1.5rem;">📡</span>
+            <span style="font-size:1.75rem;">📡</span>
             <div>
-              <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;">EOL DETECTION</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,255,210,0.9);font-size:1.1rem;font-weight:700;margin-top:2px;">SUPERIOR</div>
+              <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:1.0rem;font-weight:700;letter-spacing:0.1em;">EOL DETECTION</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,255,210,0.9);font-size:1.3rem;font-weight:700;margin-top:2px;">SUPERIOR</div>
             </div>
             <div style="margin-left:auto;text-align:right;">
-              <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:1.4rem;font-weight:900;">+11%</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,255,210,0.7);font-size:0.65rem;">vs ECM</div>
+              <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:1.65rem;font-weight:900;">+11%</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:rgba(180,255,210,0.7);font-size:0.92rem;">vs ECM</div>
             </div>
           </div>
           <div style="background:rgba(204,68,255,0.06);border:1px solid rgba(204,68,255,0.2);border-radius:12px;padding:14px 16px;">
-            <div style="font-family:'Share Tech Mono',monospace;color:rgba(230,190,255,0.85);font-size:0.75rem;letter-spacing:0.06em;line-height:1.8;">
+            <div style="font-family:'Share Tech Mono',monospace;color:rgba(230,190,255,0.85);font-size:1.0rem;letter-spacing:0.06em;line-height:1.8;">
               ◈ Data-driven temporal pattern learning<br>
               ◈ Adaptive to real-world degradation<br>
               ◈ Higher accuracy on unseen cycles
@@ -3042,8 +3042,8 @@ with tab7:
     # ── Degradation Trend Chart ──────────────────────────────────────────────
     st.markdown("""
     <div class="glass-panel">
-      <h4 style="font-size:1.15rem;margin:0 0 6px;">📈 DEGRADATION TREND ANALYSIS</h4>
-      <p style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
+      <h4 style="font-size:1.35rem;margin:0 0 6px;">📈 DEGRADATION TREND ANALYSIS</h4>
+      <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#5a7090;margin:0;letter-spacing:0.1em;">
         Physical Model vs AI Model vs Actual SOH — full cycle trajectory
       </p>
     </div>""", unsafe_allow_html=True)
@@ -3072,11 +3072,11 @@ with tab7:
     if eol_cycle:
         fig_cmp.add_annotation(x=eol_cycle, y=80, text=f"⚠ EOL @ Cycle {eol_cycle}",
             showarrow=True, arrowhead=2, arrowcolor="#ff4444",
-            font=dict(family="Share Tech Mono", size=11, color="#ff4444"),
+            font=dict(family="Share Tech Mono", size=13, color="#ff4444"),
             bgcolor="rgba(255,255,255,0.9)", bordercolor="#ff4444", borderwidth=1, ax=40, ay=-40)
     layout_cmp = cyber_plotly_layout(460)
-    layout_cmp.update({"xaxis": {**layout_cmp["xaxis"], "title": dict(text="CYCLE", font=dict(family="Orbitron,monospace", size=12, color="#0066aa")), "range": [-1, 82]},
-                       "yaxis": {**layout_cmp["yaxis"], "title": dict(text="SOH (%)", font=dict(family="Orbitron,monospace", size=12, color="#0066aa")), "range": [58, 103]},
+    layout_cmp.update({"xaxis": {**layout_cmp["xaxis"], "title": dict(text="CYCLE", font=dict(family="Orbitron,monospace", size=14, color="#0066aa")), "range": [-1, 82]},
+                       "yaxis": {**layout_cmp["yaxis"], "title": dict(text="SOH (%)", font=dict(family="Orbitron,monospace", size=14, color="#0066aa")), "range": [58, 103]},
                        "legend": {**layout_cmp["legend"], "orientation": "h", "yanchor": "bottom", "y": 1.02, "xanchor": "right", "x": 1}})
     fig_cmp.update_layout(**layout_cmp)
     st.plotly_chart(fig_cmp, use_container_width=True)
@@ -3089,21 +3089,21 @@ with tab7:
     with conc_left:
         st.markdown(f"""
         <div class="glass-panel" style="border-color:rgba(0,200,255,0.45);min-height:340px;">
-          <h4 style="font-size:1.15rem;margin:0 0 18px;color:#0a1628;">🏆 CONCLUSION</h4>
+          <h4 style="font-size:1.35rem;margin:0 0 18px;color:#0a1628;">🏆 CONCLUSION</h4>
           <div style="background:linear-gradient(135deg,rgba(0,50,90,0.95),rgba(0,80,130,0.90));
             border:2px solid #00c8ff;border-radius:16px;padding:24px 20px;box-shadow:0 8px 28px rgba(0,200,255,0.3);">
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
-              <span style="font-size:2rem;filter:drop-shadow(0 0 10px #00c8ff);">🤖</span>
+              <span style="font-size:2.5rem;filter:drop-shadow(0 0 10px #00c8ff);">🤖</span>
               <div>
-                <div style="font-family:Orbitron,monospace;color:#00c8ff;font-size:0.95rem;font-weight:900;letter-spacing:0.1em;">AI MODEL RECOMMENDED</div>
-                <div style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.9);font-size:0.85rem;font-weight:700;margin-top:4px;">LSTM outperforms ECM across all metrics</div>
+                <div style="font-family:Orbitron,monospace;color:#00c8ff;font-size:1.18rem;font-weight:900;letter-spacing:0.1em;">AI MODEL RECOMMENDED</div>
+                <div style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.9);font-size:1.08rem;font-weight:700;margin-top:4px;">LSTM outperforms ECM across all metrics</div>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:10px;">
-              <div style="display:flex;align-items:center;gap:10px;"><span style="color:#00ff88;font-size:1rem;font-weight:900;">✓</span><span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);font-size:0.78rem;letter-spacing:0.06em;">Digital twins align closely with the physical model, validating the simulation</span></div>
-              <div style="display:flex;align-items:center;gap:10px;"><span style="color:#00ff88;font-size:1rem;font-weight:900;">✓</span><span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);font-size:0.78rem;letter-spacing:0.06em;">AI model provides slightly higher accuracy (91% vs {_phys_acc})</span></div>
-              <div style="display:flex;align-items:center;gap:10px;"><span style="color:#00ff88;font-size:1rem;font-weight:900;">✓</span><span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);font-size:0.78rem;letter-spacing:0.06em;">Both models effectively track battery degradation trends</span></div>
-              <div style="display:flex;align-items:center;gap:10px;"><span style="color:#00ff88;font-size:1rem;font-weight:900;">✓</span><span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);font-size:0.78rem;letter-spacing:0.06em;">Digital twin combines best of both for robust monitoring</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><span style="color:#00ff88;font-size:1.25rem;font-weight:900;">✓</span><span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);font-size:1.0rem;letter-spacing:0.06em;">Digital twins align closely with the physical model, validating the simulation</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><span style="color:#00ff88;font-size:1.25rem;font-weight:900;">✓</span><span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);font-size:1.0rem;letter-spacing:0.06em;">AI model provides slightly higher accuracy (91% vs {_phys_acc})</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><span style="color:#00ff88;font-size:1.25rem;font-weight:900;">✓</span><span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);font-size:1.0rem;letter-spacing:0.06em;">Both models effectively track battery degradation trends</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><span style="color:#00ff88;font-size:1.25rem;font-weight:900;">✓</span><span style="font-family:Share Tech Mono,monospace;color:rgba(180,230,255,0.85);font-size:1.0rem;letter-spacing:0.06em;">Digital twin combines best of both for robust monitoring</span></div>
             </div>
           </div>
         </div>""", unsafe_allow_html=True)
@@ -3111,33 +3111,33 @@ with tab7:
     with conc_right:
         st.markdown(f"""
         <div class="glass-panel" style="border-color:rgba(0,200,255,0.3);min-height:340px;">
-          <h4 style="font-size:1.15rem;margin:0 0 18px;color:#0a1628;">📊 PERFORMANCE SUMMARY</h4>
+          <h4 style="font-size:1.35rem;margin:0 0 18px;color:#0a1628;">📊 PERFORMANCE SUMMARY</h4>
           <div style="display:flex;flex-direction:column;gap:14px;">
             <div style="background:rgba(255,255,255,0.97);border:2px solid rgba(0,200,255,0.35);border-radius:14px;padding:16px 20px;">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                <span style="font-family:Orbitron,monospace;color:#0a1628;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;">⚙ PHYSICAL MODEL ACCURACY</span>
-                <span style="font-family:Orbitron,monospace;color:#00c8ff;font-weight:900;font-size:1.1rem;">{_phys_acc}</span>
+                <span style="font-family:Orbitron,monospace;color:#0a1628;font-size:0.95rem;font-weight:700;letter-spacing:0.1em;">⚙ PHYSICAL MODEL ACCURACY</span>
+                <span style="font-family:Orbitron,monospace;color:#00c8ff;font-weight:900;font-size:1.3rem;">{_phys_acc}</span>
               </div>
               <div class="perf-bar-track"><div class="perf-bar-fill" style="width:{_phys_acc_pct}%;background:linear-gradient(90deg,#00c8ff,#0088ff);"></div></div>
             </div>
             <div style="background:rgba(255,255,255,0.97);border:2px solid rgba(204,68,255,0.35);border-radius:14px;padding:16px 20px;">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                <span style="font-family:Orbitron,monospace;color:#0a1628;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;">🤖 AI MODEL ACCURACY</span>
-                <span style="font-family:Orbitron,monospace;color:#cc44ff;font-weight:900;font-size:1.1rem;">91%</span>
+                <span style="font-family:Orbitron,monospace;color:#0a1628;font-size:0.95rem;font-weight:700;letter-spacing:0.1em;">🤖 AI MODEL ACCURACY</span>
+                <span style="font-family:Orbitron,monospace;color:#cc44ff;font-weight:900;font-size:1.3rem;">91%</span>
               </div>
               <div class="perf-bar-track"><div class="perf-bar-fill" style="width:91%;background:linear-gradient(90deg,#cc44ff,#ff00c8);"></div></div>
             </div>
             <div style="background:rgba(255,255,255,0.97);border:2px solid rgba(255,165,0,0.35);border-radius:14px;padding:16px 20px;">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                <span style="font-family:Orbitron,monospace;color:#0a1628;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;">⚠ EOL DETECTION (ECM)</span>
-                <span style="font-family:Orbitron,monospace;color:#ffaa00;font-weight:900;font-size:1.1rem;">80%</span>
+                <span style="font-family:Orbitron,monospace;color:#0a1628;font-size:0.95rem;font-weight:700;letter-spacing:0.1em;">⚠ EOL DETECTION (ECM)</span>
+                <span style="font-family:Orbitron,monospace;color:#ffaa00;font-weight:900;font-size:1.3rem;">80%</span>
               </div>
               <div class="perf-bar-track"><div class="perf-bar-fill" style="width:80%;background:linear-gradient(90deg,#ffaa00,#ffdd44);"></div></div>
             </div>
             <div style="background:rgba(255,255,255,0.97);border:2px solid rgba(0,255,136,0.35);border-radius:14px;padding:16px 20px;">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                <span style="font-family:Orbitron,monospace;color:#0a1628;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;">🔄 DIGITAL TWIN (COMBINED)</span>
-                <span style="font-family:Orbitron,monospace;color:#00ff88;font-weight:900;font-size:1.1rem;">94%</span>
+                <span style="font-family:Orbitron,monospace;color:#0a1628;font-size:0.95rem;font-weight:700;letter-spacing:0.1em;">🔄 DIGITAL TWIN (COMBINED)</span>
+                <span style="font-family:Orbitron,monospace;color:#00ff88;font-weight:900;font-size:1.3rem;">94%</span>
               </div>
               <div class="perf-bar-track"><div class="perf-bar-fill" style="width:94%;background:linear-gradient(90deg,#00ff88,#00cc66);"></div></div>
             </div>
