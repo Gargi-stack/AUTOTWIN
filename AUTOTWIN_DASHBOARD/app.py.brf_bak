@@ -119,41 +119,22 @@ if not st.session_state.logged_in:
           🔐 SECURE LOGIN</div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <script>
-    document.addEventListener("keydown", function(e) {
-        if (e.key === "Enter") {
-            const inputs = document.querySelectorAll("input");
-            for (let i = 0; i < inputs.length - 1; i++) {
-                if (inputs[i] === document.activeElement) {
-                    inputs[i+1].focus();
-                    e.preventDefault();
-                    return;
-                }
-            }
-        }
-    });
-    </script>""", unsafe_allow_html=True)
+    username_input = st.text_input("Username", placeholder="Enter username", key="login_user")
+    password_input = st.text_input("Password", placeholder="Enter password",
+                                   type="password", key="login_pass")
 
-    with st.form("login_form", enter_to_submit=True):
-        username_input = st.text_input("Username", placeholder="Enter username", key="login_user")
-        st.caption("💡 Press Tab to move to password")
-        password_input = st.text_input("Password", placeholder="Enter password",
-                                       type="password", key="login_pass")
-        login_btn = st.form_submit_button("LOGIN →", use_container_width=True)
+    login_btn = st.button("LOGIN →", use_container_width=True, key="login_btn")
 
     if login_btn:
         uname = username_input.strip().lower()
-        if not username_input or not password_input:
-            pass
-        elif uname in USERS and USERS[uname]["password"] == _hash(password_input):
+        if uname in USERS and USERS[uname]["password"] == _hash(password_input):
             st.session_state.logged_in = True
             st.session_state.user_role = USERS[uname]["role"]
             st.session_state.username  = uname
             if USERS[uname]["role"] == "client":
                 load_results_from_disk()
             st.rerun()
-        elif username_input and password_input:
+        else:
             st.error("Invalid username or password.")
 
     st.markdown("""
@@ -298,10 +279,10 @@ if st.session_state.user_role == "client":
                     border-radius:22px;padding:36px;text-align:center;margin-bottom:24px;
                     box-shadow:0 12px 48px {verdict_border}44;">
           <div style="font-size:3.5rem;margin-bottom:0.5rem;">{verdict_emoji}</div>
-          <div style="font-family:'Orbitron',monospace;color:{verdict_color};font-size:2.2rem;
+          <div style="font-family:'Orbitron',monospace;color:{verdict_color};font-size:1.8rem;
                       font-weight:900;letter-spacing:0.1em;">{verdict}</div>
           <div style="font-family:'Share Tech Mono',monospace;color:rgba(255,255,255,0.75);
-                      font-size:1.0rem;margin-top:10px;">{verdict_detail}</div>
+                      font-size:0.88rem;margin-top:10px;">{verdict_detail}</div>
         </div>""", unsafe_allow_html=True)
 
         # ── 4 metric cards ────────────────────────────────────────────────────
@@ -321,10 +302,10 @@ if st.session_state.user_role == "client":
                   <div style="font-size:2rem;margin-bottom:8px;">{icon}</div>
                   <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.70rem;
                               letter-spacing:0.1em;margin-bottom:4px;">{title}</div>
-                  <div style="font-family:'Orbitron',monospace;color:{badge_color};font-size:2.8rem;
+                  <div style="font-family:'Orbitron',monospace;color:{badge_color};font-size:2.2rem;
                               font-weight:900;line-height:1;">{val}</div>
                   {badge_html}
-                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.84rem;
+                  <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.68rem;
                               margin-top:8px;line-height:1.4;">{note}</div>
                 </div>""", unsafe_allow_html=True)
 
@@ -332,7 +313,7 @@ if st.session_state.user_role == "client":
         st.markdown("""
         <div style="background:rgba(255,255,255,0.95);border:2px solid rgba(0,200,255,0.2);
                     border-radius:16px;padding:20px 24px;margin-top:8px;">
-          <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:0.96rem;
+          <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:0.82rem;
                       font-weight:700;letter-spacing:0.1em;margin-bottom:14px;">💬 PLAIN ENGLISH SUMMARY</div>""",
         unsafe_allow_html=True)
 
@@ -358,8 +339,8 @@ if st.session_state.user_role == "client":
             st.markdown(f"""
             <div style="border-left:4px solid #00c8ff;border-radius:0 10px 10px 0;
                         padding:12px 18px;margin-bottom:8px;background:rgba(0,200,255,0.04);">
-              <div style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.96rem;
-                          line-height:1.8;">{line}</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.82rem;
+                          line-height:1.7;">{line}</div>
             </div>""", unsafe_allow_html=True)
 
         st.markdown("</div>", unsafe_allow_html=True)
@@ -2353,15 +2334,42 @@ with tab5:
     <div class="tab-header">
       <div class="tab-header-icon">⚙</div>
       <div>
-        <p class="tab-header-title">MODEL PARAMETERS</p>
-        <p class="tab-header-subtitle">identified parameters &amp; output metrics from simulation</p>
+        <p class="tab-header-title">SYSTEM PARAMETERS</p>
+        <p class="tab-header-subtitle"> configure input parameters via interactive controls</p>
       </div>
     </div>""", unsafe_allow_html=True)
 
     # ── Model-aware notice ──────────────────────────────────────────────────
     _active = st.session_state.selected_model
 
-    if True:
+    col1, col2 = st.columns([1,1])
+    with col1:
+        st.markdown("""<div class="glass-panel"><h4 style="font-size:1.35rem;margin:0;">🎛 INPUT PARAMETERS</h4></div>""", unsafe_allow_html=True)
+        for label, key, unit, color, desc, mn, mx, step in [
+            ("⚡ STATE OF CHARGE (SOC)", "soc", "%", "#00c8ff", "current battery charge level", 0, 100, 1),
+            ("🌡 TEMPERATURE", "temperature", "°C", "#ff8800", "operating temperature", 0, 60, 1),
+            ("⚡ CURRENT LOAD", "current", "A", "#3366ff", "applied current", 0.0, 10.0, 0.1),
+        ]:
+            st.markdown(f"""
+            <div class="param-box" style="background:linear-gradient(135deg,rgba(224,248,255,0.7),rgba(204,242,255,0.5));border:2px solid {color}44;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div class="param-title" style="color:#005f8a;">{label}</div>
+                  <div class="param-desc" style="color:#5a7090;">{desc}</div>
+                </div>
+                <div class="param-value-badge" style="border-color:{color}55;box-shadow:0 0 16px {color}22;">
+                  <span class="param-val" style="color:#00527a;">{st.session_state[key]}</span>
+                  <span class="param-unit" style="color:#0088aa;">{unit}</span>
+                </div>
+              </div>
+            </div>""", unsafe_allow_html=True)
+            if step == 1 and isinstance(st.session_state[key], int):
+                st.session_state[key] = st.slider(label, min_value=mn, max_value=mx, value=st.session_state[key], label_visibility="collapsed")
+            else:
+                st.session_state[key] = st.slider(label, min_value=float(mn), max_value=float(mx), value=float(st.session_state[key]), step=float(step), label_visibility="collapsed")
+            st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+
+    with col2:
         st.markdown("""<div class="glass-panel"><h4 style="font-size:1.35rem;margin:0;">📊 OUTPUT METRICS</h4></div>""", unsafe_allow_html=True)
         _param_active = st.session_state.selected_model
         _param_th_res = st.session_state.get("thermal_results")
@@ -3556,11 +3564,11 @@ with tab8:
                     border-radius:22px;padding:36px;text-align:center;margin-bottom:24px;
                     box-shadow:0 12px 48px {verdict_border}44;">
           <div style="font-size:3.5rem;margin-bottom:0.5rem;">{verdict_emoji}</div>
-          <div style="font-family:'Orbitron',monospace;color:{verdict_color};font-size:2.2rem;
+          <div style="font-family:'Orbitron',monospace;color:{verdict_color};font-size:1.8rem;
                       font-weight:900;letter-spacing:0.1em;text-shadow:0 0 32px {verdict_color}88;">
             {verdict}</div>
           <div style="font-family:'Share Tech Mono',monospace;color:rgba(255,255,255,0.75);
-                      font-size:1.0rem;margin-top:10px;">{verdict_detail}</div>
+                      font-size:0.88rem;margin-top:10px;">{verdict_detail}</div>
         </div>""", unsafe_allow_html=True)
 
         # ── 4 Key Metric Cards ────────────────────────────────────────────────
@@ -3572,15 +3580,15 @@ with tab8:
                         border-radius:18px;padding:24px;text-align:center;
                         box-shadow:0 8px 32px {soh_color}22;margin-bottom:16px;min-height:220px;">
               <div style="font-size:2.2rem;margin-bottom:8px;">🔋</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.88rem;
-                          letter-spacing:0.1em;margin-bottom:6px;">BATTERY HEALTH</div>
-              <div style="font-family:'Orbitron',monospace;color:{soh_color};font-size:2.8rem;
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.72rem;
+                          letter-spacing:0.1em;margin-bottom:4px;">BATTERY HEALTH</div>
+              <div style="font-family:'Orbitron',monospace;color:{soh_color};font-size:2.4rem;
                           font-weight:900;line-height:1;">{f"{soh}%" if soh is not None else "—"}</div>
               <div style="background:{soh_bg};border:1px solid {soh_border};border-radius:8px;
                           padding:4px 12px;margin:10px auto;display:inline-block;">
-                <span style="font-family:'Orbitron',monospace;color:{soh_color};font-size:0.82rem;
+                <span style="font-family:'Orbitron',monospace;color:{soh_color};font-size:0.68rem;
                              font-weight:700;">{soh_emoji} {soh_label}</span></div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.70rem;
                           margin-top:8px;line-height:1.4;">{soh_msg}</div>
             </div>""", unsafe_allow_html=True)
 
@@ -3590,11 +3598,11 @@ with tab8:
                         border-radius:18px;padding:24px;text-align:center;
                         box-shadow:0 8px 32px {life_color}22;margin-bottom:16px;min-height:220px;">
               <div style="font-size:2.2rem;margin-bottom:8px;">⏳</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.88rem;
-                          letter-spacing:0.1em;margin-bottom:6px;">ESTIMATED REMAINING LIFE</div>
-              <div style="font-family:'Orbitron',monospace;color:{life_color};font-size:2.2rem;
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.72rem;
+                          letter-spacing:0.1em;margin-bottom:4px;">ESTIMATED REMAINING LIFE</div>
+              <div style="font-family:'Orbitron',monospace;color:{life_color};font-size:1.7rem;
                           font-weight:900;line-height:1.2;margin:8px 0;">{life_str}</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.68rem;
                           margin-top:10px;line-height:1.4;">{life_note}</div>
             </div>""", unsafe_allow_html=True)
 
@@ -3604,15 +3612,15 @@ with tab8:
                         border-radius:18px;padding:24px;text-align:center;
                         box-shadow:0 8px 32px {risk_color}22;margin-bottom:16px;min-height:220px;">
               <div style="font-size:2.2rem;margin-bottom:8px;">🌡️</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.88rem;
-                          letter-spacing:0.1em;margin-bottom:6px;">THERMAL RISK</div>
-              <div style="font-family:'Orbitron',monospace;color:{risk_color};font-size:2.4rem;
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.72rem;
+                          letter-spacing:0.1em;margin-bottom:4px;">THERMAL RISK</div>
+              <div style="font-family:'Orbitron',monospace;color:{risk_color};font-size:2.0rem;
                           font-weight:900;line-height:1;">{f"{T_max}°C" if T_max is not None else "—"}</div>
               <div style="background:{risk_bg};border:1px solid {risk_border};border-radius:8px;
                           padding:4px 12px;margin:10px auto;display:inline-block;">
-                <span style="font-family:'Orbitron',monospace;color:{risk_color};font-size:0.82rem;
+                <span style="font-family:'Orbitron',monospace;color:{risk_color};font-size:0.68rem;
                              font-weight:700;">{risk_emoji} {risk_label}</span></div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.70rem;
                           margin-top:8px;line-height:1.4;">{risk_msg}</div>
             </div>""", unsafe_allow_html=True)
 
@@ -3622,11 +3630,11 @@ with tab8:
                         border-radius:18px;padding:24px;text-align:center;
                         box-shadow:0 8px 32px {rel_color}22;margin-bottom:16px;min-height:220px;">
               <div style="font-size:2.2rem;margin-bottom:8px;">📡</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.88rem;
-                          letter-spacing:0.1em;margin-bottom:6px;">MODEL RELIABILITY</div>
-              <div style="font-family:'Orbitron',monospace;color:{rel_color};font-size:2.4rem;
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.72rem;
+                          letter-spacing:0.1em;margin-bottom:4px;">MODEL RELIABILITY</div>
+              <div style="font-family:'Orbitron',monospace;color:{rel_color};font-size:2.0rem;
                           font-weight:900;line-height:1;">{f"{model_accuracy}%" if model_accuracy is not None else "—"}</div>
-              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.82rem;
+              <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;font-size:0.70rem;
                           margin-top:10px;line-height:1.4;">{rel_label}<br><br>{rel_note}</div>
             </div>""", unsafe_allow_html=True)
 
@@ -3635,8 +3643,8 @@ with tab8:
         # ── Detailed Measurements ─────────────────────────────────────────────
         st.markdown("""
         <div class="glass-panel">
-          <h4 style="font-size:1.3rem;margin:0;">📋 DETAILED MEASUREMENTS</h4>
-          <p style="font-family:'Share Tech Mono',monospace;font-size:0.84rem;color:#5a7090;margin:4px 0 0;">
+          <h4 style="font-size:1.1rem;margin:0;">📋 DETAILED MEASUREMENTS</h4>
+          <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:4px 0 0;">
             Key values from the simulation — what each number means in simple terms
           </p>
         </div>""", unsafe_allow_html=True)
@@ -3670,12 +3678,12 @@ with tab8:
                                     display:flex;gap:16px;align-items:flex-start;">
                           <div style="font-size:1.8rem;flex-shrink:0;">{icon}</div>
                           <div style="flex:1;">
-                            <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:0.84rem;
+                            <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:0.70rem;
                                         font-weight:700;letter-spacing:0.1em;margin-bottom:4px;">{name}</div>
-                            <div style="font-family:'Orbitron',monospace;color:{clr};font-size:1.7rem;
+                            <div style="font-family:'Orbitron',monospace;color:{clr};font-size:1.4rem;
                                         font-weight:900;margin-bottom:6px;">{val}</div>
                             <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;
-                                        font-size:0.84rem;line-height:1.6;">{explanation}</div>
+                                        font-size:0.72rem;line-height:1.5;">{explanation}</div>
                           </div>
                         </div>""", unsafe_allow_html=True)
 
@@ -3684,8 +3692,8 @@ with tab8:
         # ── Plain English Summary ─────────────────────────────────────────────
         st.markdown("""
         <div class="glass-panel">
-          <h4 style="font-size:1.3rem;margin:0;">💬 PLAIN ENGLISH SUMMARY</h4>
-          <p style="font-family:'Share Tech Mono',monospace;font-size:0.84rem;color:#5a7090;margin:4px 0 0;">
+          <h4 style="font-size:1.1rem;margin:0;">💬 PLAIN ENGLISH SUMMARY</h4>
+          <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:#5a7090;margin:4px 0 0;">
             What all these results mean — explained simply
           </p>
         </div>""", unsafe_allow_html=True)
@@ -3723,15 +3731,15 @@ with tab8:
             st.markdown(f"""
             <div style="background:rgba(255,255,255,0.95);border-left:4px solid #00c8ff;
                         border-radius:0 12px 12px 0;padding:16px 20px;margin-bottom:10px;">
-              <div style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.96rem;
-                          line-height:1.8;">{line}</div>
+              <div style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.85rem;
+                          line-height:1.7;">{line}</div>
             </div>""", unsafe_allow_html=True)
 
         st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
         st.markdown("""
         <div style="background:rgba(0,200,255,0.05);border:2px solid rgba(0,200,255,0.25);
                     border-radius:16px;padding:20px 24px;">
-          <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:0.92rem;
+          <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:0.78rem;
                       font-weight:700;letter-spacing:0.1em;margin-bottom:12px;">💡 WHAT TO DO NEXT</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
             <div style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.78rem;">
