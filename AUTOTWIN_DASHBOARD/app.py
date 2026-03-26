@@ -701,7 +701,7 @@ st.markdown(f"""
 <div class="cyber-header">
   <div class="header-beam"></div>
   <h1 class="cyber-title">AUTOTWIN</h1>
-  <p class="cyber-subtitle">⚡ REAL-TIME SIMULATION &amp; ANALYTICS PLATFORM ⚡</p>
+  <p class="cyber-subtitle">⚡SIMULATION &amp; ANALYTICS PLATFORM ⚡</p>
   <div class="header-stats-bar">
     <span class="hstat"><span class="hstat-dot"></span>SYSTEM ONLINE</span>
     <span class="hstat" style="color:#5a7090;">|</span>
@@ -733,7 +733,7 @@ with tab1:
       <div class="tab-header-icon">📊</div>
       <div>
         <p class="tab-header-title">SYSTEM OVERVIEW</p>
-        <p class="tab-header-subtitle"> real-time monitoring &amp; performance metrics</p>
+        <p class="tab-header-subtitle"> Monitoring &amp; performance metrics</p>
       </div>
     </div>""", unsafe_allow_html=True)
 
@@ -906,12 +906,12 @@ with tab2:
         "ECM": {
             "name": "Equivalent Circuit Model", "icon": "⚡", "accuracy": "R²≥0.99", "speed": "Fast",
             "color": "#00c8ff", "grad": "linear-gradient(135deg,#003d5c,#00527a,#006095)",
-            "description": "1RC Thevenin Equivalent Circuit Model — R0, R1, C1 identified from real discharge data via two-stage global optimisation."
+            "description": "Simulates battery voltage response using a Thevenin 1RC equivalent circuit representation."
         },
         "Thermal": {
             "name": "Thermal Simulation", "icon": "🌡️", "accuracy": "80%", "speed": "Medium",
             "color": "#ff8800", "grad": "linear-gradient(135deg,#5c2200,#7a3300,#954400)",
-            "description": "Models heat generation, dissipation, and thermal runaway in battery cells."
+            "description": "Models battery temperature dynamics based on heat generation and dissipation characteristics."
         },
         "Co-Simulation": {
             "name": "Co-Simulation", "icon": "🔄", "accuracy": "92%", "speed": "Medium",
@@ -2574,7 +2574,7 @@ with tab6:
       <h4 style="font-size:1.35rem;margin:0 0 6px;">🔋 BATTERY OVERVIEW</h4>
       <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;
                 color:#5a7090;margin:0;letter-spacing:0.1em;">
-        real-time snapshot of current battery state
+        snapshot of current battery state
       </p>
     </div>""", unsafe_allow_html=True)
 
