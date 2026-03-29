@@ -358,8 +358,8 @@ if st.session_state.user_role == "client":
             st.markdown(f"""
             <div style="border-left:4px solid #00c8ff;border-radius:0 10px 10px 0;
                         padding:12px 18px;margin-bottom:8px;background:rgba(0,200,255,0.04);">
-              <div style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.96rem;
-                          line-height:1.8;">{line}</div>
+              <div style="font-family:'Exo 2',sans-serif;color:#050e1f;font-size:1.15rem;
+                          line-height:1.9;font-weight:600;">{line}</div>
             </div>""", unsafe_allow_html=True)
 
         st.markdown("</div>", unsafe_allow_html=True)
@@ -420,8 +420,7 @@ st.markdown("""
   background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,200,255,0.015) 2px, rgba(0,200,255,0.015) 4px);
   pointer-events: none; z-index: 9999;
 }
-html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; }
-.cyber-header {
+html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; font-size: 18px !important; }.cyber-header {
   position: relative;
   background: linear-gradient(135deg, rgba(255,255,255,0.97) 0%, rgba(224,248,255,0.95) 50%, rgba(255,255,255,0.97) 100%);
   border: 2px solid var(--cyan); border-radius: 20px;
@@ -509,8 +508,9 @@ html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; }
 @keyframes icon-bob { 0%,100%{ transform: translateY(0); } 50% { transform: translateY(-6px); } }
 .tab-header-title { font-family: 'Orbitron', monospace !important; font-size: 2.2rem; font-weight: 800;
   color: var(--text-main); margin: 0; letter-spacing: 0.05em; text-shadow: 0 0 20px rgba(0,200,255,0.3); }
-.tab-header-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 1.08rem; color: var(--text-muted); margin: 4px 0 0; letter-spacing: 0.1em; }
-.metric-card {
+.tab-header-subtitle {
+  font-family: 'Share Tech Mono', monospace; font-size: 1.2rem; color: #1a3050;
+  margin: 6px 0 0; letter-spacing: 0.1em; font-weight: 700; }.metric-card {
   position: relative;
   background: linear-gradient(145deg, rgba(255,255,255,0.98), rgba(232,248,255,0.92));
   border: 2px solid rgba(0,200,255,0.35); border-radius: 20px; padding: 2.5rem 1.8rem;
@@ -525,7 +525,7 @@ html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; }
   transform: perspective(800px) rotateX(-4deg) translateY(-10px) scale(1.03);
   box-shadow: 0 24px 60px rgba(0,200,255,0.22), 0 0 40px rgba(0,200,255,0.15), 0 0 0 2px var(--cyan);
 }
-.metric-label { font-family: 'Orbitron', monospace; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.8rem; }
+.metric-label { font-family: 'Orbitron', monospace; font-size: 1.0rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: #0a1f3d; margin-bottom: 0.8rem; }
 .metric-value { font-family: 'Orbitron', monospace; font-size: 4.15rem; font-weight: 900; color: var(--text-main); margin: 0.4rem 0; line-height: 1; text-shadow: 0 0 20px rgba(0,200,255,0.4); }
 .metric-unit  { font-family: 'Share Tech Mono', monospace; font-size: 1.25rem; color: var(--text-muted); letter-spacing: 0.1em; }
 .metric-badge { position: absolute; top: 14px; right: 14px; font-family: 'Share Tech Mono', monospace; font-size: 0.92rem; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 6px; border: 1px solid; }
@@ -581,6 +581,7 @@ html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; }
 }
 @keyframes panel-top-beam { 0% { background-position: 0% 50%; } 100%{ background-position: 200% 50%; } }
 .glass-panel h3, .glass-panel h4 { font-family: 'Orbitron', monospace !important; color: var(--text-main); letter-spacing: 0.05em; margin-top: 0; }
+.glass-panel p { color: #1a3050 !important; font-size: 1.05rem !important; font-weight: 600 !important; }
 .output-card {
   position: relative; border-radius: 18px; padding: 28px 20px; text-align: center; min-height: 220px;
   display: flex; flex-direction: column; justify-content: center;
@@ -825,8 +826,8 @@ with tab1:
         st.markdown("""
         <div class="glass-panel">
           <h3 style="font-size:1.55rem;margin-bottom:4px;">📈 BATTERY VOLTAGE MONITOR</h3>
-          <p style="font-family:'Share Tech Mono',monospace;font-size:1.3rem;color:#5a7090;margin-top:0;letter-spacing:0.1em;">
-            measured vs simulated 
+          <p style="font-family:'Share Tech Mono',monospace;font-size:1.15rem;color:#1a3050;margin-top:0;letter-spacing:0.1em;font-weight:700;">
+             Measured vs Simulated
           </p>
         </div>""", unsafe_allow_html=True)
 
@@ -3670,12 +3671,12 @@ with tab8:
                                     display:flex;gap:16px;align-items:flex-start;">
                           <div style="font-size:1.8rem;flex-shrink:0;">{icon}</div>
                           <div style="flex:1;">
-                            <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:0.84rem;
-                                        font-weight:700;letter-spacing:0.1em;margin-bottom:4px;">{name}</div>
-                            <div style="font-family:'Orbitron',monospace;color:{clr};font-size:1.7rem;
-                                        font-weight:900;margin-bottom:6px;">{val}</div>
-                            <div style="font-family:'Share Tech Mono',monospace;color:#5a7090;
-                                        font-size:0.84rem;line-height:1.6;">{explanation}</div>
+                            <div style="font-family:'Orbitron',monospace;color:#003d6b;font-size:1.0rem;
+                                        font-weight:800;letter-spacing:0.08em;margin-bottom:6px;">{name}</div>
+                            <div style="font-family:'Orbitron',monospace;color:{clr};font-size:2.0rem;
+                                        font-weight:900;margin-bottom:8px;">{val}</div>
+                            <div style="font-family:'Exo 2',sans-serif;color:#0a1f3d;
+                                        font-size:1.05rem;line-height:1.7;font-weight:600;">{explanation}</div>
                           </div>
                         </div>""", unsafe_allow_html=True)
 
@@ -3685,8 +3686,8 @@ with tab8:
         st.markdown("""
         <div class="glass-panel">
           <h4 style="font-size:1.3rem;margin:0;">💬 PLAIN ENGLISH SUMMARY</h4>
-          <p style="font-family:'Share Tech Mono',monospace;font-size:0.84rem;color:#5a7090;margin:4px 0 0;">
-            What all these results mean — explained simply
+          <p style="font-family:'Share Tech Mono',monospace;font-size:1.0rem;color:#1a3050;margin:4px 0 0;font-weight:700;">
+             What all these results mean — explained simply
           </p>
         </div>""", unsafe_allow_html=True)
 
@@ -3721,10 +3722,10 @@ with tab8:
         st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
         for line in summary_lines:
             st.markdown(f"""
-            <div style="background:rgba(255,255,255,0.95);border-left:4px solid #00c8ff;
-                        border-radius:0 12px 12px 0;padding:16px 20px;margin-bottom:10px;">
-              <div style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.96rem;
-                          line-height:1.8;">{line}</div>
+            <div style="background:rgba(255,255,255,0.97);border-left:5px solid #00c8ff;
+                        border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:14px;">
+              <div style="font-family:'Exo 2',sans-serif;color:#050e1f;font-size:1.15rem;
+                          line-height:1.9;font-weight:600;">{line}</div>
             </div>""", unsafe_allow_html=True)
 
         st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
@@ -3734,13 +3735,13 @@ with tab8:
           <div style="font-family:'Orbitron',monospace;color:#0066aa;font-size:0.92rem;
                       font-weight:700;letter-spacing:0.1em;margin-bottom:12px;">💡 WHAT TO DO NEXT</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-            <div style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.78rem;">
+          <div style="font-family:'Share Tech Mono',monospace;color:#0a1f3d;font-size:1.0rem;font-weight:700;">              
               🔬 For deeper technical analysis → go to <b>Analytics</b> tab</div>
-            <div style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.78rem;">
+          <div style="font-family:'Share Tech Mono',monospace;color:#0a1f3d;font-size:1.0rem;font-weight:700;">              
               ⚙️ To see identified model parameters → go to <b>Parameters</b> tab</div>
-            <div style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.78rem;">
+          <div style="font-family:'Share Tech Mono',monospace;color:#0a1f3d;font-size:1.0rem;font-weight:700;">
               🔄 To test a different battery file → go to <b>Simulation</b> tab</div>
-            <div style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.78rem;">
+          <div style="font-family:'Share Tech Mono',monospace;color:#0a1f3d;font-size:1.0rem;font-weight:700;">
               📊 To compare ECM and Thermal results → go to <b>Compare</b> tab</div>
           </div>
         </div>""", unsafe_allow_html=True)
