@@ -3915,12 +3915,7 @@ with tab7:
         </div>""", unsafe_allow_html=True)
 
     with ai_col:
-        # Pre-compute values so the f-string below stays simple
-        _ai_rul_disp    = _ov_rul_ai   # already computed above
-        _ai_acc_disp    = f"{99.2}%"
-        _eol_delta_num  = round(99.2 - _phys_acc_pct, 1) if _phys_acc_pct else 11.0
-        _eol_delta_str  = f"+{_eol_delta_num}%" if _eol_delta_num >= 0 else f"{_eol_delta_num}%"
-        st.markdown(f"""
+        st.markdown("""
         <div style="position:relative;
           background:linear-gradient(145deg,rgba(60,0,100,0.97),rgba(100,20,160,0.95));
           border:2px solid #cc44ff;border-radius:22px;padding:36px 32px;
