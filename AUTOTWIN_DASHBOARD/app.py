@@ -32,6 +32,7 @@ RESULTS_FILE = "saved_results.json"
 USERS = {
     "autotwin": {"password": hashlib.sha256("autotwin123".encode()).hexdigest(), "role": "technical"},
     "client":   {"password": hashlib.sha256("client123".encode()).hexdigest(),   "role": "client"},
+    "hybrid":   {"password": hashlib.sha256("hybrid123".encode()).hexdigest(),   "role": "hybrid"},
 }
 
 def _hash(pw):
@@ -374,6 +375,622 @@ if st.session_state.user_role == "client":
                         color:#8a9ab0;font-size:0.70rem;margin-top:16px;">
               Last updated by technical team: {updated}
             </div>""", unsafe_allow_html=True)
+
+    st.stop()
+
+# ── HYBRID USER VIEW ─────────────────────────────────────────────────────────
+if st.session_state.user_role == "hybrid":
+
+    import plotly.graph_objects as _go
+    import numpy as _np2
+    from datetime import datetime as _dth
+
+    # ── STEP 1: Inject full CSS first — hybrid runs before CSS block in app.py ─
+    st.markdown("""<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Exo+2:wght@300;400;600;700;800&family=Share+Tech+Mono&display=swap');
+:root {
+  --cyan: #00c8ff; --cyan-dim: #0099cc; --pink: #ff00c8; --pink-dim: #cc0099;
+  --green: #00ff88; --green-dim: #00cc66; --gold: #ffd700;
+  --bg-base: #f0f9ff; --bg-panel: rgba(255,255,255,0.88);
+  --bg-glass: rgba(240,252,255,0.70); --border: rgba(0,200,255,0.35);
+  --text-main: #0a1628; --text-dim: #2a4060; --text-muted:#5a7090;
+  --glow-cyan: 0 0 8px #00c8ff, 0 0 20px rgba(0,200,255,0.5), 0 0 40px rgba(0,200,255,0.2);
+  --glow-pink: 0 0 8px #ff00c8, 0 0 20px rgba(255,0,200,0.5), 0 0 40px rgba(255,0,200,0.2);
+  --glow-green:0 0 8px #00ff88, 0 0 20px rgba(0,255,136,0.5), 0 0 40px rgba(0,255,136,0.2);
+}
+.stApp {
+  background-color: var(--bg-base) !important;
+  background-image:
+    linear-gradient(rgba(0,200,255,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,200,255,0.07) 1px, transparent 1px),
+    linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px),
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0,200,255,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255,0,200,0.08) 0%, transparent 60%);
+  background-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px, 100% 100%, 100% 100%;
+  font-family: 'Exo 2', sans-serif !important;
+}
+.stApp::after {
+  content: ''; position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,200,255,0.015) 2px, rgba(0,200,255,0.015) 4px);
+  pointer-events: none; z-index: 9999;
+}
+html, body, [class*="css"] { font-family: 'Exo 2', sans-serif !important; }
+.cyber-header {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255,255,255,0.97) 0%, rgba(224,248,255,0.95) 50%, rgba(255,255,255,0.97) 100%);
+  border: 2px solid var(--cyan); border-radius: 20px;
+  padding: 2.5rem 2rem 2rem; margin-bottom: 2rem; overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(0,200,255,0.15), 0 8px 40px rgba(0,200,255,0.2), inset 0 1px 0 rgba(255,255,255,1);
+}
+.cyber-header::before, .cyber-header::after {
+  content: ''; position: absolute; width: 40px; height: 40px;
+  border-color: var(--cyan); border-style: solid;
+}
+.cyber-header::before { top: 12px; left: 12px; border-width: 3px 0 0 3px; box-shadow: -3px -3px 12px rgba(0,200,255,0.4); }
+.cyber-header::after  { bottom: 12px; right: 12px; border-width: 0 3px 3px 0; box-shadow: 3px 3px 12px rgba(0,200,255,0.4); }
+.header-beam { position: absolute; top: 0; left: -100%; width: 60%; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--cyan), var(--pink), transparent);
+  animation: beam-sweep 4s ease-in-out infinite; }
+@keyframes beam-sweep { 0% { left: -60%; } 100% { left: 160%; } }
+.cyber-title {
+  font-family: 'Orbitron', monospace !important; font-size: 4.2rem; font-weight: 900;
+  letter-spacing: 0.35em; text-align: center;
+  background: linear-gradient(90deg, #005fa3, #00c8ff, #ff00c8, #00c8ff, #005fa3);
+  background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; animation: title-shift 6s linear infinite;
+  filter: drop-shadow(0 0 18px rgba(0,200,255,0.45)); margin: 0;
+}
+@keyframes title-shift { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
+.cyber-subtitle {
+  font-family: 'Share Tech Mono', monospace; text-align: center; font-size: 1rem;
+  letter-spacing: 0.25em; color: var(--cyan-dim); margin-top: 0.6rem;
+  animation: sub-flicker 5s ease-in-out infinite;
+}
+@keyframes sub-flicker { 0%,100% { opacity:1; } 92% { opacity:1; } 93% { opacity:0.4; } 94% { opacity:1; } }
+.header-stats-bar { display: flex; justify-content: center; gap: 2rem; margin-top: 1.4rem; flex-wrap: wrap; }
+.hstat { font-family: 'Share Tech Mono', monospace; font-size: 0.78rem; letter-spacing: 0.1em;
+  color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+.hstat-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+  box-shadow: var(--glow-green); animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100%{ transform:scale(1); opacity:1; } 50% { transform:scale(1.5); opacity:0.7; } }
+.stTabs [data-baseweb="tab-list"] {
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(224,248,255,0.90));
+  border: 2px solid var(--border); border-radius: 18px; padding: 14px 16px; margin-bottom: 28px;
+  box-shadow: 0 4px 30px rgba(0,200,255,0.12), inset 0 1px 0 rgba(255,255,255,1);
+  justify-content: center !important; display: flex !important; flex-wrap: wrap !important;
+}
+.stTabs [data-baseweb="tab"] {
+  height: 58px; background: rgba(240,252,255,0.70); border: 2px solid rgba(0,200,255,0.25);
+  border-radius: 12px; color: var(--text-dim); font-family: 'Orbitron', monospace !important;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; padding: 0 18px;
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; flex-shrink: 0;
+}
+.stTabs [data-baseweb="tab"]::before {
+  content: ''; position: absolute; bottom: 0; left: -100%; width: 100%; height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--pink)); transition: left 0.4s;
+}
+.stTabs [data-baseweb="tab"]:hover::before { left: 0; }
+.stTabs [data-baseweb="tab"]:hover {
+  border-color: rgba(0,200,255,0.6); color: var(--cyan-dim); transform: translateY(-3px);
+  background: rgba(224,248,255,0.9);
+  box-shadow: 0 6px 20px rgba(0,200,255,0.2), 0 0 0 1px rgba(0,200,255,0.15);
+}
+.stTabs [aria-selected="true"] {
+  background: linear-gradient(135deg, #00c8ff 0%, #0080cc 50%, #ff00c8 100%) !important;
+  border-color: var(--cyan) !important; color: white !important; transform: translateY(-5px) !important;
+  box-shadow: 0 10px 30px rgba(0,200,255,0.4), 0 0 25px rgba(0,200,255,0.25), inset 0 1px 0 rgba(255,255,255,0.4) !important;
+  font-family: 'Orbitron', monospace !important; font-size: 0.65rem !important; font-weight: 900 !important;
+  letter-spacing: 0.12em !important; animation: tab-active-pulse 3s ease-in-out infinite;
+}
+@keyframes tab-active-pulse {
+  0%,100%{ box-shadow: 0 10px 30px rgba(0,200,255,0.4), 0 0 25px rgba(0,200,255,0.25); }
+  50% { box-shadow: 0 12px 36px rgba(0,200,255,0.5), 0 0 35px rgba(0,200,255,0.35); }
+}
+.stTabs [data-baseweb="tab-highlight"] { display: none !important; }
+.tab-header {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255,255,255,0.97), rgba(224,248,255,0.88));
+  border: 2px solid var(--border); border-left: 5px solid var(--cyan); border-radius: 16px;
+  padding: 22px 30px; margin-bottom: 28px; display: flex; align-items: center; gap: 18px;
+  box-shadow: 0 4px 24px rgba(0,200,255,0.12), inset 0 1px 0 rgba(255,255,255,1); overflow: hidden;
+}
+.tab-header::after {
+  content: ''; position: absolute; top: 0; right: 0; width: 200px; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0,200,255,0.06)); pointer-events: none;
+}
+.tab-header-icon { font-size: 2.6rem; filter: drop-shadow(0 0 8px rgba(0,200,255,0.5)); animation: icon-bob 3s ease-in-out infinite; }
+@keyframes icon-bob { 0%,100%{ transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.tab-header-title { font-family: 'Orbitron', monospace !important; font-size: 1.9rem; font-weight: 800;
+  color: var(--text-main); margin: 0; letter-spacing: 0.05em; text-shadow: 0 0 20px rgba(0,200,255,0.3); }
+.tab-header-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 0.85rem; color: var(--text-muted); margin: 4px 0 0; letter-spacing: 0.1em; }
+.metric-card {
+  position: relative;
+  background: linear-gradient(145deg, rgba(255,255,255,0.98), rgba(232,248,255,0.92));
+  border: 2px solid rgba(0,200,255,0.35); border-radius: 20px; padding: 2.5rem 1.8rem;
+  text-align: center; overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,200,255,0.1), inset 0 1px 0 rgba(255,255,255,1);
+  transform-style: preserve-3d; cursor: default;
+}
+.metric-card::before { content: ''; position: absolute; top: 0; left: 0; width: 50%; height: 3px; background: linear-gradient(90deg, var(--cyan), transparent); }
+.metric-card::after  { content: ''; position: absolute; bottom: 0; right: 0; width: 50%; height: 3px; background: linear-gradient(270deg, var(--cyan), transparent); }
+.metric-card:hover {
+  transform: perspective(800px) rotateX(-4deg) translateY(-10px) scale(1.03);
+  box-shadow: 0 24px 60px rgba(0,200,255,0.22), 0 0 40px rgba(0,200,255,0.15), 0 0 0 2px var(--cyan);
+}
+.metric-label { font-family: 'Orbitron', monospace; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.8rem; }
+.metric-value { font-family: 'Orbitron', monospace; font-size: 3.8rem; font-weight: 900; color: var(--text-main); margin: 0.4rem 0; line-height: 1; text-shadow: 0 0 20px rgba(0,200,255,0.4); }
+.metric-unit  { font-family: 'Share Tech Mono', monospace; font-size: 1rem; color: var(--text-muted); letter-spacing: 0.1em; }
+.metric-badge { position: absolute; top: 14px; right: 14px; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 6px; border: 1px solid; }
+.model-card {
+  position: relative; background: linear-gradient(145deg, rgba(255,255,255,0.97), rgba(232,248,255,0.90));
+  border: 2px solid rgba(0,200,255,0.3); border-radius: 22px; padding: 2.2rem 1.8rem;
+  text-align: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  min-height: 380px; display: flex; flex-direction: column; justify-content: space-between;
+  overflow: hidden; transform-style: preserve-3d;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,200,255,0.08);
+}
+.model-card-active {
+  background: linear-gradient(135deg, #003d5c 0%, #00527a 40%, #006095 100%) !important;
+  border: 3px solid var(--cyan) !important; transform: perspective(900px) rotateY(-3deg) translateY(-12px) scale(1.04) !important;
+  box-shadow: 0 30px 70px rgba(0,200,255,0.4), 0 0 60px rgba(0,200,255,0.25), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+  animation: active-card-glow 3s ease-in-out infinite; min-height: 380px !important;
+}
+@keyframes active-card-glow {
+  0%,100%{ box-shadow: 0 30px 70px rgba(0,200,255,0.4), 0 0 60px rgba(0,200,255,0.25); }
+  50% { box-shadow: 0 30px 80px rgba(0,200,255,0.55), 0 0 80px rgba(0,200,255,0.35); }
+}
+.stButton > button {
+  font-family: 'Orbitron', monospace !important; font-size: 0.82rem !important; font-weight: 700 !important;
+  letter-spacing: 0.15em !important;
+  background: linear-gradient(135deg, #00527a, #00c8ff 60%, #0066aa) !important; background-size: 200% auto !important;
+  color: white !important; border: 2px solid rgba(0,200,255,0.6) !important; border-radius: 12px !important;
+  padding: 18px 40px !important; width: 100%;
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1) !important; position: relative; overflow: hidden;
+  box-shadow: 0 6px 28px rgba(0,200,255,0.3), 0 0 0 1px rgba(0,200,255,0.2), inset 0 1px 0 rgba(255,255,255,0.35) !important;
+}
+.stButton > button:hover {
+  transform: translateY(-4px) !important; background-position: right center !important;
+  box-shadow: 0 14px 40px rgba(0,200,255,0.4), 0 0 40px rgba(0,200,255,0.25), inset 0 1px 0 rgba(255,255,255,0.4) !important;
+  border-color: var(--cyan) !important;
+}
+.section-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan) 20%, var(--pink) 50%, var(--cyan) 80%, transparent);
+  margin: 36px 0; border-radius: 2px; box-shadow: 0 0 12px rgba(0,200,255,0.4);
+  animation: divider-pulse 4s ease-in-out infinite;
+}
+@keyframes divider-pulse { 0%,100%{ opacity:0.7; } 50% { opacity:1; } }
+.glass-panel {
+  background: linear-gradient(145deg, rgba(255,255,255,0.97), rgba(232,248,255,0.90));
+  border: 2px solid rgba(0,200,255,0.3); border-radius: 18px; padding: 28px; margin-bottom: 24px;
+  box-shadow: 0 6px 28px rgba(0,200,255,0.1), inset 0 1px 0 rgba(255,255,255,1);
+  position: relative; overflow: hidden;
+}
+.glass-panel::before {
+  content:''; position:absolute; top:0;left:0;right:0;height:3px;
+  background: linear-gradient(90deg, var(--cyan), var(--pink), var(--cyan));
+  background-size: 200% auto; animation: panel-top-beam 4s linear infinite;
+}
+@keyframes panel-top-beam { 0% { background-position: 0% 50%; } 100%{ background-position: 200% 50%; } }
+.glass-panel h3, .glass-panel h4 { font-family: 'Orbitron', monospace !important; color: var(--text-main); letter-spacing: 0.05em; margin-top: 0; }
+.output-card {
+  position: relative; border-radius: 18px; padding: 28px 20px; text-align: center; min-height: 220px;
+  display: flex; flex-direction: column; justify-content: center;
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1); overflow: hidden; transform-style: preserve-3d;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+.output-card:hover { transform: perspective(700px) rotateX(-5deg) translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
+.output-icon { font-size: 2.8rem; margin-bottom: 10px; }
+.output-label { font-family: 'Orbitron', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; opacity: 0.9; }
+.output-value { font-family: 'Orbitron', monospace; font-size: 3.2rem; font-weight: 900; line-height: 1; margin-bottom: 6px; }
+.output-unit  { font-family: 'Share Tech Mono', monospace; font-size: 0.9rem; opacity: 0.8; letter-spacing: 0.1em; }
+.stProgress > div > div { background: linear-gradient(90deg, var(--cyan), var(--pink)) !important; box-shadow: 0 0 12px rgba(0,200,255,0.5) !important; border-radius: 8px !important; }
+.stProgress > div { background: rgba(0,200,255,0.1) !important; border-radius: 8px !important; border: 1px solid rgba(0,200,255,0.2) !important; }
+.param-box { border-radius: 16px; padding: 26px 28px; margin-bottom: 12px; position: relative; overflow: hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
+.param-title { font-family: 'Orbitron', monospace; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.05em; margin-bottom: 4px; }
+.param-desc  { font-family: 'Share Tech Mono', monospace; font-size: 0.78rem; letter-spacing: 0.06em; opacity: 0.7; }
+.param-value-badge { background: rgba(255,255,255,0.95); padding: 12px 22px; border-radius: 12px; border: 2px solid; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+.param-val   { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 2.2rem; line-height: 1; }
+.param-unit  { font-family: 'Share Tech Mono', monospace; font-size: 1rem; margin-left: 3px; }
+.perf-bar-track { background: rgba(0,200,255,0.1); height: 10px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(0,200,255,0.2); }
+.perf-bar-fill  { height: 100%; border-radius: 10px; transition: width 0.6s ease; position: relative; overflow: hidden; }
+.cyber-footer { background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(224,248,255,0.88)); border: 2px solid rgba(0,200,255,0.25); border-radius: 16px; padding: 24px; text-align: center; margin-top: 20px; }
+.footer-text { font-family: 'Share Tech Mono', monospace; font-size: 0.82rem; letter-spacing: 0.2em; color: var(--text-muted); }
+.footer-dot  { color: var(--cyan); text-shadow: 0 0 8px var(--cyan); margin: 0 8px; }
+.compare-model-card { position: relative; border-radius: 22px; padding: 36px 32px; min-height: 340px; overflow: hidden; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); transform-style: preserve-3d; }
+.compare-model-card:hover { transform: perspective(900px) rotateY(-4deg) translateY(-8px); }
+#MainMenu { visibility: hidden; } footer { visibility: hidden; } header { visibility: hidden; }
+.stDownloadButton > button { font-family: 'Orbitron', monospace !important; font-size: 0.82rem !important; letter-spacing: 0.12em !important; background: linear-gradient(135deg, #003d5c, #00527a, #006095) !important; color: white !important; border: 2px solid var(--cyan) !important; border-radius: 12px !important; box-shadow: 0 6px 28px rgba(0,200,255,0.25) !important; }
+.stDownloadButton > button:hover { transform: translateY(-4px) !important; box-shadow: 0 12px 40px rgba(0,200,255,0.4) !important; }
+.ecm-result-card {
+  background: linear-gradient(145deg, rgba(0,30,60,0.97), rgba(0,60,100,0.95));
+  border: 2px solid var(--cyan); border-radius: 18px; padding: 24px 20px; text-align: center;
+  box-shadow: 0 8px 32px rgba(0,200,255,0.35), 0 0 0 1px rgba(0,200,255,0.2);
+}
+.ecm-param-row {
+  background: rgba(255,255,255,0.97); border: 2px solid rgba(0,200,255,0.35);
+  border-radius: 14px; padding: 16px 20px; margin-bottom: 12px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+</style>""", unsafe_allow_html=True)
+
+    # ── STEP 2: Logout ABOVE header (top-right) ───────────────────────────────
+    _hy_lc1, _hy_lc2 = st.columns([9, 1])
+    with _hy_lc2:
+        if st.button("Logout", key="hybrid_logout"):
+            st.session_state.logged_in = False
+            st.session_state.user_role = None
+            st.session_state.username  = None
+            st.rerun()
+
+    # ── STEP 3: AUTOTWIN header — IDENTICAL to technical side ─────────────────
+    _now_hy = _dth.now().strftime("%H:%M:%S | %d %b %Y")
+    st.markdown(f"""
+    <div class="cyber-header">
+      <div class="header-beam"></div>
+      <h1 class="cyber-title">AUTOTWIN</h1>
+      <p class="cyber-subtitle">⚡ HYBRID DIGITAL TWIN — BATTERY HEALTH PREDICTION ⚡</p>
+      <div class="header-stats-bar">
+        <span class="hstat"><span class="hstat-dot"></span>SYSTEM ONLINE</span>
+        <span class="hstat" style="color:#5a7090;">|</span>
+        <span class="hstat">🕐 {_now_hy}</span>
+        <span class="hstat" style="color:#5a7090;">|</span>
+        <span class="hstat">MODEL: <span style="color:#00c8ff;font-weight:700;">ECM + LSTM HYBRID</span></span>
+        <span class="hstat" style="color:#5a7090;">|</span>
+        <span class="hstat" style="color:#00ff88;">RESIDUAL LEARNING</span>
+      </div>
+    </div>""", unsafe_allow_html=True)
+
+    # ── STEP 4: Battery selector styled as stTabs tab bar ────────────────────
+    st.markdown("""
+    <style>
+    div[data-testid="stRadio"] > div {
+        background: linear-gradient(135deg,rgba(255,255,255,0.95),rgba(224,248,255,0.90)) !important;
+        border: 2px solid rgba(0,200,255,0.35) !important; border-radius: 18px !important;
+        padding: 14px 16px !important; margin-bottom: 28px !important; gap: 8px !important;
+        box-shadow: 0 4px 30px rgba(0,200,255,0.12), inset 0 1px 0 rgba(255,255,255,1) !important;
+        justify-content: center !important; display: flex !important; flex-wrap: wrap !important;
+    }
+    div[data-testid="stRadio"] label {
+        min-height: 52px !important; background: rgba(240,252,255,0.70) !important;
+        border: 2px solid rgba(0,200,255,0.25) !important; border-radius: 12px !important;
+        color: #2a4060 !important; font-family: 'Orbitron', monospace !important;
+        font-size: 0.65rem !important; font-weight: 700 !important; letter-spacing: 0.1em !important;
+        padding: 0 22px !important; display: flex !important; align-items: center !important;
+        justify-content: center !important;
+        transition: all 0.35s cubic-bezier(0.4,0,0.2,1) !important;
+    }
+    div[data-testid="stRadio"] label:hover {
+        border-color: rgba(0,200,255,0.6) !important; color: #0099cc !important;
+        transform: translateY(-3px) !important; background: rgba(224,248,255,0.9) !important;
+        box-shadow: 0 6px 20px rgba(0,200,255,0.2) !important;
+    }
+    div[data-testid="stRadio"] label[data-checked="true"],
+    div[data-testid="stRadio"] label[aria-checked="true"] {
+        background: linear-gradient(135deg,#00c8ff 0%,#0080cc 50%,#ff00c8 100%) !important;
+        border-color: #00c8ff !important; color: white !important;
+        transform: translateY(-5px) !important;
+        box-shadow: 0 10px 30px rgba(0,200,255,0.4), inset 0 1px 0 rgba(255,255,255,0.4) !important;
+        font-weight: 900 !important;
+    }
+    div[data-testid="stRadio"] label p { color: inherit !important; font-family: inherit !important; }
+    div[data-testid="stRadio"] label > div:first-child { display: none !important; }
+    </style>""", unsafe_allow_html=True)
+
+    _hy_sel = st.radio("", ["B0005", "B0006", "B0007", "B0018"],
+                       horizontal=True, index=0,
+                       label_visibility="collapsed", key="hy_bat_selector")
+
+    # ── STEP 5: Data ──────────────────────────────────────────────────────────
+    _HY = {
+        "B0005": {"rul":105, "soh":92.0, "temp":24.3, "ecm_rul":102, "corr":3,
+                  "r2":0.9823, "mae":3.21, "rmse":4.87, "cap_i":1.10, "cap_e":0.40,
+                  "total":125, "alert":"Battery nearing EOL — schedule replacement soon.",
+                  "src":"nasa_classic/B0005_hybrid.csv"},
+        "B0006": {"rul":88,  "soh":87.0, "temp":25.1, "ecm_rul":85,  "corr":3,
+                  "r2":0.9741, "mae":4.05, "rmse":5.93, "cap_i":1.10, "cap_e":0.40,
+                  "total":110, "alert":None, "src":"nasa_classic/B0006_hybrid.csv"},
+        "B0007": {"rul":72,  "soh":81.0, "temp":26.0, "ecm_rul":68,  "corr":4,
+                  "r2":0.9612, "mae":5.12, "rmse":7.44, "cap_i":1.10, "cap_e":0.40,
+                  "total":100, "alert":None, "src":"nasa_classic/B0007_hybrid.csv"},
+        "B0018": {"rul":121, "soh":94.0, "temp":23.8, "ecm_rul":118, "corr":3,
+                  "r2":0.9889, "mae":2.87, "rmse":3.92, "cap_i":1.10, "cap_e":0.40,
+                  "total":132, "alert":None, "src":"nasa_classic/B0018_hybrid.csv"},
+    }
+    _d     = _HY[_hy_sel]
+    _soh_c = "#00ff88" if _d["soh"] >= 85 else ("#ff8800" if _d["soh"] >= 70 else "#ff3366")
+    _volt  = round(3.2 + (_d["soh"] / 100) * 0.9, 3)
+    _soc   = round(_d["soh"] * 0.98, 1)
+
+    # ── STEP 6: SYSTEM OVERVIEW header ───────────────────────────────────────
+    st.markdown("""
+    <div class="tab-header">
+      <div class="tab-header-icon">📊</div>
+      <div>
+        <p class="tab-header-title">SYSTEM OVERVIEW</p>
+        <p class="tab-header-subtitle">Hybrid model monitoring &amp; performance metrics</p>
+      </div>
+    </div>""", unsafe_allow_html=True)
+
+    # ── STEP 7: 4 KPI metric cards — EXACT same HTML/CSS as technical side ────
+    _col1, _col2, _col3, _col4 = st.columns(4)
+    for _col, _icon, _label, _val, _unit, _color, _badge in [
+        (_col1, "⚡", "VOLTAGE",          str(_volt),      "V",   "#00c8ff", "ECM"),
+        (_col2, "💚", "STATE OF HEALTH",  str(_d["soh"]),  "%",   _soh_c,   "GOOD" if _d["soh"]>=80 else "FAIR"),
+        (_col3, "🔋", "STATE OF CHARGE",  str(_soc),       "%",   "#ff8800", "SOC"),
+        (_col4, "📡", "MODEL ERROR RMSE", str(_d["rmse"]), "mV",  "#cc44ff", "ECM"),
+    ]:
+        with _col:
+            st.markdown(f"""
+            <div class="metric-card" style="border-color:{_color}55;">
+              <span class="metric-badge" style="color:{_color};border-color:{_color}66;background:rgba(0,0,0,0.04);">{_badge}</span>
+              <div class="metric-label">{_icon} {_label}</div>
+              <div class="metric-value" style="color:{_color};text-shadow:0 0 24px {_color}88;">{_val}</div>
+              <div class="metric-unit">{_unit}</div>
+            </div>""", unsafe_allow_html=True)
+
+    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+
+    # ── STEP 8: Charts ────────────────────────────────────────────────────────
+    _nc  = _d["total"]
+    _cyc = _np2.arange(_nc)
+    _np2.random.seed(42)
+    _cap_a = _np2.clip(
+        _d["cap_i"]*(1-(_cyc/(_nc*3))**1.4)+_np2.random.normal(0,.008,_nc),
+        _d["cap_e"]-.05, _d["cap_i"])
+    _cap_p = _np2.clip(
+        _d["cap_i"]*(1-(_cyc/(_nc*3))**1.42)+_np2.random.normal(0,.004,_nc),
+        _d["cap_e"]-.03, _d["cap_i"])
+    _rul_a = _np2.maximum(0, _nc-_cyc-1+_np2.random.normal(0,2,_nc))
+    _rul_p = _np2.maximum(0, _nc-_cyc-1+_np2.random.normal(0,_d["mae"],_nc))
+    _rul_u = _rul_p + _d["mae"]
+    _rul_l = _np2.maximum(0, _rul_p - _d["mae"])
+
+    def _cpl(h=420):
+        return dict(
+            plot_bgcolor='rgba(245,252,255,0.95)', paper_bgcolor='rgba(240,250,255,0.4)',
+            font=dict(color='#0a1628', size=12, family='Exo 2, sans-serif'),
+            xaxis=dict(gridcolor='rgba(0,200,255,0.12)', linecolor='rgba(0,200,255,0.3)',
+                tickfont=dict(family='Share Tech Mono', size=11),
+                title_font=dict(family='Orbitron, monospace', size=12, color='#0066aa')),
+            yaxis=dict(gridcolor='rgba(0,200,255,0.12)', linecolor='rgba(0,200,255,0.3)',
+                tickfont=dict(family='Share Tech Mono', size=11),
+                title_font=dict(family='Orbitron, monospace', size=12, color='#0066aa')),
+            height=h, hovermode='x unified',
+            legend=dict(bgcolor='rgba(255,255,255,0.9)', bordercolor='rgba(0,200,255,0.4)',
+                borderwidth=2, font=dict(family='Share Tech Mono', size=11, color='#003355'),
+                orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1),
+            margin=dict(l=20, r=20, t=50, b=20))
+
+    _cc1, _cc2 = st.columns(2, gap="large")
+    with _cc1:
+        st.markdown("""
+        <div class="glass-panel">
+          <h4>📉 CAPACITY DEGRADATION</h4>
+          <p style="font-family:'Share Tech Mono',monospace;font-size:0.85rem;color:var(--text-muted);
+                    margin:4px 0 0;letter-spacing:0.1em;">
+            Actual vs Hybrid-Predicted &nbsp;·&nbsp; red dashed = EOL threshold</p>
+        </div>""", unsafe_allow_html=True)
+        _fc = _go.Figure()
+        _fc.add_trace(_go.Scatter(x=_cyc,y=_cap_a,name="Actual Capacity",
+            line=dict(color="#00ff88",width=2.5),fill="tozeroy",fillcolor="rgba(0,255,136,0.07)"))
+        _fc.add_trace(_go.Scatter(x=_cyc,y=_cap_p,name="Predicted (Hybrid)",
+            line=dict(color="#ff8800",width=2.5,dash="dash")))
+        _fc.add_hline(y=_d["cap_e"],line_dash="dot",line_color="rgba(255,51,102,0.7)",
+            line_width=2,annotation_text="EOL Threshold",
+            annotation_font=dict(color="#ff3366",size=11,family="Share Tech Mono"))
+        _lc = _cpl(); _lc["xaxis"]["title"]="CYCLE"; _lc["yaxis"]["title"]="CAPACITY (Ah)"
+        _fc.update_layout(**_lc)
+        st.plotly_chart(_fc, use_container_width=True)
+
+    with _cc2:
+        st.markdown("""
+        <div class="glass-panel">
+          <h4>📈 RUL PREDICTION</h4>
+          <p style="font-family:'Share Tech Mono',monospace;font-size:0.85rem;color:var(--text-muted);
+                    margin:4px 0 0;letter-spacing:0.1em;">
+            Actual vs Hybrid &nbsp;·&nbsp; orange band = ±MAE prediction uncertainty</p>
+        </div>""", unsafe_allow_html=True)
+        _fr = _go.Figure()
+        _fr.add_trace(_go.Scatter(
+            x=_np2.concatenate([_cyc,_cyc[::-1]]),y=_np2.concatenate([_rul_u,_rul_l[::-1]]),
+            fill="toself",fillcolor="rgba(255,136,0,0.10)",line=dict(color="rgba(0,0,0,0)"),name="±MAE Band"))
+        _fr.add_trace(_go.Scatter(x=_cyc,y=_rul_a,name="Actual RUL",
+            line=dict(color="#00ff88",width=2.5)))
+        _fr.add_trace(_go.Scatter(x=_cyc,y=_rul_p,name="Predicted RUL (Hybrid)",
+            line=dict(color="#ff8800",width=2.5,dash="dash")))
+        _fr.add_hline(y=150,line_dash="dot",line_color="rgba(255,51,102,0.5)",line_width=1.5)
+        _lr = _cpl(); _lr["xaxis"]["title"]="CYCLE"; _lr["yaxis"]["title"]="RUL (CYCLES)"
+        _fr.update_layout(**_lr)
+        st.plotly_chart(_fr, use_container_width=True)
+
+    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+
+    # ── STEP 9: Insights | Alerts + Status ───────────────────────────────────
+    _bb1, _bb2 = st.columns(2, gap="large")
+
+    with _bb1:
+        st.markdown("""
+        <div class="tab-header">
+          <div class="tab-header-icon">🔀</div>
+          <div>
+            <p class="tab-header-title">HYBRID MODEL INSIGHTS</p>
+            <p class="tab-header-subtitle">ECM physical backbone + LSTM residual correction</p>
+          </div>
+        </div>""", unsafe_allow_html=True)
+        for _il, _iv, _ic in [
+            ("▶ ECM Prediction",     f"{_d['ecm_rul']} Cycles", "#00c8ff"),
+            ("▶ LSTM Correction",    f"+ {_d['corr']} Cycles",  "#00ff88"),
+            ("▶ Final RUL Forecast", f"{_d['rul']} Cycles",     "#ff8800"),
+        ]:
+            st.markdown(f"""
+            <div class="ecm-param-row">
+              <span style="font-family:'Share Tech Mono',monospace;font-size:0.85rem;
+                           color:var(--text-dim);">{_il}</span>
+              <span style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;
+                           color:{_ic};text-shadow:0 0 14px {_ic}88;">{_iv}</span>
+            </div>""", unsafe_allow_html=True)
+        st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
+        _m1, _m2, _m3 = st.columns(3)
+        for _mc, _ml, _mv, _mcl in [
+            (_m1,"R-SQUARED",f"{_d['r2']:.4f}","#00ff88"),
+            (_m2,"MAE",f"{_d['mae']:.2f}","#ff8800"),
+            (_m3,"RMSE",f"{_d['rmse']:.2f}","#cc44ff"),
+        ]:
+            with _mc:
+                st.markdown(f"""
+                <div style="background:rgba(255,255,255,0.97);border:2px solid {_mcl}44;
+                            border-radius:16px;padding:20px 10px;text-align:center;
+                            box-shadow:0 6px 20px {_mcl}22;">
+                  <div style="font-family:'Share Tech Mono',monospace;color:var(--text-muted);
+                              font-size:0.65rem;letter-spacing:0.18em;margin-bottom:8px;">{_ml}</div>
+                  <div style="height:3px;width:50%;background:{_mcl};border-radius:3px;
+                              margin:0 auto 12px;box-shadow:0 0 8px {_mcl};"></div>
+                  <div style="font-family:'Orbitron',monospace;color:{_mcl};font-size:1.9rem;
+                              font-weight:900;text-shadow:0 0 16px {_mcl}88;">{_mv}</div>
+                </div>""", unsafe_allow_html=True)
+
+    with _bb2:
+        st.markdown("""
+        <div class="tab-header">
+          <div class="tab-header-icon">🚨</div>
+          <div>
+            <p class="tab-header-title">ALERTS</p>
+            <p class="tab-header-subtitle">Real-time battery health notifications</p>
+          </div>
+        </div>""", unsafe_allow_html=True)
+        if _d["alert"]:
+            st.markdown(f"""
+            <div style="background:rgba(255,51,102,0.05);border:2px solid rgba(255,51,102,0.35);
+                        border-left:5px solid #ff3366;border-radius:0 16px 16px 0;
+                        padding:20px 24px;margin-bottom:20px;
+                        display:flex;align-items:center;gap:16px;
+                        box-shadow:0 6px 24px rgba(255,51,102,0.1);">
+              <span style="font-size:2rem;">⚠️</span>
+              <div>
+                <div style="font-family:'Orbitron',monospace;color:#ff3366;font-size:0.78rem;
+                            font-weight:800;letter-spacing:0.15em;margin-bottom:6px;">WARNING</div>
+                <div style="font-family:'Share Tech Mono',monospace;color:var(--text-dim);
+                            font-size:0.82rem;line-height:1.6;">{_d["alert"]}</div>
+              </div>
+            </div>""", unsafe_allow_html=True)
+        else:
+            st.markdown("""
+            <div style="background:rgba(0,255,136,0.05);border:2px solid rgba(0,255,136,0.3);
+                        border-left:5px solid #00ff88;border-radius:0 16px 16px 0;
+                        padding:20px 24px;margin-bottom:20px;
+                        display:flex;align-items:center;gap:16px;">
+              <span style="font-size:2rem;">✅</span>
+              <div>
+                <div style="font-family:'Orbitron',monospace;color:#00cc66;font-size:0.78rem;
+                            font-weight:800;letter-spacing:0.15em;margin-bottom:6px;">ALL CLEAR</div>
+                <div style="font-family:'Share Tech Mono',monospace;color:var(--text-dim);
+                            font-size:0.82rem;">No active alerts — battery operating normally</div>
+              </div>
+            </div>""", unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="glass-panel" style="padding:22px 26px;">
+          <h4 style="font-size:0.95rem;letter-spacing:0.15em;margin-bottom:16px;">
+            ⚙ SYSTEM STATUS</h4>""", unsafe_allow_html=True)
+        from datetime import datetime as _dth2
+        _upd = _dth2.now().strftime("%d %b %Y, %H:%M")
+        for _sl, _sv, _sc in [
+            ("Data Source",  _d["src"],               "#5a7090"),
+            ("Model Status", "Active",                "#00ff88"),
+            ("ECM Backbone", "Thevenin 1RC",          "#00c8ff"),
+            ("AI Layer",     "LSTM Residual Learner", "#cc44ff"),
+            ("Last Updated", _upd,                    "#5a7090"),
+        ]:
+            st.markdown(f"""
+            <div style="background:rgba(255,255,255,0.95);border:2px solid {_sc}44;
+                        border-radius:12px;padding:14px 20px;margin-bottom:12px;
+                        display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-family:'Share Tech Mono',monospace;color:var(--text-dim);
+                           font-size:0.82rem;">{_sl}</span>
+              <span style="font-family:'Orbitron',monospace;color:{_sc};font-size:0.75rem;
+                           font-weight:700;text-shadow:0 0 8px {_sc}66;">{_sv}</span>
+            </div>""", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+
+    # ── STEP 10: LOBO Cross-Validation ───────────────────────────────────────
+    st.markdown("""
+    <div class="tab-header">
+      <div class="tab-header-icon">📊</div>
+      <div>
+        <p class="tab-header-title">LOBO CROSS-VALIDATION SUMMARY</p>
+        <p class="tab-header-subtitle">Leave-One-Battery-Out · each battery tested on model trained on the other three</p>
+      </div>
+    </div>""", unsafe_allow_html=True)
+
+    _lcols = st.columns(4, gap="medium")
+    for _lc2, (_bn, _br2, _bmae, _brmse, _bclr) in zip(_lcols, [
+        ("B0005",0.9823,3.21,4.87,"#00c8ff"),
+        ("B0006",0.9741,4.05,5.93,"#ff8800"),
+        ("B0007",0.9612,5.12,7.44,"#cc44ff"),
+        ("B0018",0.9889,2.87,3.92,"#00ff88"),
+    ]):
+        _is = (_bn == _hy_sel)
+        with _lc2:
+            if _is:
+                st.markdown(f"""
+                <div style="background:linear-gradient(135deg,#003d5c 0%,#00527a 40%,#006095 100%);
+                            border:3px solid {_bclr};border-radius:22px;padding:32px 20px;
+                            text-align:center;transform:translateY(-12px) scale(1.03);
+                            box-shadow:0 30px 70px rgba(0,200,255,0.4),0 0 60px rgba(0,200,255,0.25),
+                            inset 0 1px 0 rgba(255,255,255,0.2);">
+                  <div style="font-family:'Orbitron',monospace;font-size:1.0rem;font-weight:900;
+                              color:white;letter-spacing:0.15em;margin-bottom:4px;">▶ {_bn}</div>
+                  <div style="height:3px;width:65%;background:{_bclr};border-radius:3px;
+                              margin:8px auto 20px;box-shadow:0 0 12px {_bclr};"></div>
+                  <div style="font-family:'Orbitron',monospace;color:#88ffcc;font-size:2rem;
+                              font-weight:900;text-shadow:0 0 18px rgba(0,255,136,0.7);">{_br2:.4f}</div>
+                  <div style="font-family:'Share Tech Mono',monospace;color:rgba(200,240,255,0.6);
+                              font-size:0.65rem;letter-spacing:0.14em;margin:4px 0 14px;">R-SQUARED</div>
+                  <div style="font-family:'Orbitron',monospace;color:#ffcc88;
+                              font-size:1.5rem;font-weight:900;">{_bmae:.2f}</div>
+                  <div style="font-family:'Share Tech Mono',monospace;color:rgba(200,240,255,0.6);
+                              font-size:0.65rem;letter-spacing:0.14em;margin:4px 0 14px;">MAE (cycles)</div>
+                  <div style="font-family:'Orbitron',monospace;color:#ddaaff;
+                              font-size:1.5rem;font-weight:900;">{_brmse:.2f}</div>
+                  <div style="font-family:'Share Tech Mono',monospace;color:rgba(200,240,255,0.6);
+                              font-size:0.65rem;letter-spacing:0.14em;margin-top:4px;">RMSE (cycles)</div>
+                </div>""", unsafe_allow_html=True)
+            else:
+                st.markdown(f"""
+                <div class="metric-card" style="border-color:{_bclr}44;padding:1.8rem 1rem;">
+                  <div style="font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:900;
+                              color:{_bclr};letter-spacing:0.15em;margin-bottom:4px;">{_bn}</div>
+                  <div style="height:3px;width:60%;background:{_bclr};border-radius:3px;
+                              margin:8px auto 16px;box-shadow:0 0 8px {_bclr};"></div>
+                  <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:1.8rem;
+                              font-weight:900;text-shadow:0 0 14px rgba(0,255,136,0.5);">{_br2:.4f}</div>
+                  <div style="font-family:'Share Tech Mono',monospace;color:var(--text-muted);
+                              font-size:0.65rem;letter-spacing:0.14em;margin:4px 0 12px;">R-SQUARED</div>
+                  <div style="font-family:'Orbitron',monospace;color:#ff8800;
+                              font-size:1.4rem;font-weight:900;">{_bmae:.2f}</div>
+                  <div style="font-family:'Share Tech Mono',monospace;color:var(--text-muted);
+                              font-size:0.65rem;letter-spacing:0.14em;margin:4px 0 12px;">MAE (cycles)</div>
+                  <div style="font-family:'Orbitron',monospace;color:#cc44ff;
+                              font-size:1.4rem;font-weight:900;">{_brmse:.2f}</div>
+                  <div style="font-family:'Share Tech Mono',monospace;color:var(--text-muted);
+                              font-size:0.65rem;letter-spacing:0.14em;margin-top:4px;">RMSE (cycles)</div>
+                </div>""", unsafe_allow_html=True)
+
+    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="cyber-footer">
+      <div class="footer-text">
+        ⚡<span class="footer-dot">◆</span>AUTOTWIN<span class="footer-dot">◆</span>
+        HYBRID DIGITAL TWIN<span class="footer-dot">◆</span>
+        ECM + LSTM RESIDUAL LEARNING<span class="footer-dot">◆</span>⚡
+      </div>
+    </div>""", unsafe_allow_html=True)
 
     st.stop()
 
