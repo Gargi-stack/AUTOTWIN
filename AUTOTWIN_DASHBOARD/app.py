@@ -3290,7 +3290,7 @@ with tab6:
                 border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;">
                 <span style="font-size:1.1rem;">✅</span>
                 <span style="font-family:'Share Tech Mono',monospace;color:rgba(180,255,210,0.9);
-                  font-size:0.72rem;letter-spacing:0.05em;">
+                  font-size:0.85rem;letter-spacing:0.05em;">
                   Generalises across batteries — cross-battery LOBO validated
                 </span>
               </div>
@@ -3371,7 +3371,7 @@ with tab6:
                 border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;">
                 <span style="font-size:1.1rem;">⚠️</span>
                 <span style="font-family:'Share Tech Mono',monospace;color:rgba(255,180,140,0.9);
-                  font-size:0.72rem;">Fails cross-battery generalisation (B0045 R²=−35.48)</span>
+                  font-size:0.88rem;">Fails cross-battery generalisation (B0045 R²=−35.48)</span>
               </div>
             </div>""", unsafe_allow_html=True)
 
@@ -3446,72 +3446,74 @@ with tab6:
 
     table_style = "background:rgba(10,20,40,0.9);border:1px solid rgba(0,200,255,0.2);border-radius:14px;overflow:hidden;width:100%;border-collapse:collapse;"
     hdr = """<tr style="background:rgba(0,200,255,0.08);border-bottom:1px solid rgba(0,200,255,0.2);">
-      <th style="padding:10px 14px;text-align:left;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#5a7090;letter-spacing:0.1em;">BATTERY / SPLIT</th>
-      <th style="padding:10px;text-align:right;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#5a7090;letter-spacing:0.1em;">MAE</th>
-      <th style="padding:10px;text-align:right;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#5a7090;letter-spacing:0.1em;">RMSE</th>
-      <th style="padding:10px;text-align:right;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#5a7090;letter-spacing:0.1em;">R²</th>
-      <th style="padding:10px 14px;text-align:right;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#5a7090;letter-spacing:0.1em;">MAX ERR</th>
+      <th style="padding:10px 14px;text-align:left;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#ffffff;letter-spacing:0.1em;">BATTERY / SPLIT</th>
+      <th style="padding:10px;text-align:right;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#ffffff;letter-spacing:0.1em;">MAE</th>
+      <th style="padding:10px;text-align:right;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#ffffff;letter-spacing:0.1em;">RMSE</th>
+      <th style="padding:10px;text-align:right;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#ffffff;letter-spacing:0.1em;">R²</th>
+      <th style="padding:10px 14px;text-align:right;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#ffffff;letter-spacing:0.1em;">MAX ERR</th>
     </tr>"""
 
     def row(label, m, highlight=False):
         bg = "rgba(0,200,255,0.06)" if highlight else "transparent"
         return f"""<tr style="background:{bg};border-bottom:1px solid rgba(0,200,255,0.05);">
           <td style="padding:12px 14px;font-family:'Share Tech Mono',monospace;font-size:0.78rem;color:rgba(180,210,255,0.9);">{label}</td>
-          <td style="text-align:right;font-family:'Orbitron',monospace;font-size:0.85rem;font-weight:900;color:{_clr_mae(m['MAE'])};">{m['MAE']:.2f}</td>
-          <td style="text-align:right;font-family:'Orbitron',monospace;font-size:0.85rem;font-weight:900;color:rgba(180,210,255,0.85);">{m['RMSE']:.2f}</td>
-          <td style="text-align:right;font-family:'Orbitron',monospace;font-size:0.85rem;font-weight:900;color:{_clr_r2(m['R2'])};">{m['R2']:.4f}</td>
-          <td style="text-align:right;font-family:'Orbitron',monospace;font-size:0.85rem;font-weight:900;padding:12px 14px;color:rgba(180,210,255,0.85);">{m['MaxErr']:.2f}</td>
+          <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.0rem;font-weight:900;color:{_clr_mae(m['MAE'])};">{m['MAE']:.2f}</td>
+          <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.0rem;font-weight:900;color:rgba(180,210,255,0.85);">{m['RMSE']:.2f}</td>
+          <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.0rem;font-weight:900;color:{_clr_r2(m['R2'])};">{m['R2']:.4f}</td>
+          <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.0rem;font-weight:900;padding:12px 14px;color:rgba(180,210,255,0.85);">{m['MaxErr']:.2f}</td>
         </tr>"""
 
-    tbl_c1, tbl_c2 = st.columns(2, gap="large")
+# ── LSTM table (full width, on top)
+    st.markdown(f"""
+    <div style="font-family:'Orbitron',monospace;font-size:1.2rem;color:#00c8ff;
+                letter-spacing:0.12em;margin-bottom:10px;">🧠 LSTM — RUL METRICS (LOBO)</div>
+    <table style="{table_style}">
+    {hdr}
+    {row("B0005 — Test Battery", LSTM_METRICS["B0005"], bat_key=="B0005")}
+    {row("B0006 — Test Battery", LSTM_METRICS["B0006"], bat_key=="B0006")}
+    {row("B0007 — Test Battery", LSTM_METRICS["B0007"], bat_key=="B0007")}
+    {row("B0018 — Test Battery", LSTM_METRICS["B0018"], bat_key=="B0018")}
+    <tr style="background:rgba(0,255,136,0.05);border-top:2px solid rgba(0,200,255,0.2);">
+      <td style="padding:10px 14px;font-family:'Orbitron',monospace;font-size:1.2rem;
+          color:#00ff88;letter-spacing:0.1em;">AVERAGE (LOBO)</td>
+      <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.0rem;
+          font-weight:900;color:#00ff88;">1.36</td>
+      <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.0rem;
+         font-weight:900;color:rgba(180,210,255,0.7);">1.83</td>
+      <td style="text-align:right;font-family:'Orbitron',monospace;font-size:1.0rem;
+          font-weight:900;color:#00ff88;">0.9921</td>
+      <td style="padding:10px 14px;text-align:right;"></td>
+    </tr>
+    </table>""", unsafe_allow_html=True)
 
-    with tbl_c1:
-        st.markdown(f"""
-        <div style="font-family:'Orbitron',monospace;font-size:1.0rem;color:#00c8ff;
-                    letter-spacing:0.12em;margin-bottom:10px;">🧠 LSTM — RUL METRICS (LOBO)</div>
-        <table style="{table_style}">
-        {hdr}
-        {row("B0005 — Test Battery", LSTM_METRICS["B0005"], bat_key=="B0005")}
-        {row("B0006 — Test Battery", LSTM_METRICS["B0006"], bat_key=="B0006")}
-        {row("B0007 — Test Battery", LSTM_METRICS["B0007"], bat_key=="B0007")}
-        {row("B0018 — Test Battery", LSTM_METRICS["B0018"], bat_key=="B0018")}
-        <tr style="background:rgba(0,255,136,0.05);border-top:2px solid rgba(0,200,255,0.2);">
-          <td style="padding:10px 14px;font-family:'Orbitron',monospace;font-size:0.72rem;
-              color:#00ff88;letter-spacing:0.1em;">AVERAGE (LOBO)</td>
-          <td style="text-align:right;font-family:'Orbitron',monospace;font-size:0.85rem;
-              font-weight:900;color:#00ff88;">1.36</td>
-          <td style="text-align:right;font-family:'Orbitron',monospace;font-size:0.85rem;
-              font-weight:900;color:rgba(180,210,255,0.7);">1.83</td>
-          <td style="text-align:right;font-family:'Orbitron',monospace;font-size:0.85rem;
-              font-weight:900;color:#00ff88;">0.9921</td>
-          <td style="padding:10px 14px;text-align:right;"></td>
-        </tr>
-        </table>""", unsafe_allow_html=True)
+    # ── XGBoost table (below LSTM, full width)
+    xgb_rows = ""
+    for split, m, hl in [
+        ("XGB — Test Set (B0043+B0047)", {"MAE":4.2,"RMSE":6.1,"R2":0.972,"MaxErr":18.0}, False),
+        ("XGB — Validation (B0045)",     {"MAE":17.8,"RMSE":21.4,"R2":-0.31,"MaxErr":46.0}, False),
+    ]:
+        xgb_rows += row(split, m, hl)
 
-    with tbl_c2:
-        xgb_rows = ""
-        for split, m, hl in [
-            ("XGB — Test Set (B0043+B0047)", {"MAE":4.2,"RMSE":6.1,"R2":0.972,"MaxErr":18.0}, False),
-            ("XGB — Validation (B0045)",     {"MAE":17.8,"RMSE":21.4,"R2":-0.31,"MaxErr":46.0}, False),
-        ]:
-            xgb_rows += row(split, m, hl)
-        st.markdown(f"""
-        <div style="font-family:'Orbitron',monospace;font-size:1.0rem;color:#ff8800;
-                    letter-spacing:0.12em;margin-bottom:10px;">⚡ XGBOOST — RUL METRICS</div>
-        <table style="{table_style}">{hdr}{xgb_rows}</table>
-        <div style="margin-top:16px;background:rgba(0,255,136,0.06);
-                    border:2px solid rgba(0,255,136,0.3);border-radius:12px;padding:14px 18px;">
-          <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:0.82rem;
-                      font-weight:800;letter-spacing:0.1em;margin-bottom:8px;">
-            🏆 LSTM WINS: WHY?</div>
-          <div style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.78rem;
-                      line-height:1.8;">
-            ◈ LSTM MAE = 1.36 cycles &nbsp;vs&nbsp; XGB MAE = 4.2 cycles (test)<br>
-            ◈ LSTM generalises via LOBO — no cross-battery failure<br>
-            ◈ XGB R² = −0.31 on B0045 (unseen) — LSTM R² = 0.99 on all<br>
-            ◈ Temporal sequence learning captures degradation dynamics
-          </div>
-        </div>""", unsafe_allow_html=True)
+    st.markdown(f"""
+    <div style="font-family:'Orbitron',monospace;font-size:1.45rem;color:#ff9900;font-weight:900;
+                letter-spacing:0.12em;margin-bottom:10px;margin-top:20px;">⚡ XGBOOST — RUL METRICS</div>
+    <table style="{table_style}">{hdr}{xgb_rows}</table>""", unsafe_allow_html=True)
+
+    # ── LSTM WINS box (below XGBoost)
+    st.markdown("""
+    <div style="margin-top:16px;background:rgba(0,255,136,0.06);
+                border:2px solid rgba(0,255,136,0.3);border-radius:12px;padding:14px 18px;">
+      <div style="font-family:'Orbitron',monospace;color:#00ff88;font-size:0.96rem;
+                   font-weight:800;letter-spacing:0.1em;margin-bottom:8px;">
+        🏆 LSTM WINS: WHY?</div>
+      <div style="font-family:'Share Tech Mono',monospace;color:#2a4060;font-size:0.92rem;
+                  line-height:1.8;">
+        ◈ LSTM MAE = 1.36 cycles &nbsp;vs&nbsp; XGB MAE = 4.2 cycles (test)<br>
+        ◈ LSTM generalises via LOBO — no cross-battery failure<br>
+        ◈ XGB R² = −0.31 on B0045 (unseen) — LSTM R² = 0.99 on all<br>
+        ◈ Temporal sequence learning captures degradation dynamics
+      </div>
+    </div>""", unsafe_allow_html=True)
 
     st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
