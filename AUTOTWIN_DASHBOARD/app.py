@@ -725,9 +725,11 @@ div[data-testid="stRadio"] label > div:first-child{display:none!important;}
     </div>""", unsafe_allow_html=True)
 
     # ── STEP 4: Battery selector ───────────────────────────────────────────────
-    _hy_sel = st.radio("", ["B0005", "B0006", "B0007", "B0018"],
-                       horizontal=True, index=0,
-                       label_visibility="collapsed", key="hy_bat_selector")
+    _hy_sel = st.radio("🔋 SELECT BATTERY", ["B0005", "B0006", "B0007", "B0018"],
+                   horizontal=True, 
+                   index=0,
+                   label_visibility="visible", 
+                   key="hy_bat_selector")
 
     # ── STEP 5: Data ───────────────────────────────────────────────────────────
     _HY = {
