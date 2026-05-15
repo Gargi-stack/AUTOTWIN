@@ -1,0 +1,4 @@
+ployly
+numpy
+pandas
+scipy
