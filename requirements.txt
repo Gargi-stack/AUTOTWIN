@@ -1,4 +1,5 @@
-ployly
+streamlit
+plotly
 numpy
 pandas
 scipy
