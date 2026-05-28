@@ -465,7 +465,7 @@ html,body,[class*="css"]{font-family:'Exo 2',sans-serif !important;}
   animation:hy-beam-sweep 4s ease-in-out infinite;}
 @keyframes hy-beam-sweep{0%{left:-60%;}100%{left:160%;}}
 .hy-cyber-title{
-  font-family:'Orbitron',monospace!important;font-size:3rem;font-weight:900;
+  font-family:'Orbitron',monospace!important;font-size:4.5rem;font-weight:900;
   letter-spacing:0.25em;text-align:center;
   background:linear-gradient(90deg,#005fa3,#00c8ff,#ff00c8,#00c8ff,#005fa3);
   background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
@@ -474,13 +474,13 @@ html,body,[class*="css"]{font-family:'Exo 2',sans-serif !important;}
 }
 @keyframes hy-title-shift{0%{background-position:0% 50%;}100%{background-position:300% 50%;}}
 .hy-cyber-subtitle{
-  font-family:'Share Tech Mono',monospace;text-align:center;font-size:0.82rem;
+  font-family:'Share Tech Mono',monospace;text-align:center;font-size:1.25rem;
   letter-spacing:0.18em;color:var(--cyan-dim);margin-top:0.5rem;
   animation:hy-sub-flicker 5s ease-in-out infinite;
 }
 @keyframes hy-sub-flicker{0%,100%{opacity:1;}92%{opacity:1;}93%{opacity:0.4;}94%{opacity:1;}}
 .hy-header-stats-bar{display:flex;justify-content:center;gap:1.2rem;margin-top:1rem;flex-wrap:wrap;}
-.hy-hstat{font-family:'Share Tech Mono',monospace;font-size:0.72rem;letter-spacing:0.1em;
+.hy-hstat{font-family:'Share Tech Mono',monospace;font-size:0.9rem;letter-spacing:0.1em;
   color:var(--text-muted);display:flex;align-items:center;gap:5px;}
 .hy-hstat-dot{width:7px;height:7px;border-radius:50%;background:var(--green);
   box-shadow:var(--glow-green);animation:hy-pulse-dot 2s ease-in-out infinite;}
@@ -627,8 +627,8 @@ div[data-testid="stRadio"] label > div:first-child{display:none!important;}
 @media (max-width: 768px) {
 
   /* Header title shrinks */
-  .hy-cyber-title{font-size:1.8rem!important;letter-spacing:0.12em!important;}
-  .hy-cyber-subtitle{font-size:0.68rem!important;letter-spacing:0.1em!important;}
+  .hy-cyber-title{font-size:2.2rem!important;letter-spacing:0.12em!important;}
+  .hy-cyber-subtitle{font-size:0.82rem!important;letter-spacing:0.1em!important;}
   .hy-cyber-header{padding:1.2rem 1rem 1rem!important;}
   .hy-header-stats-bar{gap:0.6rem!important;}
   .hy-hstat{font-size:0.62rem!important;}
@@ -850,7 +850,11 @@ div[data-testid="stRadio"] label > div:first-child{display:none!important;}
         _fc.add_hline(y=_d["cap_e"],line_dash="dot",line_color="rgba(255,51,102,0.7)",
             line_width=2,annotation_text="EOL",
             annotation_font=dict(color="#ff3366",size=10,family="Share Tech Mono"))
-        _lc = _cpl(); _lc["xaxis"]["title"]="CYCLE"; _lc["yaxis"]["title"]="CAPACITY (Ah)"
+        _lc = _cpl()
+        _lc["xaxis"]["title"] = "CYCLE"
+        _lc["yaxis"]["title"] = "CAPACITY (Ah)"
+        _lc["yaxis"]["range"] = [0.4, 1.1]
+        _lc["xaxis"]["range"] = [0, 125]     
         _fc.update_layout(**_lc)
         st.plotly_chart(_fc, use_container_width=True, config=_CHART_CFG)
 
@@ -873,7 +877,11 @@ div[data-testid="stRadio"] label > div:first-child{display:none!important;}
         _fr.add_trace(_go.Scatter(x=_cyc,y=_rul_p,name="Predicted RUL (Hybrid)",
             line=dict(color="#ff8800",width=2,dash="dash")))
         _fr.add_hline(y=150,line_dash="dot",line_color="rgba(255,51,102,0.5)",line_width=1.5)
-        _lr = _cpl(); _lr["xaxis"]["title"]="CYCLE"; _lr["yaxis"]["title"]="RUL (CYCLES)"
+        _lr = _cpl()
+        _lr["xaxis"]["title"] = "CYCLE"
+        _lr["yaxis"]["title"] = "RUL (CYCLES)"
+        _lr["yaxis"]["range"] = [0, 150]
+        _lr["xaxis"]["range"] = [0, 125]
         _fr.update_layout(**_lr)
         st.plotly_chart(_fr, use_container_width=True, config=_CHART_CFG)
 
