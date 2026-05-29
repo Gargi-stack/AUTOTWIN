@@ -1016,91 +1016,91 @@ div[data-testid="stRadio"] label > div:first-child{display:none!important;}
 
     st.markdown('<div class="hy-divider"></div>', unsafe_allow_html=True)
 
-    # ── STEP 10: LOBO Cross-Validation — CSS grid, 2×2 on mobile ─────────────
-    st.markdown("""
-    <div class="hy-tab-header">
-      <div class="hy-tab-icon">📊</div>
-      <div>
-        <p class="hy-tab-title">LOBO CROSS-VALIDATION SUMMARY</p>
-        <p class="hy-tab-subtitle">Leave-One-Battery-Out · each battery tested on model trained on the other three</p>
-      </div>
-    </div>""", unsafe_allow_html=True)
+     # ── STEP 10: LOBO Cross-Validation — CSS grid, 2×2 on mobile ─────────────
+    # st.markdown("""
+    # <div class="hy-tab-header">
+    #   <div class="hy-tab-icon">📊</div>
+    #   <div>
+    #     <p class="hy-tab-title">LOBO CROSS-VALIDATION SUMMARY</p>
+    #     <p class="hy-tab-subtitle">Leave-One-Battery-Out · each battery tested on model trained on the other three</p>
+    #   </div>
+    # </div>""", unsafe_allow_html=True)
 
-    # LOBO cards — one st.markdown per card inside Streamlit columns.
-    # This avoids the large concatenated f-string that Streamlit's sanitiser
-    # strips when it contains both CSS classes and embedded variable content.
-    # Mobile CSS (.hy-lobo-col) makes the 4-col layout collapse to 2×2.
-    st.markdown("""
-    <style>
-    /* Mobile: stack LOBO cols 2-per-row */
-    @media (max-width: 768px) {
-      [data-testid="column"] { min-width: 46% !important; flex: 1 1 46% !important; }
-    }
-    @media (max-width: 420px) {
-      [data-testid="column"] { min-width: 100% !important; flex: 1 1 100% !important; }
-    }
-    </style>""", unsafe_allow_html=True)
+    # # LOBO cards — one st.markdown per card inside Streamlit columns.
+    # # This avoids the large concatenated f-string that Streamlit's sanitiser
+    # # strips when it contains both CSS classes and embedded variable content.
+    # # Mobile CSS (.hy-lobo-col) makes the 4-col layout collapse to 2×2.
+    # st.markdown("""
+    # <style>
+    # /* Mobile: stack LOBO cols 2-per-row */
+    # @media (max-width: 768px) {
+    #   [data-testid="column"] { min-width: 46% !important; flex: 1 1 46% !important; }
+    # }
+    # @media (max-width: 420px) {
+    #   [data-testid="column"] { min-width: 100% !important; flex: 1 1 100% !important; }
+    # }
+    # </style>""", unsafe_allow_html=True)
 
-    _lobo_data = [
-        ("B0005", 0.9823, 3.21, 4.87, "#00c8ff"),
-        ("B0006", 0.9741, 4.05, 5.93, "#ff8800"),
-        ("B0007", 0.9612, 5.12, 7.44, "#cc44ff"),
-        ("B0018", 0.9889, 2.87, 3.92, "#00ff88"),
-    ]
+    # _lobo_data = [
+    #     ("B0005", 0.9823, 3.21, 4.87, "#00c8ff"),
+    #     ("B0006", 0.9741, 4.05, 5.93, "#ff8800"),
+    #     ("B0007", 0.9612, 5.12, 7.44, "#cc44ff"),
+    #     ("B0018", 0.9889, 2.87, 3.92, "#00ff88"),
+    # ]
 
-    _lcols = st.columns(4, gap="medium")
-    for _lc2, (_bn, _br2, _bmae, _brmse, _bclr) in zip(_lcols, _lobo_data):
-        _is = (_bn == _hy_sel)
-        with _lc2:
-            if _is:
-                st.markdown(
-                    f'<div style="background:linear-gradient(135deg,#003d5c 0%,#00527a 40%,#006095 100%);'
-                    f'border:3px solid {_bclr};border-radius:20px;padding:26px 14px;text-align:center;'
-                    f'box-shadow:0 20px 50px rgba(0,200,255,0.35),0 0 40px rgba(0,200,255,0.2),'
-                    f'inset 0 1px 0 rgba(255,255,255,0.2);">'
-                    f'<div style="font-family:Orbitron,monospace;font-size:0.85rem;font-weight:900;'
-                    f'color:white;letter-spacing:0.12em;margin-bottom:4px;">&#9658; {_bn}</div>'
-                    f'<div style="height:2px;width:60%;background:{_bclr};border-radius:2px;'
-                    f'margin:8px auto 14px;box-shadow:0 0 10px {_bclr};"></div>'
-                    f'<div style="font-family:Orbitron,monospace;color:#88ffcc;font-size:1.6rem;'
-                    f'font-weight:900;">{_br2:.4f}</div>'
-                    f'<div style="font-family:Share Tech Mono,monospace;color:rgba(200,240,255,0.6);'
-                    f'font-size:0.58rem;letter-spacing:0.1em;margin:4px 0 10px;">R-SQUARED</div>'
-                    f'<div style="font-family:Orbitron,monospace;color:#ffcc88;font-size:1.25rem;'
-                    f'font-weight:900;">{_bmae:.2f}</div>'
-                    f'<div style="font-family:Share Tech Mono,monospace;color:rgba(200,240,255,0.6);'
-                    f'font-size:0.58rem;margin:4px 0 10px;">MAE (cycles)</div>'
-                    f'<div style="font-family:Orbitron,monospace;color:#ddaaff;font-size:1.25rem;'
-                    f'font-weight:900;">{_brmse:.2f}</div>'
-                    f'<div style="font-family:Share Tech Mono,monospace;color:rgba(200,240,255,0.6);'
-                    f'font-size:0.58rem;margin-top:4px;">RMSE (cycles)</div>'
-                    f'</div>',
-                    unsafe_allow_html=True,
-                )
-            else:
-                st.markdown(
-                    f'<div style="background:linear-gradient(145deg,rgba(255,255,255,0.97),rgba(232,248,255,0.90));'
-                    f'border:2px solid {_bclr}44;border-radius:20px;padding:22px 14px;text-align:center;'
-                    f'box-shadow:0 4px 20px rgba(0,0,0,0.06),0 0 0 1px rgba(0,200,255,0.07);">'
-                    f'<div style="font-family:Orbitron,monospace;font-size:0.82rem;font-weight:900;'
-                    f'color:{_bclr};letter-spacing:0.12em;margin-bottom:4px;">{_bn}</div>'
-                    f'<div style="height:2px;width:55%;background:{_bclr};border-radius:2px;'
-                    f'margin:7px auto 12px;box-shadow:0 0 7px {_bclr};"></div>'
-                    f'<div style="font-family:Orbitron,monospace;color:#00ff88;font-size:1.5rem;'
-                    f'font-weight:900;">{_br2:.4f}</div>'
-                    f'<div style="font-family:Share Tech Mono,monospace;color:#5a7090;'
-                    f'font-size:0.58rem;letter-spacing:0.1em;margin:4px 0 10px;">R-SQUARED</div>'
-                    f'<div style="font-family:Orbitron,monospace;color:#ff8800;font-size:1.2rem;'
-                    f'font-weight:900;">{_bmae:.2f}</div>'
-                    f'<div style="font-family:Share Tech Mono,monospace;color:#5a7090;'
-                    f'font-size:0.58rem;margin:4px 0 10px;">MAE (cycles)</div>'
-                    f'<div style="font-family:Orbitron,monospace;color:#cc44ff;font-size:1.2rem;'
-                    f'font-weight:900;">{_brmse:.2f}</div>'
-                    f'<div style="font-family:Share Tech Mono,monospace;color:#5a7090;'
-                    f'font-size:0.58rem;margin-top:4px;">RMSE (cycles)</div>'
-                    f'</div>',
-                    unsafe_allow_html=True,
-                )
+    # _lcols = st.columns(4, gap="medium")
+    # for _lc2, (_bn, _br2, _bmae, _brmse, _bclr) in zip(_lcols, _lobo_data):
+    #     _is = (_bn == _hy_sel)
+    #     with _lc2:
+    #         if _is:
+    #             st.markdown(
+    #                 f'<div style="background:linear-gradient(135deg,#003d5c 0%,#00527a 40%,#006095 100%);'
+    #                 f'border:3px solid {_bclr};border-radius:20px;padding:26px 14px;text-align:center;'
+    #                 f'box-shadow:0 20px 50px rgba(0,200,255,0.35),0 0 40px rgba(0,200,255,0.2),'
+    #                 f'inset 0 1px 0 rgba(255,255,255,0.2);">'
+    #                 f'<div style="font-family:Orbitron,monospace;font-size:0.85rem;font-weight:900;'
+    #                 f'color:white;letter-spacing:0.12em;margin-bottom:4px;">&#9658; {_bn}</div>'
+    #                 f'<div style="height:2px;width:60%;background:{_bclr};border-radius:2px;'
+    #                 f'margin:8px auto 14px;box-shadow:0 0 10px {_bclr};"></div>'
+    #                 f'<div style="font-family:Orbitron,monospace;color:#88ffcc;font-size:1.6rem;'
+    #                 f'font-weight:900;">{_br2:.4f}</div>'
+    #                 f'<div style="font-family:Share Tech Mono,monospace;color:rgba(200,240,255,0.6);'
+    #                 f'font-size:0.58rem;letter-spacing:0.1em;margin:4px 0 10px;">R-SQUARED</div>'
+    #                 f'<div style="font-family:Orbitron,monospace;color:#ffcc88;font-size:1.25rem;'
+    #                 f'font-weight:900;">{_bmae:.2f}</div>'
+    #                 f'<div style="font-family:Share Tech Mono,monospace;color:rgba(200,240,255,0.6);'
+    #                 f'font-size:0.58rem;margin:4px 0 10px;">MAE (cycles)</div>'
+    #                 f'<div style="font-family:Orbitron,monospace;color:#ddaaff;font-size:1.25rem;'
+    #                 f'font-weight:900;">{_brmse:.2f}</div>'
+    #                 f'<div style="font-family:Share Tech Mono,monospace;color:rgba(200,240,255,0.6);'
+    #                 f'font-size:0.58rem;margin-top:4px;">RMSE (cycles)</div>'
+    #                 f'</div>',
+    #                 unsafe_allow_html=True,
+    #             )
+    #         else:
+    #             st.markdown(
+    #                 f'<div style="background:linear-gradient(145deg,rgba(255,255,255,0.97),rgba(232,248,255,0.90));'
+    #                 f'border:2px solid {_bclr}44;border-radius:20px;padding:22px 14px;text-align:center;'
+    #                 f'box-shadow:0 4px 20px rgba(0,0,0,0.06),0 0 0 1px rgba(0,200,255,0.07);">'
+    #                 f'<div style="font-family:Orbitron,monospace;font-size:0.82rem;font-weight:900;'
+    #                 f'color:{_bclr};letter-spacing:0.12em;margin-bottom:4px;">{_bn}</div>'
+    #                 f'<div style="height:2px;width:55%;background:{_bclr};border-radius:2px;'
+    #                 f'margin:7px auto 12px;box-shadow:0 0 7px {_bclr};"></div>'
+    #                 f'<div style="font-family:Orbitron,monospace;color:#00ff88;font-size:1.5rem;'
+    #                 f'font-weight:900;">{_br2:.4f}</div>'
+    #                 f'<div style="font-family:Share Tech Mono,monospace;color:#5a7090;'
+    #                 f'font-size:0.58rem;letter-spacing:0.1em;margin:4px 0 10px;">R-SQUARED</div>'
+    #                 f'<div style="font-family:Orbitron,monospace;color:#ff8800;font-size:1.2rem;'
+    #                 f'font-weight:900;">{_bmae:.2f}</div>'
+    #                 f'<div style="font-family:Share Tech Mono,monospace;color:#5a7090;'
+    #                 f'font-size:0.58rem;margin:4px 0 10px;">MAE (cycles)</div>'
+    #                 f'<div style="font-family:Orbitron,monospace;color:#cc44ff;font-size:1.2rem;'
+    #                 f'font-weight:900;">{_brmse:.2f}</div>'
+    #                 f'<div style="font-family:Share Tech Mono,monospace;color:#5a7090;'
+    #                 f'font-size:0.58rem;margin-top:4px;">RMSE (cycles)</div>'
+    #                 f'</div>',
+    #                 unsafe_allow_html=True,
+    #             )
 
     st.markdown('<div class="hy-divider"></div>', unsafe_allow_html=True)
     st.markdown("""
